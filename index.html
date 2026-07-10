@@ -1,446 +1,215 @@
-<!DOCTYPE html>
-<html lang="pl" class="scroll-smooth">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Skycast.pl</title>
-    <meta name="description" content="Oficjalna strona serwera Skycast.pl. Dołącz do naszej niezwykłej społeczności, sprawdź nowości, administrację i wbij na serwer!"/>
-    
-    <meta property="og:title" content="Skycast.pl"/>
-    <meta property="og:description" content="Nowy najlepszy serwer Minecraft. Dołącz do nas już teraz i zbuduj swoje imperium na oneblocku!"/>
-    <meta property="og:url" content="https://skycast.pl"/>
-    <meta property="og:site_name" content="Skycast.pl"/>
-    <meta property="og:image" content="https://imgur.com/xqWUBJB.png"/>
-    <meta property="og:type" content="website"/>
-    <meta name="theme-color" content="#0ea5e9"/>
-
-    <link rel="icon" href="https://imgur.com/xqWUBJB.png"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    colors: {
-                        rank: {
-                            wlasciciel: '#eab308',  /* Żółty */
-                            headadmin: '#991b1b',   /* Ciemnoczerwony */
-                            admin: '#ef4444',       /* Czerwony */
-                            jradmin: '#f87171',     /* Jasnoczerwony (jak Admin) */
-                            mod: '#3b82f6',         /* Niebieski */
-                            jrmod: '#60a5fa',       /* Jasnoniebieski (jak Mod) */
-                            support: '#06b6d4',     /* Aqua */
-                            chatmod: '#22c55e'      /* Zielony */
-                        }
-                    }
-                }
-            }
+<!DOCTYPE html><html lang="pl" class="scroll-smooth"><head>    <meta charset="utf-8"/>    <meta name="viewport" content="width=device-width, initial-scale=1"/>    <title>Skycast.pl</title>    <meta name="description" content="Oficjalna strona serwera Skycast.pl. Dołącz do naszej niezwykłej społeczności, sprawdź nowości, administrację i wbij na serwer!"/>        <meta property="og:title" content="Skycast.pl"/>    <meta property="og:description" content="Nowy najlepszy serwer Minecraft. Dołącz do nas już teraz i zbuduj swoje imperium na oneblocku!"/>    <meta property="og:url" content="https://skycast.pl"/>    <meta property="og:site_name" content="Skycast.pl"/>    <meta property="og:image" content="https://imgur.com/xqWUBJB.png"/>    <meta property="og:type" content="website"/>    <meta name="theme-color" content="#0ea5e9"/>
+    <link rel="icon" href="https://imgur.com/xqWUBJB.png"/>    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>    <link rel="preconnect" href="https://fonts.googleapis.com">    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>    <script>        tailwind.config = {            theme: {                extend: {                    fontFamily: {                        sans: ['Plus Jakarta Sans', 'sans-serif'],                    },                    colors: {                        rank: {                            wlasciciel: '#eab308',  /* Żółty */                            headadmin: '#991b1b',   /* Ciemnoczerwony */                            admin: '#ef4444',       /* Czerwony */                            jradmin: '#f87171',     /* Jasnoczerwony (jak Admin) */                            mod: '#3b82f6',         /* Niebieski */                            jrmod: '#60a5fa',       /* Jasnoniebieski (jak Mod) */                            support: '#06b6d4',     /* Aqua */                            chatmod: '#22c55e'      /* Zielony */                        }                    }                }            }        }    </script>
+    <style>        body {            background-color: #09090b;            background-image:                 radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.08), transparent 25%),                radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.05), transparent 25%);            background-attachment: fixed;        }                @keyframes pulseGlow {            0% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }            50% { box-shadow: 0 0 30px rgba(14, 165, 233, 0.8); }            100% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }        }
+        @keyframes float {            0%, 100% { transform: translateY(0); }            50% { transform: translateY(-15px); }        }
+        .animate-shop-btn {            background: linear-gradient(45deg, #0284c7, #38bdf8, #0ea5e9);            background-size: 200% 200%;            animation: shopGradient 3s ease infinite, pulseGlow 2s infinite;        }
+        @keyframes shopGradient {            0% { background-position: 0% 50%; }            50% { background-position: 100% 50%; }            100% { background-position: 0% 50%; }        }
+        .glass-panel {            background: rgba(24, 24, 27, 0.65);            backdrop-filter: blur(16px);            border: 1px solid rgba(255, 255, 255, 0.05);        }
+        .card-hover {            transition: all 0.3s ease;        }        .card-hover:hover {            transform: translateY(-5px);            box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.3);        }
+        .floating-element {            animation: float 6s ease-in-out infinite;        }
+        .wave-container {            position: absolute;            top: -100px;            left: 0;            width: 100%;            overflow: hidden;            line-height: 0;        }                .wave-container svg {            position: relative;            display: block;            width: calc(100% + 1.3px);            height: 100px;        }                .wave-container .shape-fill {            fill: #09090b;        }
+        /* Style for custom table scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
         }
-    </script>
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(24, 24, 27, 0.5);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(14, 165, 233, 0.5);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(14, 165, 233, 0.8);
+        }
+    </style></head><body class="text-white antialiased selection:bg-sky-500 selection:text-white flex flex-col min-h-screen">
+    <header class="w-full fixed top-0 z-50 glass-panel border-b border-zinc-800">        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">            <a href="#" class="flex items-center gap-3 group">                <img alt="Skycast Logo" src="https://imgur.com/xqWUBJB.png" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300"/>                <span class="text-2xl font-black tracking-widest uppercase">                    Skycast<span class="text-sky-500">.pl</span>                </span>            </a>                        <nav class="hidden lg:flex items-center gap-8">                <a href="#hero" class="text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors uppercase tracking-wide">Główna</a>                <a href="#sklep" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Sklep</a>                <a href="#rangi" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Rangi</a>                <a href="#discord" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Discord</a>                <a href="#administracja" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Administracja</a>            </nav>
+            <a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="animate-shop-btn px-6 py-2.5 rounded-xl font-black text-sm uppercase tracking-wider flex items-center gap-2 hover:scale-105 transition-transform duration-300">                <i class="fa-solid fa-cart-shopping text-white"></i>                <span class="text-white text-shadow">ItemShop</span>            </a>        </div>    </header>
+    <main class="flex-grow pt-20">                <section id="hero" class="relative w-full px-4 sm:px-6 lg:px-8 py-20 lg:py-32 overflow-hidden flex items-center min-h-[85vh]">            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 w-full">                <div class="text-center lg:text-left">                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border-sky-500/30 mb-6">                        <span class="relative flex h-3 w-3">                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>                            <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>                        </span>                        <span class="text-xs sm:text-sm font-bold text-sky-100 tracking-wider">OTWARCIE LOBBY JUZ 11.07 O 17:00!</span>                    </div>                                        <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-[1.1] uppercase tracking-tighter">                        WITAJ NA STRONIE<br/>                        <span class="bg-gradient-to-r from-sky-300 via-sky-500 to-blue-600 bg-clip-text text-transparent">SKYCAST.PL</span>                    </h1>                                        <p class="text-zinc-400 text-base md:text-lg max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed font-medium">                        Odkryj innowacyjny serwer Minecraft. Przemierzaj wyjątkowe tryby, rozwijaj wyspę na Oneblocku i dołącz do wspaniałej społeczności.                    </p>                                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">                        <button id="copyIpBtn" class="w-full sm:w-auto relative group overflow-hidden bg-white text-black px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-[0_0_40px_rgba(255,255,255,0.1)] transition-all hover:scale-105 active:scale-95">                            <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-zinc-200 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>                            <span class="relative flex items-center justify-center gap-3">                                <i class="fa-solid fa-gamepad text-sky-600"></i>                                <span id="ipText">Skopiuj IP: Skycast.pl</span>                            </span>                        </button>                                                <div class="flex items-center gap-4 glass-panel px-6 py-3 rounded-2xl border-zinc-800">                            <div class="flex -space-x-3">                                <img src="https://mc-heads.net/avatar/Steve/64" alt="Gracz" class="w-10 h-10 rounded-full border-2 border-zinc-900"/>                                <img src="https://mc-heads.net/avatar/Alex/64" alt="Gracz" class="w-10 h-10 rounded-full border-2 border-zinc-900"/>                                <div class="w-10 h-10 rounded-full border-2 border-zinc-900 bg-sky-500 flex items-center justify-center text-xs font-bold text-white z-10">+8</div>                            </div>                            <div class="flex flex-col text-left">                                <span class="text-sm font-bold text-white">Dołącz do nas!</span>                                <span class="text-xs text-green-400 flex items-center gap-1"><i class="fa-solid fa-circle text-[8px]"></i> Wbijaj!</span>                            </div>                        </div>                    </div>                </div>                                <div class="flex justify-center lg:justify-end relative">                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-sky-500/20 blur-[100px] rounded-full"></div>                    <img alt="Skycast Render" src="https://imgur.com/xqWUBJB.png" class="w-72 sm:w-96 lg:w-[500px] object-contain floating-element relative z-10 drop-shadow-[0_20px_50px_rgba(14,165,233,0.4)]"/>                </div>            </div>        </section>
 
-    <style>
-        body {
-            background-color: #09090b;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.05), transparent 25%);
-            background-attachment: fixed;
-        }
-        
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(14, 165, 233, 0.8); }
-            100% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .animate-shop-btn {
-            background: linear-gradient(45deg, #0284c7, #38bdf8, #0ea5e9);
-            background-size: 200% 200%;
-            animation: shopGradient 3s ease infinite, pulseGlow 2s infinite;
-        }
-
-        @keyframes shopGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .glass-panel {
-            background: rgba(24, 24, 27, 0.65);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.3);
-        }
-
-        .floating-element {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .wave-container {
-            position: absolute;
-            top: -100px;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
-        }
-        
-        .wave-container svg {
-            position: relative;
-            display: block;
-            width: calc(100% + 1.3px);
-            height: 100px;
-        }
-        
-        .wave-container .shape-fill {
-            fill: #09090b;
-        }
-    </style>
-</head>
-<body class="text-white antialiased selection:bg-sky-500 selection:text-white flex flex-col min-h-screen">
-
-    <header class="w-full fixed top-0 z-50 glass-panel border-b border-zinc-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3 group">
-                <img alt="Skycast Logo" src="https://imgur.com/xqWUBJB.png" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300"/>
-                <span class="text-2xl font-black tracking-widest uppercase">
-                    Skycast<span class="text-sky-500">.pl</span>
-                </span>
-            </a>
-            
-            <nav class="hidden lg:flex items-center gap-8">
-                <a href="#hero" class="text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors uppercase tracking-wide">Główna</a>
-                <a href="#sklep" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Sklep</a>
-                <a href="#discord" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Discord</a>
-                <a href="#administracja" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Administracja</a>
-            </nav>
-
-            <a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="animate-shop-btn px-6 py-2.5 rounded-xl font-black text-sm uppercase tracking-wider flex items-center gap-2 hover:scale-105 transition-transform duration-300">
-                <i class="fa-solid fa-cart-shopping text-white"></i>
-                <span class="text-white text-shadow">ItemShop</span>
-            </a>
-        </div>
-    </header>
-
-    <main class="flex-grow pt-20">
-        
-        <section id="hero" class="relative w-full px-4 sm:px-6 lg:px-8 py-20 lg:py-32 overflow-hidden flex items-center min-h-[85vh]">
-            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 w-full">
-                <div class="text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border-sky-500/30 mb-6">
-                        <span class="relative flex h-3 w-3">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
-                        </span>
-                        <span class="text-xs sm:text-sm font-bold text-sky-100 tracking-wider">OTWARCIE LOBBY JUZ 11.07 O 17:00!</span>
-                    </div>
-                    
-                    <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-[1.1] uppercase tracking-tighter">
-                        WITAJ NA STRONIE<br/>
-                        <span class="bg-gradient-to-r from-sky-300 via-sky-500 to-blue-600 bg-clip-text text-transparent">SKYCAST.PL</span>
-                    </h1>
-                    
-                    <p class="text-zinc-400 text-base md:text-lg max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed font-medium">
-                        Odkryj innowacyjny serwer Minecraft. Przemierzaj wyjątkowe tryby, rozwijaj wyspę na Oneblocku i dołącz do wspaniałej społeczności.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
-                        <button id="copyIpBtn" class="w-full sm:w-auto relative group overflow-hidden bg-white text-black px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-[0_0_40px_rgba(255,255,255,0.1)] transition-all hover:scale-105 active:scale-95">
-                            <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-zinc-200 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <span class="relative flex items-center justify-center gap-3">
-                                <i class="fa-solid fa-gamepad text-sky-600"></i>
-                                <span id="ipText">Skopiuj IP: Skycast.pl</span>
-                            </span>
-                        </button>
-                        
-                        <div class="flex items-center gap-4 glass-panel px-6 py-3 rounded-2xl border-zinc-800">
-                            <div class="flex -space-x-3">
-                                <img src="https://mc-heads.net/avatar/Steve/64" alt="Gracz" class="w-10 h-10 rounded-full border-2 border-zinc-900"/>
-                                <img src="https://mc-heads.net/avatar/Alex/64" alt="Gracz" class="w-10 h-10 rounded-full border-2 border-zinc-900"/>
-                                <div class="w-10 h-10 rounded-full border-2 border-zinc-900 bg-sky-500 flex items-center justify-center text-xs font-bold text-white z-10">+8</div>
-                            </div>
-                            <div class="flex flex-col text-left">
-                                <span class="text-sm font-bold text-white">Dołącz do nas!</span>
-                                <span class="text-xs text-green-400 flex items-center gap-1"><i class="fa-solid fa-circle text-[8px]"></i> Wbijaj!</span>
-                            </div>
+        <!-- ================= OGŁOSZENIA / BANER REKLAMOWY ================= -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2 mb-12 relative z-20" id="ogloszenia">
+            <div class="glass-panel rounded-2xl p-1 bg-gradient-to-r from-sky-500/30 via-blue-600/30 to-sky-500/30 animate-shop-btn shadow-[0_10px_30px_rgba(14,165,233,0.15)]">
+                <div class="bg-zinc-900/95 backdrop-blur-xl rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex flex-col sm:flex-row items-center text-center sm:text-left gap-6 w-full md:w-auto">
+                        <div class="w-16 h-16 rounded-full bg-sky-500/20 flex items-center justify-center shrink-0 border border-sky-500/30 shadow-[0_0_20px_rgba(14,165,233,0.3)]">
+                            <i class="fa-solid fa-bullhorn text-3xl text-sky-400 animate-pulse"></i>
+                        </div>
+                        <div>
+                            <span class="text-sky-500 font-black text-[11px] uppercase tracking-[0.2em] bg-sky-500/10 px-3 py-1.5 rounded-md mb-3 inline-block">WYDARZENIE</span>
+                            <h3 class="text-2xl md:text-3xl font-black text-white uppercase tracking-wide mb-2">Otwarcie SERWERA <span class="text-sky-500">11.07 o 17:00!</span></h3>
+                            <p class="text-zinc-400 text-sm md:text-base font-medium">Zapisz datę i dołącz do naszego Discorda, aby nie przegapić startu oraz wziąć udział w eventach i losowaniu nagród na start nowej edycji!</p>
                         </div>
                     </div>
-                </div>
-                
-                <div class="flex justify-center lg:justify-end relative">
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-sky-500/20 blur-[100px] rounded-full"></div>
-                    <img alt="Skycast Render" src="https://imgur.com/xqWUBJB.png" class="w-72 sm:w-96 lg:w-[500px] object-contain floating-element relative z-10 drop-shadow-[0_20px_50px_rgba(14,165,233,0.4)]"/>
+                    <a href="#discord" class="w-full md:w-auto text-center shrink-0 px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white font-black uppercase tracking-wider text-sm rounded-xl transition-all hover:scale-105 shadow-[0_0_20px_rgba(14,165,233,0.4)] hover:shadow-[0_0_30px_rgba(14,165,233,0.6)] flex items-center justify-center gap-3">
+                        Dołącz na Discord <i class="fa-brands fa-discord text-xl"></i>
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
+        <!-- ================= /OGŁOSZENIA ================= -->
 
-        <section id="sklep" class="py-24 relative overflow-hidden">
-            <div class="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full"></div>
-            <div class="absolute top-1/2 right-0 w-96 h-96 bg-sky-500/10 blur-[120px] rounded-full"></div>
+        <section id="sklep" class="py-12 relative overflow-hidden">            <div class="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full"></div>            <div class="absolute top-1/2 right-0 w-96 h-96 bg-sky-500/10 blur-[120px] rounded-full"></div>                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">                <div class="text-center mb-16">                    <span class="text-sky-500 font-bold uppercase tracking-widest text-sm mb-2 block">ITEMSHOP</span>                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight">Wybierz <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">Tryb</span></h2>                    <p class="text-zinc-400 mt-4 max-w-2xl mx-auto">Wybierz serwer, na którym chcesz zakupić rangę, klucze lub pakiety i wspomóż rozwój serwera!</p>                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">                                        <div class="lg:col-start-2 glass-panel p-2 rounded-[2rem] border border-zinc-700/50 hover:border-sky-500/50 transition-colors duration-500 group">                        <div class="bg-zinc-900 rounded-[1.75rem] p-8 h-full flex flex-col items-center text-center relative overflow-hidden">                            <div class="absolute inset-0 bg-gradient-to-b from-sky-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>                                                        <div class="w-32 h-32 mb-6 relative z-10 floating-element">                                <img src="https://imgur.com/loQ2IX0.png" alt="OneBlock" class="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"/>                            </div>                                                        <h3 class="text-3xl font-black uppercase text-white mb-3 relative z-10">ONE<span class="text-sky-500">BLOCK</span></h3>                            <div class="w-12 h-1 bg-sky-500 rounded-full mb-5 relative z-10"></div>                                                        <p class="text-zinc-400 text-sm mb-8 flex-grow relative z-10 leading-relaxed">                                Rozpocznij grę na pojedynczym bloku unoszącym się w pustce. Kop, zbieraj surowce, rozbudowuj swoją wyspę i stwórz najlepsze imperium na serwerze!                            </p>                                                        <a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="w-full bg-white hover:bg-sky-50 text-black font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-transform active:scale-95 relative z-10 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]">                                <i class="fa-solid fa-basket-shopping text-sky-600"></i>                                PRZEJDŹ DO SKLEPU                            </a>                        </div>                    </div>
+                </div>            </div>        </section>
+
+        <!-- ================= OPIS RANG ================= -->
+        <section id="rangi" class="py-24 relative overflow-hidden bg-zinc-950/40 border-t border-b border-zinc-900 shadow-inner">
+            <div class="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-sky-600/5 blur-[150px] rounded-full pointer-events-none -translate-y-1/2"></div>
             
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="text-center mb-16">
-                    <span class="text-sky-500 font-bold uppercase tracking-widest text-sm mb-2 block">ITEMSHOP</span>
-                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight">Wybierz <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">Tryb</span></h2>
-                    <p class="text-zinc-400 mt-4 max-w-2xl mx-auto">Wybierz serwer, na którym chcesz zakupić rangę, klucze lub pakiety i wspomóż rozwój serwera!</p>
+                    <span class="text-sky-500 font-bold uppercase tracking-widest text-sm mb-2 block">ZESTAWIENIE ORAZ PERKI</span>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight">Opis <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">Rang</span></h2>
+                    <p class="text-zinc-400 mt-4 max-w-2xl mx-auto text-lg">Sprawdź co oferują poszczególne rangi na serwerze i wybierz pakiet idealny dla siebie przed zakupem w ItemShopie.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-                    
-                    <div class="lg:col-start-2 glass-panel p-2 rounded-[2rem] border border-zinc-700/50 hover:border-sky-500/50 transition-colors duration-500 group">
-                        <div class="bg-zinc-900 rounded-[1.75rem] p-8 h-full flex flex-col items-center text-center relative overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-b from-sky-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="overflow-x-auto pb-4 custom-scrollbar">
+                    <div class="glass-panel rounded-3xl p-1 border border-zinc-800 min-w-[950px] bg-zinc-900/50 shadow-2xl">
+                        <div class="bg-zinc-900/90 rounded-[1.4rem] overflow-hidden backdrop-blur-md">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr>
+                                        <th class="p-6 border-b border-zinc-800 w-[28%] bg-zinc-950/50 backdrop-blur-xl"></th>
+                                        <th class="p-6 border-b border-zinc-800 text-center w-[18%] bg-zinc-950/50 backdrop-blur-xl relative group">
+                                            <div class="absolute inset-x-0 bottom-0 h-0.5 bg-zinc-600 group-hover:h-1 transition-all"></div>
+                                            <span class="text-zinc-300 font-black text-2xl uppercase tracking-widest block">GRACZ</span>
+                                            <span class="text-sm text-zinc-500 font-medium block mt-1">—</span>
+                                        </th>
+                                        <th class="p-6 border-b border-zinc-800 text-center w-[18%] bg-zinc-950/50 backdrop-blur-xl relative group">
+                                            <div class="absolute inset-0 bg-green-500/5 pointer-events-none"></div>
+                                            <div class="absolute inset-x-0 bottom-0 h-0.5 bg-green-500 group-hover:h-1 transition-all shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                                            <span class="text-green-500 font-black text-2xl uppercase tracking-widest block drop-shadow-[0_0_10px_rgba(34,197,94,0.3)]">VIP</span>
+                                            <span class="text-sm text-green-500/70 font-bold block mt-1">8 zł</span>
+                                        </th>
+                                        <th class="p-6 border-b border-zinc-800 text-center w-[18%] bg-zinc-950/50 backdrop-blur-xl relative group">
+                                            <div class="absolute inset-0 bg-yellow-500/10 pointer-events-none"></div>
+                                            <div class="absolute inset-x-0 top-0 h-1 bg-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.6)]"></div>
+                                            <div class="absolute inset-x-0 bottom-0 h-0.5 bg-yellow-500 group-hover:h-1 transition-all"></div>
+                                            <span class="text-yellow-500 font-black text-2xl uppercase tracking-widest block drop-shadow-[0_0_10px_rgba(234,179,8,0.4)]">SVIP</span>
+                                            <span class="text-sm text-yellow-500/80 font-bold block mt-1">15 zł</span>
+                                        </th>
+                                        <th class="p-6 border-b border-zinc-800 text-center w-[18%] bg-zinc-950/50 backdrop-blur-xl relative group">
+                                            <div class="absolute inset-0 bg-sky-500/10 pointer-events-none"></div>
+                                            <div class="absolute inset-x-0 top-0 h-1 bg-sky-500 shadow-[0_0_15px_rgba(14,165,233,0.6)]"></div>
+                                            <div class="absolute inset-x-0 bottom-0 h-0.5 bg-sky-500 group-hover:h-1 transition-all"></div>
+                                            <span class="text-sky-400 font-black text-2xl uppercase tracking-widest block drop-shadow-[0_0_10px_rgba(14,165,233,0.5)]">SKY</span>
+                                            <span class="text-sm text-sky-400/80 font-bold block mt-1">23 zł</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-[15px]">
+                                    <!-- OGÓLNE -->
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-xs font-black text-zinc-500 uppercase tracking-[0.2em] bg-zinc-950/80">Ogólne</td>
+                                    </tr>
+                                    <tr class="border-b border-zinc-800/50 hover:bg-zinc-800/40 transition-colors">
+                                        <td class="px-6 py-4 text-zinc-300 font-medium">Czas trwania rangi</td>
+                                        <td class="px-6 py-4 text-center text-zinc-600 font-bold">—</td>
+                                        <td class="px-6 py-4 text-center text-green-400 font-bold">30 dni</td>
+                                        <td class="px-6 py-4 text-center text-yellow-500 font-bold bg-yellow-500/5">30 dni</td>
+                                        <td class="px-6 py-4 text-center text-sky-400 font-bold bg-sky-500/5">30 dni</td>
+                                    </tr>
+                                    <tr class="border-b border-zinc-800/50 hover:bg-zinc-800/40 transition-colors">
+                                        <td class="px-6 py-4 text-zinc-300 font-medium">Dostępny Kit</td>
+                                        <td class="px-6 py-4 text-center text-zinc-400 font-bold text-sm uppercase tracking-wider">GRACZ</td>
+                                        <td class="px-6 py-4 text-center text-green-400 font-bold text-sm uppercase tracking-wider">VIP</td>
+                                        <td class="px-6 py-4 text-center text-yellow-500 font-bold text-sm uppercase tracking-wider bg-yellow-500/5">SVIP</td>
+                                        <td class="px-6 py-4 text-center text-sky-400 font-bold text-sm uppercase tracking-wider bg-sky-500/5">SKY</td>
+                                    </tr>
+
+                                    <!-- DOMY / TELEPORTY -->
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-xs font-black text-zinc-500 uppercase tracking-[0.2em] bg-zinc-950/80">Domy / Teleporty</td>
+                                    </tr>
+                                    <tr class="border-b border-zinc-800/50 hover:bg-zinc-800/40 transition-colors">
+                                        <td class="px-6 py-4 text-zinc-300 font-medium">Ilość sethome</td>
+                                        <td class="px-6 py-4 text-center text-zinc-300 font-bold text-xl">1</td>
+                                        <td class="px-6 py-4 text-center text-green-400 font-bold text-xl">3</td>
+                                        <td class="px-6 py-4 text-center text-yellow-500 font-bold text-xl bg-yellow-500/5">5</td>
+                                        <td class="px-6 py-4 text-center text-sky-400 font-bold text-xl bg-sky-500/5">7</td>
+                                    </tr>
+
+                                    <!-- RYNEK -->
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-xs font-black text-zinc-500 uppercase tracking-[0.2em] bg-zinc-950/80">Rynek</td>
+                                    </tr>
+                              
+
+                                    <!-- STREFA AFK -->
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-xs font-black text-zinc-500 uppercase tracking-[0.2em] bg-zinc-950/80">Strefa AFK</td>
+                                    </tr>
                             
-                            <div class="w-32 h-32 mb-6 relative z-10 floating-element">
-                                <img src="https://imgur.com/loQ2IX0.png" alt="OneBlock" class="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"/>
-                            </div>
-                            
-                            <h3 class="text-3xl font-black uppercase text-white mb-3 relative z-10">ONE<span class="text-sky-500">BLOCK</span></h3>
-                            <div class="w-12 h-1 bg-sky-500 rounded-full mb-5 relative z-10"></div>
-                            
-                            <p class="text-zinc-400 text-sm mb-8 flex-grow relative z-10 leading-relaxed">
-                                Rozpocznij grę na pojedynczym bloku unoszącym się w pustce. Kop, zbieraj surowce, rozbudowuj swoją wyspę i stwórz najlepsze imperium na serwerze!
-                            </p>
-                            
-                            <a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="w-full bg-white hover:bg-sky-50 text-black font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-transform active:scale-95 relative z-10 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                                <i class="fa-solid fa-basket-shopping text-sky-600"></i>
-                                PRZEJDŹ DO SKLEPU
-                            </a>
-                        </div>
-                    </div>
 
-                </div>
-            </div>
-        </section>
-
-        <section id="discord" class="py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="rounded-[2.5rem] p-1 glass-panel bg-gradient-to-r from-[#5865F2]/20 to-[#5865F2]/5 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-20 opacity-10">
-                        <i class="fa-brands fa-discord text-[15rem]"></i>
-                    </div>
-                    
-                    <div class="bg-zinc-900/80 rounded-[2.25rem] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 relative z-10">
-                        <div class="text-center md:text-left">
-                            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">Dołącz na <span class="text-[#5865F2]">Discorda</span></h2>
-                            <p class="text-zinc-400 max-w-xl text-sm md:text-base leading-relaxed">
-                                Bądź na bieżąco z najnowszymi aktualizacjami, bierz udział w konkursach, zgłaszaj błędy i rozmawiaj z administracją oraz setkami innych graczy!
-                            </p>
+                                    <!-- KOMENDY -->
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-xs font-black text-zinc-500 uppercase tracking-[0.2em] bg-zinc-950/80">Komendy</td>
+                                    </tr>
+                                    <tr class="border-b border-zinc-800/50 hover:bg-zinc-800/40 transition-colors">
+                                        <td class="px-6 py-4 text-zinc-300 font-medium">Cooldown na /ec</td>
+                                        <td class="px-6 py-4 text-center text-zinc-300 font-bold">niedostępna</td>
+                                        <td class="px-6 py-4 text-center text-green-400 font-bold">8s</td>
+                                        <td class="px-6 py-4 text-center text-yellow-500 font-bold bg-yellow-500/5">6s</td>
+                                        <td class="px-6 py-4 text-center text-sky-400 font-bold bg-sky-500/5">2s</td>
+                                    </tr>
+                                    <tr class="border-b border-zinc-800/50 hover:bg-zinc-800/40 transition-colors">
+                                        <td class="px-6 py-4 text-zinc-300 font-medium">Cooldown na /wb</td>
+                                        <td class="px-6 py-4 text-center text-zinc-300 font-bold">niedostępna</td>
+                                        <td class="px-6 py-4 text-center text-green-400 font-bold">6s</td>
+                                        <td class="px-6 py-4 text-center text-yellow-500 font-bold bg-yellow-500/5">5s</td>
+                                        <td class="px-6 py-4 text-center text-sky-400 font-bold bg-sky-500/5">2s</td>
+                                    </tr>
+                                    <tr class="border-b border-zinc-800/50 hover:bg-zinc-800/40 transition-colors">
+                                        <td class="px-6 py-4 text-zinc-300 font-medium">Cooldown na /anvil</td>
+                                        <td class="px-6 py-4 text-center text-zinc-600 font-bold">niedostępna</td>
+                                        <td class="px-6 py-4 text-center text-green-400 font-bold">60s</td>
+                                        <td class="px-6 py-4 text-center text-yellow-500 font-bold bg-yellow-500/5">30s</td>
+                                        <td class="px-6 py-4 text-center text-sky-400 font-bold bg-sky-500/5">15s</td>
+                                    </tr>
+                                    <tr class="border-b-0 hover:bg-zinc-800/40 transition-colors">
+                                        <td class="px-6 py-4 text-zinc-300 font-medium rounded-bl-[1.4rem]">Cooldown na /repairall</td>
+                                        <td class="px-6 py-4 text-center text-zinc-600 font-bold">niedostępna</td>
+                                        <td class="px-6 py-4 text-center text-green-400 font-bold">2min</td>
+                                        <td class="px-6 py-4 text-center text-yellow-500 font-bold bg-yellow-500/5">1min</td>
+                                        <td class="px-6 py-4 text-center text-sky-400 font-bold bg-sky-500/5 rounded-br-[1.4rem]">20s</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        
-                        <a href="https://discord.gg/PBg6QYZ46T" target="_blank" class="shrink-0 bg-[#5865F2] hover:bg-[#4752C4] text-white px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-3 transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(88,101,242,0.4)]">
-                            <i class="fa-brands fa-discord text-2xl"></i>
-                            DOŁĄCZ TERAZ
-                        </a>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="administracja" class="py-24 bg-zinc-950">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
-                    <span class="text-zinc-500 font-bold uppercase tracking-widest text-sm mb-2 block">SKYCAST.PL</span>
-                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight">Administracja <span class="text-sky-500">Serwera</span></h2>
-                    <p class="text-zinc-400 mt-4 max-w-xl mx-auto">Poznaj ludzi, którzy dbają o porządek, rozwijają serwer i służą pomocą w każdej sytuacji.</p>
-                </div>
-
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
-                    
-                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-wlasciciel">
-                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-wlasciciel shadow-[0_0_15px_#eab308]"></div>
-                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-wlasciciel transition-colors">
-                            <img src="https://mc-heads.net/avatar/kubagood/100" alt="kubagood" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />
-                        </div>
-                        <h4 class="font-bold text-lg text-white mb-2">kubagood</h4>
-                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-yellow-300 bg-yellow-500/10 border border-yellow-500/30">
-                            Właściciel
-                        </div>
-                    </div>
-
-                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-wlasciciel">
-                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-wlasciciel shadow-[0_0_15px_#eab308]"></div>
-                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-wlasciciel transition-colors">
-                            <img src="https://mc-heads.net/avatar/wiktrex/100" alt="wiktrEx" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />
-                        </div>
-                        <h4 class="font-bold text-lg text-white mb-2">wiktrEx</h4>
-                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-yellow-300 bg-yellow-500/10 border border-yellow-500/30">
-                            Właściciel
-                        </div>
-                    </div>
-
-                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-jradmin">
-                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-jradmin shadow-[0_0_15px_#f87171]"></div>
-                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-jradmin transition-colors">
-                            <img src="https://mc-heads.net/avatar/Mieszkowitaj/100" alt="Mieszkowitaj" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />
-                        </div>
-                        <h4 class="font-bold text-lg text-white mb-2">Mieszkowitaj</h4>
-                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-red-300 bg-red-500/10 border border-red-400/30">
-                            Jr. Admin
-                        </div>
-                    </div>
-
-                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-jradmin">
-                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-jradmin shadow-[0_0_15px_#f87171]"></div>
-                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-jradmin transition-colors">
-                            <img src="https://mc-heads.net/avatar/AdamerMC/100" alt="AdamerMC" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />
-                        </div>
-                        <h4 class="font-bold text-lg text-white mb-2">AdamerMC</h4>
-                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-red-300 bg-red-500/10 border border-red-400/30">
-                            Jr. Admin
-                        </div>
-                    </div>
-
-                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-mod">
-                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-mod shadow-[0_0_15px_#3b82f6]"></div>
-                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-mod transition-colors">
-                            <img src="https://mc-heads.net/avatar/DryestPython69/100" alt="DryestPython69" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />
-                        </div>
-                        <h4 class="font-bold text-lg text-white mb-2">DryestPython69</h4>
-                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-blue-300 bg-blue-500/10 border border-blue-500/30">
-                            Moderator
-                        </div>
-                    </div>
-
-                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-jrmod">
-                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-jrmod shadow-[0_0_15px_#60a5fa]"></div>
-                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-jrmod transition-colors">
-                            <img src="https://mc-heads.net/avatar/vMoonKiLLeR/100" alt="vMoonKiLLeR" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />
-                        </div>
-                        <h4 class="font-bold text-lg text-white mb-2">vMoonKiLLeR</h4>
-                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-blue-200 bg-blue-400/10 border border-blue-400/30">
-                            Jr. Moderator
-                        </div>
-                    </div>
-
-                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-chatmod">
-                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-chatmod shadow-[0_0_15px_#22c55e]"></div>
-                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-chatmod transition-colors">
-                            <img src="https://mc-heads.net/avatar/xK4myk/100" alt="xK4myk" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />
-                        </div>
-                        <h4 class="font-bold text-lg text-white mb-2">xK4myk</h4>
-                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-green-300 bg-green-500/10 border border-green-500/30">
-                            Chatmod
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="relative bg-zinc-950 pt-32 pb-12 mt-20 border-t-0">
-        <div class="wave-container -mt-1">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C57.71,106.59,117.8,118.89,178.6,120.31,227.13,121.43,275.69,83.9,321.39,56.44Z" class="shape-fill"></path>
-            </svg>
-        </div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 
-                <div class="col-span-1 lg:col-span-2">
-                    <a href="#" class="flex items-center gap-3 mb-6">
-                        <img alt="Skycast Logo" src="https://imgur.com/xqWUBJB.png" class="w-10 h-10 object-contain filter grayscale hover:grayscale-0 transition-all"/>
-                        <span class="text-2xl font-black uppercase tracking-wider text-white">SKYCAST<span class="text-zinc-600">.PL</span></span>
+                <div class="mt-12 text-center">
+                    <a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="inline-flex animate-shop-btn px-10 py-5 rounded-xl font-black text-base uppercase tracking-wider items-center gap-3 hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(14,165,233,0.3)]">
+                        <i class="fa-solid fa-cart-shopping text-white text-lg"></i>
+                        <span class="text-white text-shadow">Zakup Rangę w Sklepie</span>
                     </a>
-                    <p class="text-zinc-400 text-sm leading-relaxed max-w-sm mb-6">
-                        Skycast to innowacyjny serwer Minecraft z ambitnym zespołem i wyjątkową społecznością. Dołącz do nas i poczuj prawdziwą różnicę w rozgrywce. Tworzymy serwer z pasją dla pasjonatów.
-                    </p>
-                    <div class="flex gap-4">
-                        <a href="https://discord.gg/PBg6QYZ46T" target="_blank" class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-sky-500 hover:bg-sky-500/10 transition-all">
-                            <i class="fa-brands fa-discord"></i>
-                        </a>
-
-                        <a href="https://youtube.com/@skycast" class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-sky-500 hover:bg-sky-500/10 transition-all">
-                            <i class="fa-brands fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm border-b border-zinc-800 pb-3 inline-block">Nawigacja</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#hero" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Strona Główna</a></li>
-                        <li><a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Itemshop</a></li>
-                        <li><a href="#administracja" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Administracja</a></li>
-                        <li><a href="#discord" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Discord</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm border-b border-zinc-800 pb-3 inline-block">Kontakt & Info</h4>
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-3 text-zinc-400 text-sm">
-                            <i class="fa-solid fa-envelope mt-1 text-sky-500"></i>
-                            <span>skycast.kontakt@gmail.com</span>
-                        </li>
-                        <li class="flex items-start gap-3 text-zinc-400 text-sm">
-                            <i class="fa-solid fa-server mt-1 text-sky-500"></i>
-                            <span>IP: skycast.pl (1.21+)</span>
-                        </li>
-                    </ul>
                 </div>
             </div>
+        </section>
+        <!-- ================= /OPIS RANG ================= -->
 
-            <div class="pt-8 border-t border-zinc-800/50 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-                <p class="text-xs text-zinc-500 font-medium">
-                    &copy; 2026 <span class="text-white font-bold">Skycast.pl</span>. Wszystkie prawa zastrzeżone.<br/>
-                    <span class="block mt-1 text-zinc-600 font-normal">Wkrótce otwarcie...</span>
-                </p>
-                
-                <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 max-w-xl">
-                    <p class="text-[10px] sm:text-xs text-zinc-400 leading-relaxed">
-                        <i class="fa-solid fa-triangle-exclamation text-yellow-500/70 mr-1"></i>
-                        <strong>UWAGA:</strong> Serwer Skycast.pl <u>nie jest</u> w żaden sposób powiązany, sponsorowany, popierany, ani administrowany przez firmę <strong>Mojang AB</strong>, <strong>Microsoft Corporation</strong> ani ich partnerów. Minecraft jest zarejestrowanym znakiem towarowym firmy Mojang Synergies AB. Wszelkie zakupy dokonane w sklepie wspierają bezpośrednio utrzymanie i rozwój serwera Skycast.pl.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
+        <section id="discord" class="py-12 mt-12">            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">                <div class="rounded-[2.5rem] p-1 glass-panel bg-gradient-to-r from-[#5865F2]/20 to-[#5865F2]/5 relative overflow-hidden">                    <div class="absolute top-0 right-0 p-20 opacity-10">                        <i class="fa-brands fa-discord text-[15rem]"></i>                    </div>                                        <div class="bg-zinc-900/80 rounded-[2.25rem] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 relative z-10">                        <div class="text-center md:text-left">                            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">Dołącz na <span class="text-[#5865F2]">Discorda</span></h2>                            <p class="text-zinc-400 max-w-xl text-sm md:text-base leading-relaxed">                                Bądź na bieżąco z najnowszymi aktualizacjami, bierz udział w konkursach, zgłaszaj błędy i rozmawiaj z administracją oraz setkami innych graczy!                            </p>                        </div>                                                <a href="https://discord.gg/PBg6QYZ46T" target="_blank" class="shrink-0 bg-[#5865F2] hover:bg-[#4752C4] text-white px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-3 transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(88,101,242,0.4)]">                            <i class="fa-brands fa-discord text-2xl"></i>                            DOŁĄCZ TERAZ                        </a>                    </div>                </div>            </div>        </section>
+        <section id="administracja" class="py-24 bg-zinc-950">            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">                <div class="text-center mb-16">                    <span class="text-zinc-500 font-bold uppercase tracking-widest text-sm mb-2 block">SKYCAST.PL</span>                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight">Administracja <span class="text-sky-500">Serwera</span></h2>                    <p class="text-zinc-400 mt-4 max-w-xl mx-auto">Poznaj ludzi, którzy dbają o porządek, rozwijają serwer i służą pomocą w każdej sytuacji.</p>                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">                                        <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-wlasciciel">                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-wlasciciel shadow-[0_0_15px_#eab308]"></div>                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-wlasciciel transition-colors">                            <img src="https://mc-heads.net/avatar/kubagood/100" alt="kubagood" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />                        </div>                        <h4 class="font-bold text-lg text-white mb-2">kubagood</h4>                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-yellow-300 bg-yellow-500/10 border border-yellow-500/30">                            Właściciel                        </div>                    </div>
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-wlasciciel">                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-wlasciciel shadow-[0_0_15px_#eab308]"></div>                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-wlasciciel transition-colors">                            <img src="https://mc-heads.net/avatar/wiktrex/100" alt="wiktrEx" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />                        </div>                        <h4 class="font-bold text-lg text-white mb-2">wiktrEx</h4>                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-yellow-300 bg-yellow-500/10 border border-yellow-500/30">                            Właściciel                        </div>                    </div>
+<div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-jradmin">                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-jradmin shadow-[0_0_15px_#f87171]"></div>                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-jradmin transition-colors">                            <img src="https://mc-heads.net/avatar/AdamerMC/100" alt="AdamerMC" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />                        </div>                        <h4 class="font-bold text-lg text-white mb-2">AdamerMC</h4>                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-red-300 bg-red-500/10 border border-red-400/30">                            Head Admin                     </div>                    </div>
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-jradmin">                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-jradmin shadow-[0_0_15px_#f87171]"></div>                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-jradmin transition-colors">                            <img src="https://mc-heads.net/avatar/Mieszkowitaj/100" alt="Mieszkowitaj" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />                        </div>                        <h4 class="font-bold text-lg text-white mb-2">Mieszkowitaj</h4>                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-red-300 bg-red-500/10 border border-red-400/30">                            Jr. Admin                        </div>                    </div>
+<div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-jradmin">                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-jradmin shadow-[0_0_15px_#f87171]"></div>                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-jradmin transition-colors">                            <img src="https://mc-heads.net/avatar/DryestPython69/100" alt="DryestPython69" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />                        </div>                        <h4 class="font-bold text-lg text-white mb-2">DryestPython69</h4>                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-red-300 bg-red-500/10 border border-red-400/30">                            Jr. Admin                        </div>                    </div>
+                    
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-jrmod">                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-jrmod shadow-[0_0_15px_#60a5fa]"></div>                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-jrmod transition-colors">                            <img src="https://mc-heads.net/avatar/vMoonKiLLeR/100" alt="vMoonKiLLeR" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />                        </div>                        <h4 class="font-bold text-lg text-white mb-2">vMoonKiLLeR</h4>                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-blue-200 bg-blue-400/10 border border-blue-400/30">                            Jr. Moderator                        </div>                    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const copyBtn = document.getElementById('copyIpBtn');
-            const ipText = document.getElementById('ipText');
-            const serverIp = 'skycast.pl';
-
-            if(copyBtn && ipText) {
-                copyBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(serverIp).then(() => {
-                        const originalHTML = ipText.innerHTML;
-                        
-                        ipText.innerHTML = '<span class="text-green-600 font-black"><i class="fa-solid fa-check"></i> SKOPIOWANO!</span>';
-                        
-                        setTimeout(() => {
-                            ipText.innerHTML = originalHTML;
-                        }, 2500);
-                    }).catch(err => {
-                        console.error('Nie udało się skopiować IP: ', err);
-                    });
-                });
-            }
-        });
-    </script>
-</body>
-</html>
+ <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-jrmod">                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-jrmod shadow-[0_0_15px_#60a5fa]"></div>                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-jrmod transition-colors">                            <img src="https://mc-heads.net/avatar/xK4myk/100" alt="xK4myk" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />                        </div>                        <h4 class="font-bold text-lg text-white mb-2">xK4myk</h4>                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-blue-200 bg-blue-400/10 border border-blue-400/30">                            Jr. Moderator                        </div>                    </div>
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center card-hover overflow-hidden relative group hover:border-rank-chatmod">                        <div class="absolute inset-x-0 top-0 h-1.5 bg-rank-chatmod shadow-[0_0_15px_#22c55e]"></div>                        <div class="w-20 h-20 mb-4 rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-800 p-1 group-hover:border-rank-chatmod transition-colors">                            <img src="https://mc-heads.net/avatar/Voxen__/100" alt="Voxen__" class="w-full h-full rounded-lg object-cover bg-black" loading="lazy" />                        </div>                        <h4 class="font-bold text-lg text-white mb-2">Voxen__</h4>                        <div class="px-3 py-1 rounded-md text-[11px] font-black uppercase tracking-wider text-green-300 bg-green-500/10 border border-green-500/30">                            Chatmod                        </div>                    </div>
+                </div>            </div>        </section>
+    </main>
+    <footer class="relative bg-zinc-950 pt-32 pb-12 mt-20 border-t-0">        <div class="wave-container -mt-1">            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C57.71,106.59,117.8,118.89,178.6,120.31,227.13,121.43,275.69,83.9,321.39,56.44Z" class="shape-fill"></path>            </svg>        </div>                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">                                <div class="col-span-1 lg:col-span-2">                    <a href="#" class="flex items-center gap-3 mb-6">                        <img alt="Skycast Logo" src="https://imgur.com/xqWUBJB.png" class="w-10 h-10 object-contain filter grayscale hover:grayscale-0 transition-all"/>                        <span class="text-2xl font-black uppercase tracking-wider text-white">SKYCAST<span class="text-zinc-600">.PL</span></span>                    </a>                    <p class="text-zinc-400 text-sm leading-relaxed max-w-sm mb-6">                        Skycast to innowacyjny serwer Minecraft z ambitnym zespołem i wyjątkową społecznością. Dołącz do nas i poczuj prawdziwą różnicę w rozgrywce. Tworzymy serwer z pasją dla pasjonatów.                    </p>                    <div class="flex gap-4">                        <a href="https://discord.gg/PBg6QYZ46T" target="_blank" class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-sky-500 hover:bg-sky-500/10 transition-all">                            <i class="fa-brands fa-discord"></i>                        </a>
+                        <a href="https://youtube.com/@skycastofficial" class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-sky-500 hover:bg-sky-500/10 transition-all">                            <i class="fa-brands fa-youtube"></i>                        </a>                    </div>                </div>
+                <div>                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm border-b border-zinc-800 pb-3 inline-block">Nawigacja</h4>                    <ul class="space-y-3">                        <li><a href="#hero" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Strona Główna</a></li>                        <li><a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Itemshop</a></li>                        <li><a href="#rangi" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Opis Rang</a></li>                        <li><a href="#administracja" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Administracja</a></li>                        <li><a href="#discord" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Discord</a></li>                    </ul>                </div>
+                <div>                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm border-b border-zinc-800 pb-3 inline-block">Kontakt & Info</h4>                    <ul class="space-y-3">                        <li class="flex items-start gap-3 text-zinc-400 text-sm">                            <i class="fa-solid fa-envelope mt-1 text-sky-500"></i>                            <span>skycast.kontakt@gmail.com</span>                        </li>                        <li class="flex items-start gap-3 text-zinc-400 text-sm">                            <i class="fa-solid fa-server mt-1 text-sky-500"></i>                            <span>IP: skycast.pl (1.21+)</span>                        </li>                    </ul>                </div>            </div>
+            <div class="pt-8 border-t border-zinc-800/50 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">                <p class="text-xs text-zinc-500 font-medium">                    &copy; 2026 <span class="text-white font-bold">Skycast.pl</span>. Wszystkie prawa zastrzeżone.<br/>                    <span class="block mt-1 text-zinc-600 font-normal">Wkrótce otwarcie...</span>                </p>                                <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 max-w-xl">                    <p class="text-[10px] sm:text-xs text-zinc-400 leading-relaxed">                        <i class="fa-solid fa-triangle-exclamation text-yellow-500/70 mr-1"></i>                        <strong>UWAGA:</strong> Serwer Skycast.pl <u>nie jest</u> w żaden sposób powiązany, sponsorowany, popierany, ani administrowany przez firmę <strong>Mojang AB</strong>, <strong>Microsoft Corporation</strong> ani ich partnerów. Minecraft jest zarejestrowanym znakiem towarowym firmy Mojang Synergies AB. Wszelkie zakupy dokonane w sklepie wspierają bezpośrednio utrzymanie i rozwój serwera Skycast.pl.                    </p>                </div>            </div>        </div>    </footer>
+    <script>        document.addEventListener('DOMContentLoaded', () => {            const copyBtn = document.getElementById('copyIpBtn');            const ipText = document.getElementById('ipText');            const serverIp = 'skycast.pl';
+            if(copyBtn && ipText) {                copyBtn.addEventListener('click', () => {                    navigator.clipboard.writeText(serverIp).then(() => {                        const originalHTML = ipText.innerHTML;                                                ipText.innerHTML = '<span class="text-green-600 font-black"><i class="fa-solid fa-check"></i> SKOPIOWANO!</span>';                                                setTimeout(() => {                            ipText.innerHTML = originalHTML;                        }, 2500);                    }).catch(err => {                        console.error('Nie udało się skopiować IP: ', err);                    });                });            }        });    </script></body></html>
