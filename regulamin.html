@@ -35,17 +35,17 @@
 
     <style>
         body {
-            background-color: #09090b;
+            background-color: #f8fafc;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.05), transparent 25%);
+                radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.06), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.04), transparent 25%);
             background-attachment: fixed;
         }
         
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(14, 165, 233, 0.8); }
-            100% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
+            0% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(14, 165, 233, 0.4); }
+            100% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.2); }
         }
 
         .animate-shop-btn {
@@ -61,9 +61,10 @@
         }
 
         .glass-panel {
-            background: rgba(24, 24, 27, 0.65);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.03);
         }
 
         .wave-container {
@@ -83,7 +84,7 @@
         }
         
         .wave-container .shape-fill {
-            fill: #09090b;
+            fill: #0f172a;
         }
 
         /* Stylizowanie scrollbara dla długiego tekstu */
@@ -91,10 +92,10 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #09090b;
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #27272a;
+            background: #cbd5e1;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
@@ -102,26 +103,26 @@
         }
     </style>
 </head>
-<body class="text-white antialiased selection:bg-sky-500 selection:text-white flex flex-col min-h-screen">
+<body class="text-slate-800 antialiased selection:bg-sky-500 selection:text-white flex flex-col min-h-screen">
 
     <!-- NAWIGACJA -->
-    <header class="w-full fixed top-0 z-50 glass-panel border-b border-zinc-800">
+    <header class="w-full fixed top-0 z-50 glass-panel border-b border-slate-200/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3 group">
                 <img alt="Skycast Logo" src="https://imgur.com/xqWUBJB.png" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300"/>
-                <span class="text-2xl font-black tracking-widest uppercase">
+                <span class="text-2xl font-black tracking-widest uppercase text-slate-900">
                     Skycast<span class="text-sky-500">.pl</span>
                 </span>
             </a>
             
             <nav class="hidden lg:flex items-center gap-8">
-                <a href="index.html" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Główna</a>
-                <a href="index.html#o-nas" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">O Nas</a>
-                <a href="index.html#administracja" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Administracja</a>
-                <a href="https://discord.gg/PBg6QYZ46T" class="text-sm font-bold text-zinc-300 hover:text-white transition-colors uppercase tracking-wide">Discord</a>
+                <a href="index.html" class="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors uppercase tracking-wide">Główna</a>
+                <a href="index.html#o-nas" class="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors uppercase tracking-wide">O Nas</a>
+                <a href="index.html#administracja" class="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors uppercase tracking-wide">Administracja</a>
+                <a href="https://discord.gg/PBg6QYZ46T" class="text-sm font-bold text-slate-600 hover:text-sky-600 transition-colors uppercase tracking-wide">Discord</a>
             </nav>
 
-            <a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="animate-shop-btn px-6 py-2.5 rounded-xl font-black text-sm uppercase tracking-wider flex items-center gap-2 hover:scale-105 transition-transform duration-300">
+            <a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="animate-shop-btn px-6 py-2.5 rounded-xl font-black text-sm uppercase tracking-wider flex items-center gap-2 hover:scale-105 transition-transform duration-300 shadow-md">
                 <i class="fa-solid fa-cart-shopping text-white"></i>
                 <span class="text-white">ItemShop</span>
             </a>
@@ -132,17 +133,17 @@
         
         <!-- NAGŁÓWEK STRONY REGULAMINU -->
         <section class="relative w-full px-4 sm:px-6 lg:px-8 py-16 text-center overflow-hidden">
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-sky-500/10 blur-[120px] rounded-full-z-10"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-sky-400/10 blur-[120px] rounded-full -z-10"></div>
             
             <div class="max-w-4xl mx-auto relative z-10">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border-sky-500/30 mb-4">
-                    <i class="fa-solid fa-scale-balanced text-sky-500 text-xs"></i>
-                    <span class="text-xs font-bold text-sky-100 tracking-wider uppercase">DOKUMENTY</span>
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border-sky-500/20 mb-4 shadow-sm">
+                    <i class="fa-solid fa-scale-balanced text-sky-600 text-xs"></i>
+                    <span class="text-xs font-bold text-sky-700 tracking-wider uppercase">DOKUMENTY</span>
                 </div>
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white mb-4">
-                    Regulamin <span class="bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent">skycast.pl</span>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-slate-900 mb-4">
+                    Regulamin <span class="bg-gradient-to-r from-sky-500 to-blue-600 bg-clip-text text-transparent">skycast.pl</span>
                 </h1>
-                <p class="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto font-medium">
+                <p class="text-slate-500 text-sm sm:text-base max-w-xl mx-auto font-medium">
                     Obowiązuje od: 07.07.2026 r. • Wersja dokumentu: 1.0.1
                 </p>
             </div>
@@ -151,48 +152,48 @@
         <!-- TREŚĆ REGULAMINU -->
         <section class="pb-24 px-4 sm:px-6 lg:px-8">
             <div class="max-w-5xl mx-auto">
-                <div class="glass-panel rounded-[2rem] border-zinc-800/80 p-6 sm:p-10 lg:p-12 space-y-12">
+                <div class="glass-panel rounded-[2rem] border-slate-200/80 p-6 sm:p-10 lg:p-12 space-y-12 shadow-xl shadow-slate-200/50">
                     
                     <!-- WSTĘP -->
-                    <div class="border-b border-zinc-800/60 pb-6">
-                        <p class="text-zinc-300 leading-relaxed text-justify italic bg-zinc-900/30 p-4 rounded-xl border border-zinc-800">
+                    <div class="border-b border-slate-200 pb-6">
+                        <p class="text-slate-600 leading-relaxed text-justify italic bg-slate-100/60 p-4 rounded-xl border border-slate-200/60">
                             Niniejszy dokument określa wiążące zasady porządkowe, prawne oraz organizacyjne korzystania z serwera Minecraft Skycast.pl, oficjalnego serwera komunikacyjnego Discord oraz powiązanego z nimi automatycznego sklepu internetowego (Itemshopu). Każdy użytkownik z momentem wejścia na serwer, dołączenia do platformy Discord lub zakupu w sklepie oświadcza, że zapoznał się z poniższymi postanowieniami i zobowiązuje się do ich bezwzględnego przestrzegania.
                         </p>
                     </div>
 
                     <!-- ROZDZIAŁ 1: DEFINICJE -->
                     <section class="space-y-4">
-                        <div class="flex items-center gap-3 text-sky-400">
+                        <div class="flex items-center gap-3 text-sky-600">
                             <i class="fa-solid fa-bookmark text-xl"></i>
-                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide">Rozdział I: Definicje Ogólne</h2>
+                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide text-slate-900">Rozdział I: Definicje Ogólne</h2>
                         </div>
-                        <div class="text-zinc-400 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
-                            <p><strong>1. Administracja</strong> – zespół powołany przez Właścicieli projektu, odpowiedzialny za moderację, pomoc techniczną oraz nakładanie sankcji na serwerze, Discordzie oraz w Itemshopie[cite: 1, 2].</p>
-                            <p><strong>2. Serwer</strong> – serwer gry Minecraft działający pod adresem IP: <em>skycast.pl</em>[cite: 1, 2].</p>
-                            <p><strong>3. Discord</strong> – oficjalny serwer społecznościowy projektu służący do komunikacji tekstowo-głosowej oraz otwierania zgłoszeń (ticketów)[cite: 1, 2].</p>
-                            <p><strong>4. Itemshop</strong> – automatyczny sklep internetowy zintegrowany z serwerem, umożliwiający dobrowolne wsparcie finansowe w zamian za cyfrowe pakiety i dodatki[cite: 1, 2].</p>
-                            <p><strong>5. Użytkownik / Gracz</strong> – każda osoba fizyczna korzystająca z wyżej wymienionych usług i platform należących do projektu[cite: 1, 2].</p>
+                        <div class="text-slate-600 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
+                            <p><strong>1. Administracja</strong> – zespół powołany przez Właścicieli projektu, odpowiedzialny za moderację, pomoc techniczną oraz nakładanie sankcji na serwerze, Discordzie oraz w Itemshopie[cite: 1].</p>
+                            <p><strong>2. Serwer</strong> – serwer gry Minecraft działający pod adresem IP: <em>skycast.pl</em>[cite: 1].</p>
+                            <p><strong>3. Discord</strong> – oficjalny serwer społecznościowy projektu służący do komunikacji tekstowo-głosowej oraz otwierania zgłoszeń (ticketów)[cite: 1].</p>
+                            <p><strong>4. Itemshop</strong> – automatyczny sklep internetowy zintegrowany z serwerem, umożliwiający dobrowolne wsparcie finansowe w zamian za cyfrowe pakiety i dodatki[cite: 1].</p>
+                            <p><strong>5. Użytkownik / Gracz</strong> – każda osoba fizyczna korzystająca z wyżej wymienionych usług i platform należących do projektu[cite: 1].</p>
                         </div>
                     </section>
 
                     <!-- ROZDZIAŁ 2: ROZGRYWKA MINECRAFT -->
                     <section class="space-y-4">
-                        <div class="flex items-center gap-3 text-sky-400">
+                        <div class="flex items-center gap-3 text-sky-600">
                             <i class="fa-solid fa-cubes text-xl"></i>
-                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide">Rozdział II: Serwer Minecraft</h2>
+                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide text-slate-900">Rozdział II: Serwer Minecraft</h2>
                         </div>
-                        <div class="text-zinc-400 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
-                            <p class="font-bold text-white mb-2">§1. Ogólne zasady rozgrywki</p>
+                        <div class="text-slate-600 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
+                            <p class="font-bold text-slate-900 mb-2">§1. Ogólne zasady rozgrywki</p>
                             <ul class="list-disc pl-5 space-y-2">
                                 <li>Zabrania się używania jakichkolwiek modyfikacji, cheatów, skryptów lub tekstur dających przewagę nad innymi graczami (np. X-Ray, KillAura, Fly itp.).</li>
                                 <li>Wykorzystywanie błędów gry (bugów) oraz błędów serwerowych jest surowo zabronione. Każdy zauważony błąd należy niezwłocznie zgłosić administracji.</li>
                                 <li>Zabrania się celowego obciążania serwera poprzez budowanie maszyn generujących lagi.</li>
                             </ul>
                             
-                            <p class="font-bold text-white mt-4 mb-2">§2. Czaty i komunikacja w grze</p>
+                            <p class="font-bold text-slate-900 mt-4 mb-2">§2. Czaty i komunikacja w grze</p>
                             <ul class="list-disc pl-5 space-y-2">
-                                <li>Zakazuje się spamu, floodu, nadużywania Caps Locka oraz pisania tych samych wiadomości na czacie globalnym[cite: 1, 2].</li>
-                                <li>Wulgaryzmy, obrażanie innych graczy, prowokacje oraz sianie toksycznej atmosfery będą natychmiastowo karane[cite: 1, 2].</li>
+                                <li>Zakazuje się spamu, floodu, nadużywania Caps Locka oraz pisania tych samych wiadomości na czacie globalnym[cite: 1].</li>
+                                <li>Wulgaryzmy, obrażanie innych graczy, prowokacje oraz sianie toksycznej atmosfery będą natychmiastowo karane[cite: 1].</li>
                                 <li>Kategorycznie zabrania się reklamowania innych serwerów Minecraft, serwerów Discord, stron www lub kanałów YouTube niepowiązanych z serwerem.</li>
                             </ul>
                         </div>
@@ -200,16 +201,16 @@
 
                     <!-- ROZDZIAŁ 3: DISCORD -->
                     <section class="space-y-4">
-                        <div class="flex items-center gap-3 text-sky-400">
+                        <div class="flex items-center gap-3 text-sky-600">
                             <i class="fa-brands fa-discord text-xl"></i>
-                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide">Rozdział III: Serwer Discord</h2>
+                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide text-slate-900">Rozdział III: Serwer Discord</h2>
                         </div>
-                        <div class="text-zinc-400 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
+                        <div class="text-slate-600 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
                             <ul class="list-disc pl-5 space-y-2">
                                 <li>Na Discordzie obowiązuje pełna kultura osobista.</li>
-                                <li>Treści o charakterze pornograficznym, rasistowskim, ksenofobicznym, promujące przemoc lub zażywanie środków odurzających są bezwzględnie zakazane[cite: 1, 2].</li>
+                                <li>Treści o charakterze pornograficznym, rasistowskim, ksenofobicznym, promujące przemoc lub zażywanie środków odurzających są bezwzględnie zakazane[cite: 1].</li>
                                 <li>Należy korzystać z kanałów zgodnie z ich przeznaczeniem.</li>
-                                <li>Zabrania się ustawiania obraźliwych, wulgarnych lub reklamowych nicków oraz awatarów[cite: 1, 2].</li>
+                                <li>Zabrania się ustawiania obraźliwych, wulgarnych lub reklamowych nicków oraz awatarów[cite: 1].</li>
                                 <li>Podszywanie się pod administrację, helperów czy znanych osób skutkuje permanentną blokadą.</li>
                                 <li>Nieuzasadnione oznaczanie (pingowanie) administracji oraz masowe oznaczanie użytkowników jest zabronione.</li>
                             </ul>
@@ -218,23 +219,23 @@
 
                     <!-- ROZDZIAŁ 4: ITEMSHOP -->
                     <section class="space-y-4">
-                        <div class="flex items-center gap-3 text-sky-400">
+                        <div class="flex items-center gap-3 text-sky-600">
                             <i class="fa-solid fa-basket-shopping text-xl"></i>
-                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide">Rozdział IV: Regulamin Itemshopu</h2>
+                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide text-slate-900">Rozdział IV: Regulamin Itemshopu</h2>
                         </div>
-                        <div class="text-zinc-400 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
-                            <p class="font-bold text-white mb-2">§1. Zakupy i Płatności</p>
+                        <div class="text-slate-600 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
+                            <p class="font-bold text-slate-900 mb-2">§1. Zakupy i Płatności</p>
                             <ul class="list-disc pl-5 space-y-2">
-                                <li>Wszystkie transakcje realizowane w Itemshopie są dobrowolną darowizną na rzecz utrzymania infrastruktury serwera Skycast.pl[cite: 1, 2].</li>
-                                <li>Gracz przed zakupem ma obowiązek upewnić się, że wpisał poprawny nick z gry lub prawidłowy identyfikator[cite: 1, 2]. Administracja nie odpowiada za błędnie wpisane dane i nie przenosi rang w wyniku pomyłki gracza[cite: 1, 2].</li>
-                                <li>Osoby niepełnoletnie przed dokonaniem płatności zobowiązane są uzyskać wyraźną zgodę rodzica lub opiekuna prawnego[cite: 1, 2].</li>
+                                <li>Wszystkie transakcje realizowane w Itemshopie są dobrowolną darowizną na rzecz utrzymania infrastruktury serwera Skycast.pl[cite: 1].</li>
+                                <li>Gracz przed zakupem ma obowiązek upewnić się, że wpisał poprawny nick z gry lub prawidłowy identyfikator[cite: 1]. Administracja nie odpowiada za błędnie wpisane dane i nie przenosi rang w wyniku pomyłki gracza[cite: 1].</li>
+                                <li>Osoby niepełnoletnie przed dokonaniem płatności zobowiązane są uzyskać wyraźną zgodę rodzica lub opiekuna prawnego[cite: 1].</li>
                             </ul>
 
                             <!-- WAŻNY ANONS PRAWNY -->
-                            <div class="my-5 p-5 rounded-2xl bg-red-500/10 border border-red-500/20 text-zinc-300">
-                                <span class="text-red-400 font-bold uppercase text-xs tracking-wider block mb-2"><i class="fa-solid fa-gavel"></i> Klauzula rezygnacji z prawa do odstąpienia od umowy</span>
+                            <div class="my-5 p-5 rounded-2xl bg-red-50 border border-red-200 text-slate-700 shadow-sm">
+                                <span class="text-red-600 font-bold uppercase text-xs tracking-wider block mb-2"><i class="fa-solid fa-gavel"></i> Klauzula rezygnacji z prawa do odstąpienia od umowy</span>
                                 <p class="text-xs sm:text-sm text-justify leading-relaxed">
-                                    Zgodnie z art. 38 pkt 13 Ustawy o prawach konsumenta, kupując treści cyfrowe niedostarczane na nośniku materialnym, użytkownik wyraża zgodę na natychmiastowe spełnienie świadczenia (aktywację rangi/pakietu) przed upływem ustawowego terminu na odstąpienie od umowy[cite: 1, 2]. Tym samym użytkownik przyjmuje do wiadomości, że <strong>traci prawo do odstąpienia od umowy, zwrotu środków oraz reklamacji finansowej</strong> po odebraniu wirtualnej usługi[cite: 1, 2].
+                                    Zgodnie z art. 38 pkt 13 Ustawy o prawach konsumenta, kupując treści cyfrowe niedostarczane na nośniku materialnym, użytkownik wyraża zgodę na natychmiastowe spełnienie świadczenia (aktywację rangi/pakietu) przed upływem ustawowego terminu na odstąpienie od umowy[cite: 1]. Tym samym użytkownik przyjmuje do wiadomości, że <strong>traci prawo do odstąpienia od umowy, zwrotu środków oraz reklamacji finansowej</strong> po odebraniu wirtualnej usługi[cite: 1].
                                 </p>
                             </div>
 
@@ -243,71 +244,71 @@
 
                     <!-- ROZDZIAŁ 5: TABELA KAR -->
                     <section class="space-y-4">
-                        <div class="flex items-center gap-3 text-sky-400">
+                        <div class="flex items-center gap-3 text-sky-600">
                             <i class="fa-solid fa-triangle-exclamation text-xl"></i>
-                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide">Rozdział V: Tabela Kar i Sankcji</h2>
+                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide text-slate-900">Rozdział V: Tabela Kar i Sankcji</h2>
                         </div>
-                        <p class="text-zinc-400 pl-2 sm:pl-6 text-sm sm:text-base">
+                        <p class="text-slate-600 pl-2 sm:pl-6 text-sm sm:text-base">
                             Administracja zastrzega sobie prawo do wymierzenia kary adekwatnej do przewinienia. Poniższa tabela przedstawia orientacyjny taryfikator:
                         </p>
                         
                         <div class="pl-2 sm:pl-6 overflow-x-auto">
-                            <table class="w-full text-left text-xs sm:text-sm border-collapse border border-zinc-800 rounded-xl overflow-hidden">
+                            <table class="w-full text-left text-xs sm:text-sm border-collapse border border-slate-200 rounded-xl overflow-hidden shadow-sm">
                                 <thead>
-                                    <tr class="bg-zinc-900 border-b border-zinc-800 text-sky-400">
+                                    <tr class="bg-slate-100 border-b border-slate-200 text-sky-700">
                                         <th class="p-4 font-bold uppercase tracking-wider">Przewinienie</th>
                                         <th class="p-4 font-bold uppercase tracking-wider">Opis</th>
                                         <th class="p-4 font-bold uppercase tracking-wider">Kara</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-zinc-800/60 bg-zinc-900/20 text-zinc-400">
-                                    <tr class="hover:bg-zinc-900/40 transition-colors">
-                                        <td class="p-4 font-bold text-white">Zaśmiecanie chatu</td>
+                                <tbody class="divide-y divide-slate-200 bg-white text-slate-600">
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="p-4 font-bold text-slate-900">Zaśmiecanie chatu</td>
                                         <td class="p-4">Zaśmiecanie czatu gry lub Discorda powtarzającymi się wiadomościami.</td>
-                                        <td class="p-4 text-yellow-500 font-medium">Warn -> Mute 30min -> mute 24h</td>
+                                        <td class="p-4 text-amber-600 font-medium">Warn -> Mute 30min -> mute 24h</td>
                                     </tr>
-                                    <tr class="hover:bg-zinc-900/40 transition-colors">
-                                        <td class="p-4 font-bold text-white">Obraza gracza, używanie wulgraryzmów</td>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="p-4 font-bold text-slate-900">Obraza gracza, używanie wulgraryzmów</td>
                                         <td class="p-4">Używanie wulgaryzmów, prowokowanie kłótni</td>
-                                        <td class="p-4 text-yellow-500 font-medium">Mute 1h -> mute 24h</td>
+                                        <td class="p-4 text-amber-600 font-medium">Mute 1h -> mute 24h</td>
                                     </tr>
-                                    <tr class="hover:bg-zinc-900/40 transition-colors">
-                                        <td class="p-4 font-bold text-white">Używanie Cheatów/wspomagaczy</td>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="p-4 font-bold text-slate-900">Używanie Cheatów/wspomagaczy</td>
                                         <td class="p-4">Modyfikacje ułatwiające gre.</td>
-                                        <td class="p-4 text-red-500 font-bold">Sprawdzanie</td>
+                                        <td class="p-4 text-red-600 font-bold">Sprawdzanie</td>
                                     </tr>
-                                    <tr class="hover:bg-zinc-900/40 transition-colors">
-                                        <td class="p-4 font-bold text-white">Reklama</td>
+                                    <tr class="hover:bg-slate-50 transition-colors">
+                                        <td class="p-4 font-bold text-slate-900">Reklama</td>
                                         <td class="p-4">Podawanie IP innych serwerów Minecraft lub linków do obcych serwerów Discord, lub innych stron niezwiązanych z serwerem Skycast.pl</td>
-                                        <td class="p-4 text-red-500 font-bold">Mute 5h -> ban perm</td>
+                                        <td class="p-4 text-red-600 font-bold">Mute 5h -> ban perm</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         
-                        <div class="my-3 p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 text-xs text-zinc-500 pl-2 sm:pl-6">
+                        <div class="my-3 p-4 rounded-xl bg-slate-100/70 border border-slate-200 text-xs text-slate-500 pl-2 sm:pl-6">
                             <strong>Uwaga:</strong> Posiadanie zakupionej rangi premium (np. VIP/SVIP) nie zwalnia z przestrzegania regulaminu. W przypadku zbanowania użytkownika, zakupiona ranga nie podlega zwrotowi, zamianie ani rekompensacie finansowej.
                         </div>
                     </section>
 
                     <!-- ROZDZIAŁ 6: POSTANOWIENIA KOŃCOWE -->
                     <section class="space-y-4">
-                        <div class="flex items-center gap-3 text-sky-400">
+                        <div class="flex items-center gap-3 text-sky-600">
                             <i class="fa-solid fa-flag-checkered text-xl"></i>
-                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide">Rozdział VI: Postanowienia Końcowe</h2>
+                            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-wide text-slate-900">Rozdział VI: Postanowienia Końcowe</h2>
                         </div>
-                        <div class="text-zinc-400 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
+                        <div class="text-slate-600 space-y-3 pl-2 sm:pl-6 text-sm sm:text-base">
                             <p>1. Administracja zastrzega sobie pełne prawo do modyfikacji i edycji niniejszego regulaminu w dowolnym momencie.</p>
-                            <p>2. Informacja o zmianach w regulaminie pojawi się na oficjalnym kanale informacyjnym na Discordzie (kanał: zaminy)</p>
+                            <p>2. Informacja o zmianach w regulaminie pojawi się na oficjalnym kanale informacyjnym na Discordzie (kanał: zmiany)</p>
                             <p>3. Nieznajomość regulaminu nie zwalnia żadnego gracza z odpowiedzialności i ponoszenia kar.</p>
                             <p>4. Wszelkie sprawy sporne, które nie zostały ujęte w tym dokumencie, rozstrzygane są indywidualnie i ostatecznie przez Właścicieli serwera.</p>
                         </div>
                     </section>
 
                     <!-- PODPIS -->
-                    <div class="text-center pt-6 border-t border-zinc-800/60">
-                        <p class="text-sm font-bold text-zinc-500 uppercase tracking-widest">Dokument zatwierdzony przez:</p>
-                        <p class="text-lg font-black text-white mt-1 uppercase tracking-wider">Zarząd serwera <span class="text-sky-500">Skycast.pl</span></p>
+                    <div class="text-center pt-6 border-t border-slate-200">
+                        <p class="text-sm font-bold text-slate-400 uppercase tracking-widest">Dokument zatwierdzony przez:</p>
+                        <p class="text-lg font-black text-slate-900 mt-1 uppercase tracking-wider">Zarząd serwera <span class="text-sky-600">Skycast.pl</span></p>
                     </div>
 
                 </div>
@@ -317,7 +318,7 @@
     </main>
 
     <!-- ROZBUDOWANA STOPKA Z FALĄ -->
-    <footer class="relative bg-zinc-950 pt-32 pb-12 mt-20 border-t-0">
+    <footer class="relative bg-slate-900 text-slate-200 pt-32 pb-12 mt-20 border-t-0">
         <!-- SVG Fala oddzielająca sekcję od stopki -->
         <div class="wave-container -mt-1">
             <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -332,16 +333,16 @@
                 <div class="col-span-1 lg:col-span-2">
                     <div class="flex items-center gap-3 mb-6">
                         <img alt="Skycast Logo" src="https://imgur.com/xqWUBJB.png" class="w-10 h-10 object-contain filter grayscale hover:grayscale-0 transition-all"/>
-                        <span class="text-2xl font-black uppercase tracking-wider text-white">SKYCAST<span class="text-zinc-600">.PL</span></span>
+                        <span class="text-2xl font-black uppercase tracking-wider text-white">SKYCAST<span class="text-slate-500">.PL</span></span>
                     </div>
-                    <p class="text-zinc-400 text-sm leading-relaxed max-w-sm mb-6">
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-sm mb-6">
                         Skycast to innowacyjny serwer Minecraft z ambitnym zespołem i wyjątkową społecznością. Dołącz do nas i poczuj prawdziwą różnicę w rozgrywce. Tworzymy serwer z pasją dla pasjonatów.
                     </p>
                     <div class="flex gap-4">
-                        <a href="https://discord.gg/PBg6QYZ46T" target="_blank" class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-sky-500 hover:bg-sky-500/10 transition-all">
+                        <a href="https://discord.gg/PBg6QYZ46T" target="_blank" class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-sky-500 hover:bg-sky-500/10 transition-all">
                             <i class="fa-brands fa-discord"></i>
                         </a>
-                        <a href="https://youtube.com/@skycast" class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-sky-500 hover:bg-sky-500/10 transition-all">
+                        <a href="https://youtube.com/@skycast" class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-sky-500 hover:bg-sky-500/10 transition-all">
                             <i class="fa-brands fa-youtube"></i>
                         </a>
                     </div>
@@ -349,24 +350,24 @@
 
                 <!-- Nawigacja Przydatne Linki -->
                 <div>
-                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm border-b border-zinc-800 pb-3 inline-block">Nawigacja</h4>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm border-b border-slate-800 pb-3 inline-block">Nawigacja</h4>
                     <ul class="space-y-3">
-                        <li><a href="index.html" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Strona Główna</a></li>
-                        <li><a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Itemshop</a></li>
-                        <li><a href="index.html#administracja" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Administracja</a></li>
-                        <li><a href="#" class="text-zinc-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Regulamin Serwera</a></li>
+                        <li><a href="index.html" class="text-slate-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Strona Główna</a></li>
+                        <li><a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="text-slate-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Itemshop</a></li>
+                        <li><a href="index.html#administracja" class="text-slate-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Administracja</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-sky-400 text-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-sky-500"></i> Regulamin Serwera</a></li>
                     </ul>
                 </div>
 
                 <!-- Kontakt / Informacje -->
                 <div>
-                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm border-b border-zinc-800 pb-3 inline-block">Kontakt & Info</h4>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm border-b border-slate-800 pb-3 inline-block">Kontakt & Info</h4>
                     <ul class="space-y-3">
-                        <li class="flex items-start gap-3 text-zinc-400 text-sm">
+                        <li class="flex items-start gap-3 text-slate-400 text-sm">
                             <i class="fa-solid fa-envelope mt-1 text-sky-500"></i>
                             <span>skycast.kontakt@gmail.com</span>
                         </li>
-                        <li class="flex items-start gap-3 text-zinc-400 text-sm">
+                        <li class="flex items-start gap-3 text-slate-400 text-sm">
                             <i class="fa-solid fa-server mt-1 text-sky-500"></i>
                             <span>IP: skycast.pl (1.21+)</span>
                         </li>
@@ -375,16 +376,16 @@
             </div>
 
             <!-- Ważne Zastrzeżenie (Disclaimer) & Copyright -->
-            <div class="pt-8 border-t border-zinc-800/50 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-                <p class="text-xs text-zinc-500 font-medium">
+            <div class="pt-8 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+                <p class="text-xs text-slate-500 font-medium">
                     &copy; 2026 <span class="text-white font-bold">Skycast.pl</span>. Wszystkie prawa zastrzeżone.<br/>
-                    <span class="block mt-1 text-zinc-600 font-normal">Wkrótce...</span>
+                    <span class="block mt-1 text-slate-600 font-normal">Wkrótce...</span>
                 </p>
                 
                 <!-- Mojang Disclaimer -->
-                <div class="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 max-w-xl">
-                    <p class="text-[10px] sm:text-xs text-zinc-400 leading-relaxed">
-                        <i class="fa-solid fa-triangle-exclamation text-yellow-500/70 mr-1"></i>
+                <div class="bg-slate-800/50 border border-slate-700/60 rounded-xl p-4 max-w-xl">
+                    <p class="text-[10px] sm:text-xs text-slate-400 leading-relaxed">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1"></i>
                         <strong>UWAGA:</strong> Serwer Skycast.pl <u>nie jest</u> w żaden sposób powiązany, sponsorowany, popierany, ani administrowany przez firmę <strong>Mojang AB</strong>, <strong>Microsoft Corporation</strong> ani ich partnerów. Minecraft jest zarejestrowanym znakiem towarowym firmy Mojang Synergies AB. Wszelkie zakupy dokonane w sklepie wspierają bezpośrednio utrzymanie i rozwój serwera Skycast.pl.
                     </p>
                 </div>
