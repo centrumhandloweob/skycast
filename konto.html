@@ -40,9 +40,7 @@
             <h2 id="authTitle" class="text-3xl font-black uppercase text-slate-800">Panel Admina</h2>
             <p id="authSubtitle" class="text-slate-500 text-sm mt-2 font-bold text-red-500 uppercase tracking-widest text-[10px]">Dostęp zastrzeżony</p>
         </div>
-
         <div id="errorMessage" class="hidden mb-4 p-3 bg-red-100 text-red-600 rounded-xl text-sm font-bold text-center border border-red-200"></div>
-
         <form id="authForm" class="space-y-4">
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nick z serwera</label>
@@ -58,11 +56,9 @@
                     <input type="password" id="authPassword" required minlength="6" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-sky-400 outline-none transition-all" placeholder="••••••••">
                 </div>
             </div>
-            
             <button type="submit" id="authSubmitBtn" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-black uppercase tracking-widest py-3.5 rounded-xl transition-all shadow-lg hover:shadow-slate-900/30 mt-6">
                 Zaloguj się
             </button>
-            
             <div class="text-center mt-4">
                 <button type="button" id="toggleAuthBtn" class="text-xs font-bold text-sky-500 hover:text-sky-600 uppercase tracking-wider transition-colors">
                     Pierwsze logowanie? Zarejestruj się
@@ -89,7 +85,6 @@
 
         <div class="flex flex-1 overflow-hidden">
             <div class="w-64 sm:w-72 bg-white/40 border-r border-sky-100 flex flex-col p-6 overflow-y-auto custom-scrollbar">
-                
                 <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 mb-2">Administracja</span>
                 <nav class="space-y-2 mb-6" id="sidebarMenu">
                     <button onclick="switchTab('tab-home')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all text-left bg-sky-50 text-sky-600">
@@ -105,7 +100,7 @@
                         <i class="fa-solid fa-file-signature w-5 text-center"></i> Podania
                     </button>
                 </nav>
-                
+
                 <div id="ownerMenu" class="hidden-section space-y-2">
                     <span class="text-[10px] font-black text-orange-400 uppercase tracking-widest px-4 mb-2 block border-t border-slate-200 pt-4">Właściciel</span>
                     <button onclick="switchTab('tab-ekipa')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-orange-600 hover:bg-orange-50 transition-all text-left">
@@ -160,9 +155,7 @@
                         <textarea id="annDesc" placeholder="Treść..." class="w-full px-4 py-2 mb-3 bg-slate-50 border border-slate-200 rounded-lg h-24 resize-none"></textarea>
                         <button id="postAnnBtn" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-6 rounded-lg transition-colors">Opublikuj</button>
                     </div>
-
-                    <div id="announcementsList" class="space-y-4">
-                        </div>
+                    <div id="announcementsList" class="space-y-4"></div>
                 </div>
 
                 <div id="tab-bledy" class="tab-content hidden-section">
@@ -174,17 +167,57 @@
                         <textarea id="bugDesc" placeholder="Jak wywołać błąd? Opisz dokładnie..." class="w-full px-4 py-2 mb-3 bg-slate-50 border border-slate-200 rounded-lg h-24 resize-none"></textarea>
                         <button id="reportBugBtn" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 px-6 rounded-lg transition-colors">Dodaj wpis</button>
                     </div>
-
-                    <div id="bugsList" class="space-y-4">
-                        </div>
+                    <div id="bugsList" class="space-y-4"></div>
                 </div>
 
                 <div id="tab-rekrutacja" class="tab-content hidden-section">
-                    <h2 class="text-2xl font-black uppercase text-slate-800 mb-6">Podania o range</h2>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center">
-                        <i class="fa-solid fa-folder-open text-5xl text-slate-300 mb-4"></i>
-                        <h3 class="text-lg font-bold text-slate-700">Moduł Podań</h3>
-                        <p class="text-slate-500 text-sm mt-2">Oczekiwanie na spięcie z bazą podań /rekrutacja graczy.</p>
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-black uppercase text-slate-800">Podania o rangę</h2>
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kanał rekrutacyjny</div>
+                    </div>
+                    
+                    <div id="adminApplicationsList" class="space-y-4">
+                        <div class="text-center text-slate-400 py-12">Ładowanie podań...</div>
+                    </div>
+
+                    <div id="adminAppModal" class="hidden-section mt-8 bg-white p-8 rounded-2xl shadow-md border border-sky-100">
+                        <div class="flex justify-between items-start mb-6 border-b border-slate-100 pb-4">
+                            <div>
+                                <h3 id="modalAppTitle" class="text-xl font-black text-slate-800 uppercase">Podanie gracza</h3>
+                                <p class="text-xs text-slate-500 mt-1">Stanowisko: <span id="modalAppRole" class="font-bold text-sky-500"></span></p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="changeAppStatus('Zaakceptowane')" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-sm">
+                                    <i class="fa-solid fa-check mr-1"></i> Zaakceptuj
+                                </button>
+                                <button onclick="changeAppStatus('Odrzucone')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-sm">
+                                    <i class="fa-solid fa-xmark mr-1"></i> Odrzuć
+                                </button>
+                                <button onclick="closeAppModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-xl font-bold text-xs transition-colors">
+                                    <i class="fa-solid fa-arrow-left"></i> Zamknij
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-black text-slate-800 uppercase text-xs tracking-widest mb-4">Odpowiedzi z formularza</h4>
+                                <div id="modalAnswersList" class="space-y-3 max-h-[350px] overflow-y-auto custom-scrollbar pr-2"></div>
+                            </div>
+
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col h-[350px]">
+                                <h4 class="font-black text-slate-800 uppercase text-xs tracking-widest mb-3"><i class="fa-solid fa-comments text-sky-500"></i> Komentarze z graczem</h4>
+                                
+                                <div id="modalCommentsBox" class="flex-grow overflow-y-auto custom-scrollbar space-y-3 mb-3 pr-2"></div>
+
+                                <div class="relative mt-auto">
+                                    <input type="text" id="adminCommentInput" placeholder="Napisz odpowiedź jako administracja..." class="w-full bg-white border border-slate-300 rounded-xl py-2.5 pl-4 pr-12 focus:outline-none focus:border-sky-500 text-sm">
+                                    <button onclick="postAdminComment()" class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-sky-500 hover:bg-sky-600 text-white rounded-lg flex items-center justify-center transition-colors">
+                                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -198,7 +231,6 @@
                             <input type="text" id="newAdminNick" placeholder="Nick gracza" class="w-full px-4 py-2 mb-3 bg-slate-50 border border-slate-200 rounded-lg">
                             <button id="addAdminBtn" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 rounded-lg transition-colors">Nadaj Uprawnienia</button>
                         </div>
-
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-200">
                             <h3 class="font-bold text-slate-700 mb-4 uppercase text-sm flex items-center gap-2"><i class="fa-solid fa-crown text-orange-500"></i> Nadaj Właściciela</h3>
                             <p class="text-xs text-slate-500 mb-4">Daj komuś pełny dostęp do bazy podań i uprawnień.</p>
@@ -216,7 +248,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB9xvEtmcAc1MAoUPYcLKRQNa6IpSH1ZIE",
@@ -231,7 +263,9 @@
         let app, auth, db, analytics;
         let currentUserRole = '';
         let currentNick = '';
-        let isLoginMode = true; // Flaga określająca tryb (logowanie vs rejestracja)
+        let isLoginMode = true;
+        let selectedAppId = null;
+        let unsubscribeApp = null;
 
         try {
             app = initializeApp(firebaseConfig);
@@ -290,9 +324,10 @@
                     }
                 }
             });
-            
+
             if(tabId === 'tab-ogloszenia') loadAnnouncements();
             if(tabId === 'tab-bledy') loadBugs();
+            if(tabId === 'tab-rekrutacja') loadAdminApplications();
         };
 
         const showError = (msg) => {
@@ -310,8 +345,7 @@
             const toggleBtn = document.getElementById('toggleAuthBtn');
             const errEl = document.getElementById('errorMessage');
 
-            errEl.classList.add('hidden'); // schowaj błędy przy zmianie
-
+            errEl.classList.add('hidden');
             if(isLoginMode) {
                 title.innerText = "Panel Admina";
                 subtitle.innerText = "Dostęp zastrzeżony";
@@ -335,7 +369,6 @@
             const nick = document.getElementById('authNick').value.trim();
             const pass = document.getElementById('authPassword').value;
 
-            // Konta wbudowane na sztywno (Właściciele)
             const isKuba = (nick.toLowerCase() === 'kubagood' && pass === 'Toffi22!');
             const isWiktor = (nick.toLowerCase() === 'wiktrex' && pass === 'wiktrEx');
 
@@ -347,28 +380,24 @@
                         await createUserWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
                         await setDoc(doc(db, "users", nick.toLowerCase()), { role: 'wlasciciel', created: new Date() });
                     } catch (regError) {
-                        showError("Błąd logowania wbudowanego właściciela: " + regError.message);
+                        showError("Błąd logowania właściciela: " + regError.message);
                     }
                 }
                 return;
             }
 
             if (isLoginMode) {
-                // LOGOWANIE
                 try {
                     await signInWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
                 } catch (error) {
                     showError("Odmowa dostępu! Błędny nick lub hasło.");
                 }
             } else {
-                // REJESTRACJA
                 try {
-                    // Najpierw sprawdzamy w bazie, czy Właściciel nadał rolę temu nickowi
                     const docRef = doc(db, "users", nick.toLowerCase());
                     const docSnap = await getDoc(docRef);
 
                     if (docSnap.exists() && (docSnap.data().role === 'admin' || docSnap.data().role === 'wlasciciel')) {
-                        // Tworzymy konto
                         await createUserWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
                     } else {
                         showError("Brak uprawnień do rejestracji! Twój nick nie został dodany przez Właściciela.");
@@ -379,7 +408,7 @@
             }
         });
 
-        // --- Stan Użytkownika & Weryfikacja Uprawnień ---
+        // --- Stan Użytkownika ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const nick = user.email.split('@')[0];
@@ -434,15 +463,14 @@
             switchTab('tab-home'); 
         });
 
-        // --- Tworzenie nowych adminów przez Właściciela ---
+        // --- Zarządzanie Ekipą ---
         document.getElementById('addAdminBtn').addEventListener('click', async () => {
             const nick = document.getElementById('newAdminNick').value.trim().toLowerCase();
             if(!nick) return alert("Wpisz nick!");
 
             try {
-                // Dodajemy tylko do bazy danych rangę (użytkownik założy konto i hasło w panelu rejestracji)
                 await setDoc(doc(db, "users", nick), { role: 'admin' }, { merge: true });
-                alert(`Dopuszczono administratora: ${nick}. Możesz przekazać mu, że może wejść na stronę i zarejestrować hasło.`);
+                alert(`Dopuszczono administratora: ${nick}.`);
                 document.getElementById('newAdminNick').value = '';
             } catch (error) {
                 alert("Błąd: " + error.message);
@@ -453,7 +481,7 @@
             const nick = document.getElementById('newOwnerNick').value.trim().toLowerCase();
             if(!nick) return;
             await setDoc(doc(db, "users", nick), { role: 'wlasciciel' }, { merge: true });
-            alert(`Nadano uprawnienia właściciela dla: ${nick}. Gracz może teraz stworzyć konto.`);
+            alert(`Nadano uprawnienia właściciela dla: ${nick}.`);
             document.getElementById('newOwnerNick').value = '';
         });
 
@@ -479,10 +507,10 @@
             list.innerHTML = '';
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
-                const d = data.date.toDate();
+                const d = data.date ? data.date.toDate() : new Date();
                 list.innerHTML += `
                     <div class="p-6 bg-white rounded-2xl shadow-sm border-l-4 border-l-sky-500 mb-4">
-                        <div class="text-xs font-bold text-slate-400 mb-1">${data.author} • ${d.toLocaleDateString()} ${d.toLocaleTimeString()}</div>
+                        <div class="text-xs font-bold text-slate-400 mb-1">${data.author} • ${d.toLocaleDateString()}</div>
                         <h4 class="text-lg font-black text-slate-800">${data.title}</h4>
                         <p class="text-slate-600 text-sm mt-2">${data.desc}</p>
                     </div>
@@ -519,12 +547,12 @@
             querySnapshot.forEach((documentObj) => {
                 const data = documentObj.data();
                 const id = documentObj.id;
-                const d = data.date.toDate();
+                const d = data.date ? data.date.toDate() : new Date();
                 const isFixed = data.status === 'fixed';
                 const statusBadge = isFixed 
                     ? `<span class="bg-green-100 text-green-600 px-2 py-1 rounded text-[10px] font-black uppercase">Naprawione</span>` 
                     : `<span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-black uppercase">Wymaga poprawy</span>`;
-                
+
                 let actionBtn = '';
                 if(currentUserRole === 'wlasciciel' && !isFixed) {
                     actionBtn = `<button onclick="resolveBug('${id}')" class="mt-3 text-xs bg-green-500 text-white px-3 py-1.5 rounded font-bold hover:bg-green-600">Oznacz jako naprawione <i class="fa-solid fa-check"></i></button>`;
@@ -543,6 +571,137 @@
                 `;
             });
         }
+
+        // --- ZARZĄDZANIE PODAŃAMI W PANELU ADMINA ---
+        async function loadAdminApplications() {
+            if(!db) return;
+            const q = query(collection(db, "applications"), orderBy("createdAt", "desc"));
+            const querySnapshot = await getDocs(q);
+            const list = document.getElementById('adminApplicationsList');
+            list.innerHTML = '';
+
+            if (querySnapshot.empty) {
+                list.innerHTML = `<div class="text-center text-slate-400 py-12 bg-white rounded-2xl shadow-sm border border-slate-100">Brak nadesłanych podań.</div>`;
+                return;
+            }
+
+            querySnapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const id = docSnap.id;
+                let statusColor = "bg-slate-100 text-slate-600";
+                if(data.status === 'Zaakceptowane') statusColor = "bg-green-100 text-green-600";
+                if(data.status === 'Odrzucone') statusColor = "bg-red-100 text-red-600";
+
+                list.innerHTML += `
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between hover:border-sky-300 transition-colors cursor-pointer" onclick="openAdminAppModal('${id}')">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-sky-50 text-sky-500 rounded-xl flex items-center justify-center font-black text-lg">
+                                <i class="fa-solid fa-user-pen"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800">${data.nick} <span class="text-sky-500 font-normal">(${data.role})</span></h4>
+                                <div class="text-xs text-slate-400 mt-0.5">Status: <span class="font-bold">${data.status || 'Oczekujące'}</span></div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-1.5 rounded-xl text-xs font-black uppercase ${statusColor}">
+                            ${data.status || 'Oczekujące'}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.openAdminAppModal = (id) => {
+            selectedAppId = id;
+            document.getElementById('adminApplicationsList').classList.add('hidden-section');
+            document.getElementById('adminAppModal').classList.remove('hidden-section');
+
+            if(unsubscribeApp) unsubscribeApp();
+
+            unsubscribeApp = onSnapshot(doc(db, "applications", id), (docSnap) => {
+                if(docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('modalAppTitle').innerText = `Podanie gracza: ${data.nick}`;
+                    document.getElementById('modalAppRole').innerText = data.role;
+
+                    // Odpowiedzi
+                    const ansList = document.getElementById('modalAnswersList');
+                    ansList.innerHTML = '';
+                    if(data.answers) {
+                        for(let [key, val] of Object.entries(data.answers)) {
+                            ansList.innerHTML += `
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs">
+                                    <span class="font-bold text-sky-600 uppercase">${key}:</span>
+                                    <p class="text-slate-700 mt-1">${val}</p>
+                                </div>
+                            `;
+                        }
+                    }
+
+                    // Komentarze
+                    const commentsBox = document.getElementById('modalCommentsBox');
+                    commentsBox.innerHTML = '';
+                    if(data.comments && data.comments.length > 0) {
+                        data.comments.forEach(c => {
+                            const isMe = c.author !== 'Ty';
+                            commentsBox.innerHTML += `
+                                <div class="flex flex-col ${isMe ? 'items-start' : 'items-end'}">
+                                    <span class="text-[9px] font-bold text-slate-400 mb-0.5 px-1">${c.author}</span>
+                                    <div class="px-3 py-2 rounded-xl max-w-[85%] text-xs ${isMe ? 'bg-white border border-slate-200 text-slate-700' : 'bg-sky-500 text-white'}">
+                                        ${c.text}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        commentsBox.innerHTML = `<div class="text-center text-slate-400 text-xs mt-8">Brak wiadomości w dyskusji.</div>`;
+                    }
+                    commentsBox.scrollTop = commentsBox.scrollHeight;
+                }
+            });
+        };
+
+        window.closeAppModal = () => {
+            if(unsubscribeApp) unsubscribeApp();
+            selectedAppId = null;
+            document.getElementById('adminAppModal').classList.add('hidden-section');
+            document.getElementById('adminApplicationsList').classList.remove('hidden-section');
+            loadAdminApplications();
+        };
+
+        window.changeAppStatus = async (newStatus) => {
+            if(!selectedAppId) return;
+            try {
+                await updateDoc(doc(db, "applications", selectedAppId), { status: newStatus });
+                alert(`Zmieniono status podania na: ${newStatus}`);
+            } catch (err) {
+                console.error("Błąd zmiany statusu:", err);
+                alert("Nie udało się zaktualizować statusu.");
+            }
+        };
+
+        window.postAdminComment = async () => {
+            const input = document.getElementById('adminCommentInput');
+            const text = input.value.trim();
+            if(!text || !selectedAppId) return;
+
+            input.value = '';
+            const docRef = doc(db, "applications", selectedAppId);
+
+            try {
+                const docSnap = await getDoc(docRef);
+                if(docSnap.exists()) {
+                    const data = docSnap.data();
+                    const comments = data.comments || [];
+                    comments.push({ author: currentNick, text: text, timestamp: new Date().toISOString() });
+                    await updateDoc(docRef, { comments: comments });
+                }
+            } catch(err) {
+                console.error("Błąd wysyłania komentarza:", err);
+                alert("Nie udało się wysłać wiadomości.");
+            }
+        };
+
     </script>
 </body>
 </html>
