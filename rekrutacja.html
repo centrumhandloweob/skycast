@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Skycast.pl - rekrutacja</title>
+    
+    <link rel="icon" href="https://imgur.com/xqWUBJB.png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f9ff;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(2, 132, 199, 0.1), transparent 30%),
+                linear-gradient(to bottom, #e0f2fe 0%, #ffffff 50%, #f0f9ff 100%);
+            background-attachment: fixed;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1);
+        }
+
+        .hidden-section { display: none !important; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        .slide-in { animation: slideIn 0.4s ease-out forwards; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative selection:bg-sky-400 selection:text-white">
+
+    <header class="w-full fixed top-0 z-50 glass-panel border-b-0 rounded-b-3xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <img alt="Skycast Logo" src="https://imgur.com/xqWUBJB.png" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-md"/>
+                <span class="text-2xl font-black tracking-widest uppercase text-slate-800">
+                    Skycast<span class="text-sky-500">.pl</span>
+                </span>
+            </a>
+            <div class="hidden sm:block text-sm font-bold text-slate-500 uppercase tracking-widest">
+                Centrum Rekrutacji
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full relative z-10 flex flex-col items-center justify-center min-h-[85vh]">
+        
+        <div id="landingScreen" class="w-full transition-all duration-500">
+            <div class="text-center mb-10">
+                <i class="fa-solid fa-clipboard-user text-6xl text-sky-500 mb-6 drop-shadow-lg"></i>
+                <h1 class="text-4xl md:text-5xl font-black uppercase text-slate-800 tracking-tight mb-4">Dołącz do <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">Administracji</span></h1>
+                <p class="text-slate-500 max-w-xl mx-auto font-medium">Wypełnij formularz rekrutacyjny, pokaż nam, na co Cię stać i stań się częścią ekipy Skycast!</p>
+            </div>
+
+            <div class="flex justify-center mb-12">
+                <button onclick="startApplication()" class="relative group overflow-hidden bg-gradient-to-r from-sky-500 to-blue-500 text-white px-10 py-5 rounded-2xl font-black text-lg uppercase tracking-widest shadow-[0_10px_25px_rgba(14,165,233,0.4)] transition-all hover:scale-105 active:scale-95">
+                    <span class="relative flex items-center gap-3">
+                        <i class="fa-solid fa-rocket"></i> Rozpocznij Podanie
+                    </span>
+                </button>
+            </div>
+
+            <div id="myApplications" class="hidden-section glass-panel p-8 rounded-[2rem] w-full">
+                <h3 class="text-xl font-black uppercase text-slate-800 mb-6 border-b border-slate-200 pb-4">Twoje wysłane podania</h3>
+                <div id="applicationsList" class="space-y-4">
+                    </div>
+            </div>
+        </div>
+
+        <div id="formScreen" class="hidden-section w-full glass-panel rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            <div class="w-full bg-slate-100 rounded-full h-2.5 mb-8">
+                <div id="progressBar" class="bg-gradient-to-r from-sky-400 to-blue-500 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-8 text-sm font-bold text-slate-400">
+                <span id="stepCounter">Pytanie 1 / 20</span>
+                <button onclick="cancelApplication()" class="hover:text-red-500 transition-colors"><i class="fa-solid fa-xmark"></i> Anuluj</button>
+            </div>
+
+            <div id="questionContainer" class="min-h-[250px] flex flex-col justify-center slide-in">
+                <h2 id="questionTitle" class="text-2xl md:text-3xl font-black text-slate-800 mb-6 leading-tight">...</h2>
+                <div id="inputContainer" class="w-full">
+                    </div>
+            </div>
+
+            <div class="flex justify-between items-center mt-10 border-t border-slate-100 pt-6">
+                <button id="prevBtn" onclick="prevStep()" class="px-6 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-100 transition-colors hidden-section">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Wstecz
+                </button>
+                <button id="nextBtn" onclick="nextStep()" class="ml-auto bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg hover:shadow-slate-900/30">
+                    Dalej <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+                <button id="submitBtn" onclick="submitApplication()" class="hidden-section ml-auto bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-xl font-black uppercase tracking-widest transition-all shadow-lg hover:shadow-green-500/30">
+                    Prześlij podanie <i class="fa-solid fa-paper-plane ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="statusScreen" class="hidden-section w-full">
+            <button onclick="backToLanding()" class="mb-6 font-bold text-slate-500 hover:text-sky-500 transition-colors">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Wróć do listy
+            </button>
+
+            <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] shadow-2xl">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-slate-200 pb-6 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-800 uppercase">Twoje Podanie</h2>
+                        <p class="text-slate-500 font-medium mt-1">Nick: <span id="statusNick" class="font-bold text-slate-700"></span> | Rola: <span id="statusRole" class="font-bold text-sky-500"></span></p>
+                    </div>
+                    <div id="statusBadge" class="px-5 py-2.5 rounded-xl font-black uppercase tracking-widest text-sm shadow-sm">
+                        Oczekujące
+                    </div>
+                </div>
+
+                <div id="acceptedMessage" class="hidden-section mb-8 bg-green-50 border-l-4 border-green-500 p-6 rounded-r-2xl">
+                    <h3 class="text-lg font-black text-green-700 mb-2"><i class="fa-solid fa-party-horn"></i> Gratulacje! Zostałeś przyjęty!</h3>
+                    <p class="text-green-800 font-medium">Wejdź na naszego discorda <strong class="text-green-900">dc.skycast.pl</strong> i stwórz ticketa w kategorii <strong>Sprawa do administracji</strong>, aby otrzymać rangę i przejść wdrożenie.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div>
+                        <h3 class="font-black text-slate-800 uppercase mb-4 text-sm tracking-widest">Twoje Odpowiedzi</h3>
+                        <div id="answersList" class="space-y-4 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+                            </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col h-[400px]">
+                        <h3 class="font-black text-slate-800 uppercase mb-4 text-sm tracking-widest"><i class="fa-solid fa-comments text-sky-500"></i> Dyskusja z Administracją</h3>
+                        
+                        <div id="commentsBox" class="flex-grow overflow-y-auto custom-scrollbar space-y-4 mb-4 pr-2">
+                            </div>
+
+                        <div class="relative mt-auto">
+                            <input type="text" id="newCommentInput" placeholder="Napisz wiadomość..." class="w-full bg-white border border-slate-300 rounded-xl py-3 pl-4 pr-12 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all">
+                            <button onclick="postComment()" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-sky-500 hover:bg-sky-600 text-white rounded-lg flex items-center justify-center transition-colors">
+                                <i class="fa-solid fa-paper-plane text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // SKONFIGURUJ FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyB9xvEtmcAc1MAoUPYcLKRQNa6IpSH1ZIE",
+            authDomain: "skycast-bb3da.firebaseapp.com",
+            projectId: "skycast-bb3da",
+            storageBucket: "skycast-bb3da.firebasestorage.app",
+            messagingSenderId: "1057690533990",
+            appId: "1:1057690533990:web:b0e2e05f5bdfddd20e2da7"
+        };
+        
+        let app, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+        } catch (e) {
+            console.error("Błąd bazy danych", e);
+        }
+
+        // --- PYTANIA REKRUTACYJNE (20 SLAJDÓW) ---
+        const questions = [
+            { id: "q1", title: "Podaj swój Nick z Minecrafta", type: "text", placeholder: "Np. Steve123" },
+            { id: "q2", title: "Na jakie stanowisko aplikujesz?", type: "select", options: ["ChatMod", "Support"] },
+            { id: "q3", title: "Ile masz lat?", type: "number", placeholder: "Wpisz swój wiek" },
+            { id: "q4", title: "Czy posiadasz sprawny mikrofon i komunikator Discord?", type: "select", options: ["Tak", "Nie"] },
+            { id: "q5", title: "Ile czasu dziennie jesteś w stanie poświęcić na nasz serwer?", type: "text", placeholder: "Np. 3-4 godziny" },
+            { id: "q6", title: "Od jak dawna grasz w grę Minecraft?", type: "text", placeholder: "Odpowiedz" },
+            { id: "q7", title: "Od jak dawna grasz na serwerze Skycast.pl?", type: "text", placeholder: "Odpowiedz" },
+            { id: "q8", title: "Opisz siebie w minimum 3 zdaniach. Jakie masz zainteresowania?", type: "textarea", placeholder: "Rozpisz się trochę..." },
+            { id: "q9", title: "Dlaczego to właśnie Ty powinieneś zasilić szeregi naszej administracji?", type: "textarea", placeholder: "Twoja motywacja..." },
+            { id: "q10", title: "Czy pełniłeś już funkcję w administracji na innym serwerze? Jeśli tak, opisz swoje doświadczenie.", type: "textarea", placeholder: "Twoje doświadczenie..." },
+            { id: "q11", title: "Sytuacja: Gracz nagminnie wyzywa innych graczy na czacie globalnym. Co robisz po kolei?", type: "textarea", placeholder: "Jak byś zareagował?" },
+            { id: "q12", title: "Sytuacja: Ktoś reklamuje obcy serwer w wiadomości prywatnej (/msg). Dowiadujesz się o tym ze zgłoszenia. Jak reagujesz?", type: "textarea", placeholder: "Kroki postępowania..." },
+            { id: "q13", title: "Sytuacja: Gracz A oskarża gracza B o używanie wspomagaczy (np. KillAura), ale nie dostarcza żadnych dowodów. Co robisz?", type: "textarea", placeholder: "Rozwiąż problem..." },
+            { id: "q14", title: "Sytuacja: Zauważasz, że inny członek administracji jawnie faworyzuje swoich znajomych i łamie regulamin. Co robisz?", type: "textarea", placeholder: "Twoja reakcja..." },
+            { id: "q15", title: "Sytuacja: Gracz grozi Ci atakiem DDoS po tym, jak nadałeś mu karę wyciszenia (mute). Jak postępujesz?", type: "textarea", placeholder: "Jak zareagujesz na groźby?" },
+            { id: "q16", title: "Czym jest modyfikacja 'X-Ray' i jak można sprawdzić, czy gracz jej używa?", type: "textarea", placeholder: "Twoja wiedza..." },
+            { id: "q17", title: "Znalazłeś poważnego buga, który pozwala kopiować itemy. Komu i w jaki sposób to zgłaszasz?", type: "textarea", placeholder: "Odpowiedz" },
+            { id: "q18", title: "Wymień 3 najważniejsze cechy, które powinien posiadać dobry członek administracji.", type: "textarea", placeholder: "Cechy administratora..." },
+            { id: "q19", title: "Czy zapoznałeś się i akceptujesz regulamin serwera Skycast.pl?", type: "select", options: ["Tak", "Nie"] },
+            { id: "q20", title: "Czy masz jakieś pytania do nas lub chciałbyś dodać coś od siebie?", type: "textarea", placeholder: "Opcjonalne" }
+        ];
+
+        let currentStep = 0;
+        let answers = {};
+        let currentViewedAppId = null;
+        let unsubscribe = null; // Do nasłuchiwania zmian w Firebase
+
+        // --- INTERFEJS STARTOWY ---
+        window.startApplication = () => {
+            document.getElementById('landingScreen').classList.add('hidden-section');
+            document.getElementById('formScreen').classList.remove('hidden-section');
+            currentStep = 0;
+            answers = {};
+            renderStep();
+        };
+
+        window.cancelApplication = () => {
+            if(confirm("Czy na pewno chcesz anulować? Twoje odpowiedzi zostaną usunięte.")) {
+                document.getElementById('formScreen').classList.add('hidden-section');
+                document.getElementById('landingScreen').classList.remove('hidden-section');
+            }
+        };
+
+        window.backToLanding = () => {
+            if(unsubscribe) unsubscribe();
+            document.getElementById('statusScreen').classList.add('hidden-section');
+            document.getElementById('landingScreen').classList.remove('hidden-section');
+            loadMyApplications();
+        };
+
+        // --- LOGIKA FORMULARZA ---
+        function renderStep() {
+            const q = questions[currentStep];
+            document.getElementById('stepCounter').innerText = `Pytanie ${currentStep + 1} z ${questions.length}`;
+            document.getElementById('progressBar').style.width = `${((currentStep + 1) / questions.length) * 100}%`;
+            
+            const container = document.getElementById('questionContainer');
+            container.classList.remove('slide-in');
+            void container.offsetWidth; // Trigger reflow
+            container.classList.add('slide-in');
+
+            document.getElementById('questionTitle').innerText = q.title;
+            const inputContainer = document.getElementById('inputContainer');
+            
+            let currentValue = answers[q.id] || '';
+
+            if (q.type === 'text' || q.type === 'number') {
+                inputContainer.innerHTML = `<input type="${q.type}" id="currentInput" value="${currentValue}" placeholder="${q.placeholder}" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-6 py-4 text-lg focus:border-sky-500 focus:ring-4 focus:ring-sky-500/20 outline-none transition-all text-slate-700 font-medium">`;
+            } else if (q.type === 'textarea') {
+                inputContainer.innerHTML = `<textarea id="currentInput" rows="4" placeholder="${q.placeholder}" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-6 py-4 text-lg focus:border-sky-500 focus:ring-4 focus:ring-sky-500/20 outline-none transition-all text-slate-700 font-medium resize-none">${currentValue}</textarea>`;
+            } else if (q.type === 'select') {
+                let optionsHtml = q.options.map(opt => `<option value="${opt}" ${currentValue === opt ? 'selected' : ''}>${opt}</option>`).join('');
+                inputContainer.innerHTML = `<select id="currentInput" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-6 py-4 text-lg focus:border-sky-500 focus:ring-4 focus:ring-sky-500/20 outline-none transition-all text-slate-700 font-medium cursor-pointer">
+                    <option value="" disabled ${!currentValue ? 'selected' : ''}>Wybierz...</option>
+                    ${optionsHtml}
+                </select>`;
+            }
+
+            // Przyciski nawigacji
+            document.getElementById('prevBtn').classList.toggle('hidden-section', currentStep === 0);
+            
+            if (currentStep === questions.length - 1) {
+                document.getElementById('nextBtn').classList.add('hidden-section');
+                document.getElementById('submitBtn').classList.remove('hidden-section');
+            } else {
+                document.getElementById('nextBtn').classList.remove('hidden-section');
+                document.getElementById('submitBtn').classList.add('hidden-section');
+            }
+        }
+
+        function saveCurrentAnswer() {
+            const input = document.getElementById('currentInput');
+            if (input) answers[questions[currentStep].id] = input.value.trim();
+        }
+
+        window.nextStep = () => {
+            saveCurrentAnswer();
+            const input = document.getElementById('currentInput');
+            if (!input.value.trim()) return alert("Proszę wypełnić to pole!");
+            
+            if (currentStep < questions.length - 1) {
+                currentStep++;
+                renderStep();
+            }
+        };
+
+        window.prevStep = () => {
+            saveCurrentAnswer();
+            if (currentStep > 0) {
+                currentStep--;
+                renderStep();
+            }
+        };
+
+        window.submitApplication = async () => {
+            saveCurrentAnswer();
+            const input = document.getElementById('currentInput');
+            if (!input.value.trim()) return alert("Proszę wypełnić to pole!");
+
+            document.getElementById('submitBtn').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Wysyłanie...';
+            document.getElementById('submitBtn').disabled = true;
+
+            try {
+                // Zapis do Firebase
+                const docRef = await addDoc(collection(db, "applications"), {
+                    nick: answers['q1'],
+                    role: answers['q2'],
+                    answers: answers,
+                    status: 'Oczekujące',
+                    comments: [],
+                    createdAt: serverTimestamp()
+                });
+
+                // Zapisz ID podania w localStorage dla gracza
+                let myApps = JSON.parse(localStorage.getItem('skycast_applications')) || [];
+                myApps.push({ id: docRef.id, nick: answers['q1'], role: answers['q2'], date: new Date().toLocaleDateString() });
+                localStorage.setItem('skycast_applications', JSON.stringify(myApps));
+
+                alert("Podanie zostało wysłane pomyślnie!");
+                document.getElementById('formScreen').classList.add('hidden-section');
+                document.getElementById('landingScreen').classList.remove('hidden-section');
+                loadMyApplications();
+            } catch (error) {
+                console.error("Błąd wysyłania podania:", error);
+                alert("Wystąpił błąd podczas wysyłania. Spróbuj ponownie.");
+            } finally {
+                document.getElementById('submitBtn').innerHTML = 'Prześlij podanie <i class="fa-solid fa-paper-plane ml-2"></i>';
+                document.getElementById('submitBtn').disabled = false;
+            }
+        };
+
+        // --- LOCALSTORAGE I WIDOK PODANIA ---
+        function loadMyApplications() {
+            let myApps = JSON.parse(localStorage.getItem('skycast_applications')) || [];
+            const listEl = document.getElementById('applicationsList');
+            const container = document.getElementById('myApplications');
+            
+            if (myApps.length === 0) {
+                container.classList.add('hidden-section');
+                return;
+            }
+
+            container.classList.remove('hidden-section');
+            listEl.innerHTML = '';
+
+            myApps.forEach(app => {
+                listEl.innerHTML += `
+                    <div class="flex items-center justify-between bg-slate-50 border border-slate-200 p-4 rounded-xl hover:border-sky-300 transition-colors cursor-pointer group" onclick="openApplication('${app.id}')">
+                        <div>
+                            <div class="font-black text-slate-700">${app.nick} <span class="text-sky-500 ml-1">(${app.role})</span></div>
+                            <div class="text-xs text-slate-400 font-bold mt-1">Wysłano: ${app.date}</div>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-sky-50 group-hover:text-sky-500 transition-all shadow-sm">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.openApplication = async (id) => {
+            document.getElementById('landingScreen').classList.add('hidden-section');
+            document.getElementById('statusScreen').classList.remove('hidden-section');
+            currentViewedAppId = id;
+
+            // Nasłuchiwanie na żywo z Firebase
+            unsubscribe = onSnapshot(doc(db, "applications", id), (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    renderApplicationData(data);
+                } else {
+                    alert("Podanie zostało usunięte przez administrację.");
+                    backToLanding();
+                }
+            });
+        };
+
+        function renderApplicationData(data) {
+            document.getElementById('statusNick').innerText = data.nick;
+            document.getElementById('statusRole').innerText = data.role;
+
+            // Status Badge
+            const badge = document.getElementById('statusBadge');
+            const acceptMsg = document.getElementById('acceptedMessage');
+            
+            if (data.status === 'Zaakceptowane') {
+                badge.className = "px-5 py-2.5 rounded-xl font-black uppercase tracking-widest text-sm shadow-sm bg-green-500 text-white";
+                badge.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Zaakceptowane';
+                acceptMsg.classList.remove('hidden-section');
+            } else if (data.status === 'Odrzucone') {
+                badge.className = "px-5 py-2.5 rounded-xl font-black uppercase tracking-widest text-sm shadow-sm bg-red-500 text-white";
+                badge.innerHTML = '<i class="fa-solid fa-xmark mr-1"></i> Odrzucone';
+                acceptMsg.classList.add('hidden-section');
+            } else {
+                badge.className = "px-5 py-2.5 rounded-xl font-black uppercase tracking-widest text-sm shadow-sm bg-slate-200 text-slate-600";
+                badge.innerHTML = '<i class="fa-solid fa-clock mr-1"></i> Oczekujące';
+                acceptMsg.classList.add('hidden-section');
+            }
+
+            // Render Answers
+            const answersList = document.getElementById('answersList');
+            answersList.innerHTML = '';
+            questions.forEach((q, index) => {
+                const answer = data.answers[q.id] || "Brak odpowiedzi";
+                answersList.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm mb-3">
+                        <div class="text-xs font-bold text-sky-500 mb-1">Pytanie ${index + 1}</div>
+                        <div class="font-bold text-slate-700 text-sm mb-2">${q.title}</div>
+                        <div class="text-slate-600 text-sm bg-slate-50 p-3 rounded-lg border border-slate-100">${answer}</div>
+                    </div>
+                `;
+            });
+
+            // Render Comments
+            const commentsBox = document.getElementById('commentsBox');
+            commentsBox.innerHTML = '';
+            if (data.comments && data.comments.length > 0) {
+                data.comments.forEach(c => {
+                    const isAdmin = c.author !== 'Ty';
+                    commentsBox.innerHTML += `
+                        <div class="flex flex-col ${isAdmin ? 'items-start' : 'items-end'}">
+                            <span class="text-[10px] font-bold text-slate-400 mb-1 px-1">${c.author}</span>
+                            <div class="px-4 py-2 rounded-2xl max-w-[80%] text-sm ${isAdmin ? 'bg-white border border-slate-200 text-slate-700 rounded-tl-none' : 'bg-sky-500 text-white rounded-tr-none shadow-md'}">
+                                ${c.text}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                commentsBox.innerHTML = `<div class="text-center text-slate-400 text-sm mt-10">Brak wiadomości. Tutaj administracja może zadać Ci dodatkowe pytania.</div>`;
+            }
+            commentsBox.scrollTop = commentsBox.scrollHeight;
+        }
+
+        window.postComment = async () => {
+            const input = document.getElementById('newCommentInput');
+            const text = input.value.trim();
+            if (!text || !currentViewedAppId) return;
+
+            input.value = '';
+            const docRef = doc(db, "applications", currentViewedAppId);
+            
+            try {
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const newComments = data.comments || [];
+                    newComments.push({ author: 'Ty', text: text, timestamp: new Date().toISOString() });
+                    
+                    await setDoc(docRef, { comments: newComments }, { merge: true });
+                }
+            } catch (error) {
+                console.error("Błąd dodawania komentarza:", error);
+                alert("Nie udało się wysłać wiadomości.");
+            }
+        };
+
+        // Inicjalizacja przy ładowaniu
+        window.onload = loadMyApplications;
+
+    </script>
+</body>
+</html>
