@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skycast.pl - panel administracyjny</title>
+    <title>Skycast.pl - panel</title>
     
     <link rel="icon" href="https://imgur.com/xqWUBJB.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -13,6 +13,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
+        /* Animowane tło gradientowe */
         @keyframes gradientMove {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -21,541 +22,278 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(-45deg, #0f172a, #0369a1, #0284c7, #38bdf8, #1e293b);
+            background: linear-gradient(-45deg, #e0f2fe, #bae6fd, #7dd3fc, #38bdf8, #e0f2fe);
             background-size: 400% 400%;
             animation: gradientMove 15s ease infinite;
             color: #0f172a;
         }
 
+        /* Prawdziwy efekt szkła (Glassmorphism) */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 25px 45px rgba(14, 165, 233, 0.15);
         }
 
         .glass-input {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
         }
 
         .hidden-section { display: none !important; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.6); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(203, 213, 225, 0.8); border-radius: 10px; }
     </style>
 </head>
-<body class="antialiased min-h-screen flex items-center justify-center p-2 sm:p-4">
+<body class="antialiased min-h-screen flex items-center justify-center p-4">
 
-    <!-- LOGOWANIE -->
-    <div id="authContainer" class="glass-panel w-full max-w-md rounded-[2.5rem] p-8 relative overflow-hidden transition-all duration-500">
+    <!-- EKRAN LOGOWANIA -->
+    <div id="authContainer" class="glass-panel w-full max-w-md rounded-[2rem] p-8 relative overflow-hidden transition-all duration-500">
         <div class="text-center mb-8">
-            <img src="https://imgur.com/xqWUBJB.png" alt="Logo" class="w-20 h-20 mx-auto mb-4 drop-shadow-xl hover:scale-105 transition-transform">
-            <h2 id="authTitle" class="text-3xl font-black uppercase text-slate-800 tracking-tight">Panel Admina</h2>
-            <p id="authSubtitle" class="text-red-600 text-xs mt-1 font-black uppercase tracking-widest">Dostęp zastrzeżony</p>
+            <img src="https://imgur.com/xqWUBJB.png" alt="Logo" class="w-20 h-20 mx-auto mb-4 drop-shadow-lg">
+            <h2 id="authTitle" class="text-3xl font-black uppercase text-slate-800">Panel Admina</h2>
+            <p id="authSubtitle" class="text-slate-600 text-sm mt-2 font-bold text-red-600 uppercase tracking-widest text-[10px]">Dostęp zastrzeżony</p>
         </div>
-        <div id="errorMessage" class="hidden mb-4 p-3 bg-red-500/10 text-red-600 rounded-2xl text-xs font-bold text-center border border-red-300"></div>
+        <div id="errorMessage" class="hidden mb-4 p-3 bg-red-100/80 backdrop-blur-sm text-red-600 rounded-xl text-sm font-bold text-center border border-red-200"></div>
         <form id="authForm" class="space-y-4">
             <div>
-                <label class="block text-[11px] font-black text-slate-600 uppercase tracking-wider mb-2">Nick z serwera</label>
+                <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Nick z serwera</label>
                 <div class="relative">
-                    <i class="fa-solid fa-user-shield absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="authNick" required class="glass-input w-full pl-12 pr-4 py-3.5 rounded-2xl focus:ring-2 focus:ring-sky-500 outline-none font-bold text-slate-800 transition-all text-sm" placeholder="Wpisz swój nick">
+                    <i class="fa-solid fa-user-shield absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="text" id="authNick" required class="glass-input w-full pl-12 pr-4 py-3 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-sky-400 outline-none transition-all" placeholder="Wpisz swój nick">
                 </div>
             </div>
             <div>
-                <label class="block text-[11px] font-black text-slate-600 uppercase tracking-wider mb-2">Hasło</label>
+                <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Hasło</label>
                 <div class="relative">
-                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="password" id="authPassword" required minlength="6" class="glass-input w-full pl-12 pr-4 py-3.5 rounded-2xl focus:ring-2 focus:ring-sky-500 outline-none font-bold text-slate-800 transition-all text-sm" placeholder="••••••••">
+                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="password" id="authPassword" required minlength="6" class="glass-input w-full pl-12 pr-4 py-3 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-sky-400 outline-none transition-all" placeholder="••••••••">
                 </div>
             </div>
-            <button type="submit" id="authSubmitBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest py-4 rounded-2xl transition-all shadow-xl hover:shadow-slate-900/40 text-xs mt-6">
+            <button type="submit" id="authSubmitBtn" class="w-full bg-slate-800/90 backdrop-blur hover:bg-slate-900 text-white font-black uppercase tracking-widest py-3.5 rounded-xl transition-all shadow-xl hover:shadow-slate-900/40 mt-6">
                 Zaloguj się
             </button>
             <div class="text-center mt-4">
-                <button type="button" id="toggleAuthBtn" class="text-[11px] font-black text-sky-600 hover:text-sky-700 uppercase tracking-wider transition-colors">
+                <button type="button" id="toggleAuthBtn" class="text-xs font-bold text-sky-700 hover:text-sky-800 uppercase tracking-wider transition-colors">
                     Pierwsze logowanie? Zarejestruj się
                 </button>
             </div>
         </form>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="dashboardContainer" class="hidden-section w-full max-w-[95rem] h-[94vh] glass-panel rounded-[2.5rem] flex flex-col overflow-hidden shadow-2xl border-white">
+    <!-- GŁÓWNY PANEL -->
+    <div id="dashboardContainer" class="hidden-section w-full max-w-[85rem] h-[90vh] glass-panel rounded-[2rem] flex flex-col overflow-hidden shadow-2xl border-white">
         
-        <!-- HEADER -->
-        <header class="w-full bg-white/60 border-b border-white/80 px-6 py-3.5 flex items-center justify-between z-10 backdrop-blur-md">
+        <header class="w-full bg-white/50 border-b border-white/60 px-6 py-4 flex items-center justify-between z-10 backdrop-blur-md">
             <div class="flex items-center gap-3">
-                <img src="https://imgur.com/xqWUBJB.png" alt="Logo Skycast" class="w-10 h-10 drop-shadow">
-                <div>
-                    <h1 class="text-lg font-black uppercase text-slate-800 tracking-wider">Skycast<span class="text-sky-500">.pl</span></h1>
-                    <span class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest block -mt-1">Control Network v3.0</span>
-                </div>
+                <img src="https://imgur.com/xqWUBJB.png" alt="Logo Skycast" class="w-10 h-10 drop-shadow-md">
+                <h1 class="text-xl font-black uppercase text-slate-800 tracking-wider">Skycast<span class="text-sky-600">.pl</span></h1>
             </div>
-
-            <!-- PASEK SZYBKICH AKCJI SERWERA -->
-            <div class="hidden lg:flex items-center gap-2 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60">
-                <button onclick="quickAction('restart')" class="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-[10px] font-black uppercase transition-all shadow-sm"><i class="fa-solid fa-power-off mr-1"></i> Restart</button>
-                <button onclick="quickAction('reload')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-[10px] font-black uppercase transition-all shadow-sm"><i class="fa-solid fa-rotate mr-1"></i> Reload</button>
-                <button onclick="quickAction('clearlag')" class="px-3 py-1.5 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-[10px] font-black uppercase transition-all shadow-sm"><i class="fa-solid fa-broom mr-1"></i> Clear Lag</button>
-                <button onclick="quickAction('maintenance')" id="maintBtn" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-800 text-white rounded-xl text-[10px] font-black uppercase transition-all shadow-sm"><i class="fa-solid fa-wrench mr-1"></i> Przerwa: OFF</button>
-            </div>
-
             <div class="flex items-center gap-4">
                 <div class="hidden sm:block text-right">
                     <div id="topNick" class="text-sm font-black text-slate-800">Ładowanie...</div>
-                    <div id="topRole" class="text-[10px] font-black text-sky-600 uppercase tracking-widest -mt-0.5">Admin</div>
+                    <div id="topRole" class="text-[10px] font-bold text-sky-600 uppercase tracking-widest mt-0.5">Admin</div>
                 </div>
-                <img id="topAvatar" src="https://mc-heads.net/avatar/Steve/64" class="w-10 h-10 rounded-2xl shadow-sm border-2 border-white object-cover">
+                <img id="topAvatar" src="https://mc-heads.net/avatar/Steve/64" class="w-10 h-10 rounded-xl shadow-sm border-2 border-white">
             </div>
         </header>
 
         <div class="flex flex-1 overflow-hidden">
             <!-- SIDEBAR -->
-            <div class="w-64 sm:w-72 bg-white/40 border-r border-white/60 flex flex-col p-4 overflow-y-auto custom-scrollbar backdrop-blur-sm">
-                
-                <!-- GŁÓWNE -->
-                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3 mb-1.5">Główne</span>
-                <nav class="space-y-1 mb-4">
-                    <button onclick="switchTab('tab-home')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all text-left bg-sky-500 text-white shadow-md shadow-sky-500/20">
-                        <i class="fa-solid fa-chart-pie w-4 text-center"></i> Dashboard
+            <div class="w-64 sm:w-72 bg-white/30 border-r border-white/60 flex flex-col p-6 overflow-y-auto custom-scrollbar backdrop-blur-sm">
+                <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-4 mb-2">Administracja</span>
+                <nav class="space-y-2 mb-6" id="sidebarMenu">
+                    <button onclick="switchTab('tab-home')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all text-left bg-sky-100/50 text-sky-700 shadow-sm border border-white/50">
+                        <i class="fa-solid fa-house w-5 text-center"></i> Dashboard
                     </button>
-                    <button onclick="switchTab('tab-gracze')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-users w-4 text-center"></i> Gracze & Szukaj
+                    <button onclick="switchTab('tab-bledy')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-sky-100/50 hover:text-sky-700 transition-all text-left border border-transparent hover:border-white/50">
+                        <i class="fa-solid fa-bug w-5 text-center"></i> Zgłoszone Błędy
                     </button>
-                    <button onclick="switchTab('tab-bany')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-gavel w-4 text-center"></i> Bany & Kary
+                    <button onclick="switchTab('tab-ogloszenia')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-sky-100/50 hover:text-sky-700 transition-all text-left border border-transparent hover:border-white/50">
+                        <i class="fa-solid fa-bullhorn w-5 text-center"></i> Ogłoszenia
                     </button>
-                    <button onclick="switchTab('tab-czat')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-comments w-4 text-center"></i> Czat & Broadcast
+                    <button onclick="switchTab('tab-rekrutacja')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-sky-100/50 hover:text-sky-700 transition-all text-left border border-transparent hover:border-white/50">
+                        <i class="fa-solid fa-file-signature w-5 text-center"></i> Podania
                     </button>
                 </nav>
 
-                <!-- MANAGEMENT -->
-                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3 mb-1.5">Zarządzanie</span>
-                <nav class="space-y-1 mb-4">
-                    <button onclick="switchTab('tab-ekonomia')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-coins w-4 text-center"></i> Ekonomia & Vouchery
+                <div id="ownerMenu" class="hidden-section space-y-2">
+                    <span class="text-[10px] font-black text-orange-500 uppercase tracking-widest px-4 mb-2 block border-t border-white/40 pt-4">Właściciel</span>
+                    <button onclick="switchTab('tab-ekipa')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-orange-600 hover:bg-orange-100/50 transition-all text-left border border-transparent hover:border-white/50">
+                        <i class="fa-solid fa-users-gear w-5 text-center"></i> Uprawnienia
                     </button>
-                    <button onclick="switchTab('tab-whitelist')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-list-check w-4 text-center"></i> Whitelist
-                    </button>
-                    <button onclick="switchTab('tab-swiaty')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-earth-americas w-4 text-center"></i> Kopie & Światy
-                    </button>
-                    <button onclick="switchTab('tab-eventy')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-calendar-check w-4 text-center"></i> Eventy & Przerwa
-                    </button>
-                </nav>
-
-                <!-- ZGŁOSZENIA -->
-                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3 mb-1.5">Społeczność</span>
-                <nav class="space-y-1 mb-4">
-                    <button onclick="switchTab('tab-bledy')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-bug w-4 text-center"></i> Zgłoszone Błędy
-                    </button>
-                    <button onclick="switchTab('tab-ogloszenia')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-bullhorn w-4 text-center"></i> Ogłoszenia
-                    </button>
-                    <button onclick="switchTab('tab-rekrutacja')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-file-signature w-4 text-center"></i> Podania
-                    </button>
-                    <button onclick="switchTab('tab-todo')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-600 hover:bg-white/60 hover:text-sky-600 transition-all text-left">
-                        <i class="fa-solid fa-list-tl w-4 text-center"></i> Zadania / To-Do
-                    </button>
-                </nav>
-
-                <!-- SEKACJA DLA WŁAŚCICIELA -->
-                <div id="ownerMenu" class="hidden-section space-y-1 border-t border-slate-200/80 pt-3 mt-1">
-                    <span class="text-[9px] font-black text-orange-500 uppercase tracking-widest px-3 mb-1.5 block">Właściciel / Techniczne</span>
-                    <button onclick="switchTab('tab-ekipa')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-orange-600 hover:bg-orange-500/10 transition-all text-left">
-                        <i class="fa-solid fa-users-gear w-4 text-center"></i> Zarządzanie Ekipą
-                    </button>
-                    <button onclick="switchTab('tab-techniczne')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-purple-600 hover:bg-purple-500/10 transition-all text-left">
-                        <i class="fa-solid fa-wand-magic-sparkles w-4 text-center"></i> Techniczne & Generatory
-                    </button>
-                    <button onclick="switchTab('tab-konsola')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-slate-700 hover:bg-slate-800 hover:text-white transition-all text-left">
-                        <i class="fa-solid fa-terminal w-4 text-center"></i> Konsola RCON
-                    </button>
-                    <button onclick="switchTab('tab-discord')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-indigo-600 hover:bg-indigo-500/10 transition-all text-left">
-                        <i class="fa-brands fa-discord w-4 text-center"></i> Discord Webhooki
-                    </button>
-                    <button onclick="switchTab('tab-config')" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-xs text-emerald-600 hover:bg-emerald-500/10 transition-all text-left">
-                        <i class="fa-solid fa-code w-4 text-center"></i> Edytor Konfiguracji
+                    <button onclick="switchTab('tab-techniczne')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-purple-600 hover:bg-purple-100/50 transition-all text-left border border-transparent hover:border-white/50">
+                        <i class="fa-solid fa-wand-magic-sparkles w-5 text-center"></i> Techniczne
                     </button>
                 </div>
 
-                <button id="logoutBtn" class="mt-auto w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-black text-xs text-red-500 hover:bg-red-500/10 transition-all border border-transparent hover:border-red-200">
+                <button id="logoutBtn" class="mt-auto w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-red-500 hover:bg-red-100/50 transition-all border border-transparent hover:border-red-200/50">
                     <i class="fa-solid fa-right-from-bracket"></i> Wyloguj
                 </button>
             </div>
 
-            <!-- CONTENT -->
-            <div class="flex-grow bg-white/20 p-6 overflow-y-auto custom-scrollbar relative">
+            <!-- CONTENT AREA -->
+            <div class="flex-grow bg-white/20 p-8 overflow-y-auto custom-scrollbar relative">
                 
-                <!-- TAB: DASHBOARD -->
-                <div id="tab-home" class="tab-content block space-y-6">
-                    <div>
-                        <h2 class="text-2xl font-black uppercase text-slate-800">Panel Główny</h2>
-                        <p class="text-slate-500 text-xs font-bold">Przegląd sieci i statystyki serwera Skycast.pl</p>
-                    </div>
+                <!-- HOME -->
+                <div id="tab-home" class="tab-content block">
+                    <h2 class="text-3xl font-black uppercase text-slate-800 mb-2">Panel Sterowania</h2>
+                    <p class="text-slate-600 mb-8">Narzędzia administracyjne serwera Skycast.pl</p>
 
-                    <!-- STAT CARDS -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="glass-card p-5 rounded-2xl flex items-center gap-4 border border-white">
-                            <div class="w-12 h-12 bg-sky-500/10 text-sky-600 rounded-2xl flex items-center justify-center text-xl font-black"><i class="fa-solid fa-users"></i></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white/60 backdrop-blur p-6 rounded-2xl shadow-sm border border-white flex items-center gap-4 hover:scale-[1.02] transition-transform">
+                            <div class="w-12 h-12 bg-sky-100 text-sky-500 rounded-xl flex items-center justify-center text-2xl"><i class="fa-solid fa-users"></i></div>
                             <div>
-                                <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider">Graczy Online</div>
+                                <div class="text-sm font-bold text-slate-500">Graczy Online</div>
                                 <div id="playersOnline" class="text-2xl font-black text-slate-800">Ładowanie...</div>
                             </div>
                         </div>
-                        <div class="glass-card p-5 rounded-2xl flex items-center gap-4 border border-white">
-                            <div class="w-12 h-12 bg-green-500/10 text-green-600 rounded-2xl flex items-center justify-center text-xl font-black" id="statusIconBg"><i class="fa-solid fa-server"></i></div>
+                        <div class="bg-white/60 backdrop-blur p-6 rounded-2xl shadow-sm border border-white flex items-center gap-4 hover:scale-[1.02] transition-transform">
+                            <div class="w-12 h-12 bg-green-100 text-green-500 rounded-xl flex items-center justify-center text-2xl" id="statusIconBg"><i class="fa-solid fa-server"></i></div>
                             <div>
-                                <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider">Status Serwera</div>
+                                <div class="text-sm font-bold text-slate-500">Status Serwera</div>
                                 <div id="serverStatus" class="text-2xl font-black text-slate-800">Ładowanie...</div>
                             </div>
                         </div>
-                        <div class="glass-card p-5 rounded-2xl flex items-center gap-4 border border-white">
-                            <div class="w-12 h-12 bg-purple-500/10 text-purple-600 rounded-2xl flex items-center justify-center text-xl font-black"><i class="fa-solid fa-gauge-high"></i></div>
+                        <div class="bg-white/60 backdrop-blur p-6 rounded-2xl shadow-sm border border-white flex items-center gap-4 hover:scale-[1.02] transition-transform">
+                            <div class="w-12 h-12 bg-purple-100 text-purple-500 rounded-xl flex items-center justify-center text-2xl"><i class="fa-solid fa-shield-halved"></i></div>
                             <div>
-                                <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider">Wydajność TPS</div>
-                                <div class="text-2xl font-black text-emerald-600">20.0 <span class="text-xs font-bold text-slate-400">/ 20</span></div>
-                            </div>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl flex items-center gap-4 border border-white">
-                            <div class="w-12 h-12 bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center text-xl font-black"><i class="fa-solid fa-microchip"></i></div>
-                            <div>
-                                <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider">Pamięć RAM</div>
-                                <div class="text-2xl font-black text-slate-800">4.2 <span class="text-xs font-bold text-slate-400">/ 12 GB</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- SZYBKIE POWIADOMIENIE -->
-                        <div class="glass-card p-6 rounded-2xl border border-white lg:col-span-2">
-                            <h3 class="font-black text-slate-800 uppercase text-xs tracking-wider mb-4"><i class="fa-solid fa-bullhorn text-sky-500 mr-2"></i> Ogłoszenie Ekranowe (Actionbar / Title)</h3>
-                            <div class="space-y-3">
-                                <input type="text" id="quickBroadcastText" placeholder="Wpisz treść wiadomości widocznej na środku ekranu graczy..." class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl outline-none text-xs font-bold focus:ring-2 focus:ring-sky-500">
-                                <div class="flex gap-2">
-                                    <button onclick="sendQuickBroadcast('title')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-black text-xs py-2.5 rounded-xl uppercase transition-all shadow-md">Wyślij jako Title</button>
-                                    <button onclick="sendQuickBroadcast('actionbar')" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-black text-xs py-2.5 rounded-xl uppercase transition-all shadow-md">Wyślij jako Actionbar</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SYSTEM INFO -->
-                        <div class="glass-card p-6 rounded-2xl border border-white">
-                            <h3 class="font-black text-slate-800 uppercase text-xs tracking-wider mb-4"><i class="fa-solid fa-circle-info text-sky-500 mr-2"></i> Statystyki Sieci</h3>
-                            <div class="space-y-2 text-xs font-bold">
-                                <div class="flex justify-between py-1.5 border-b border-slate-200/60"><span class="text-slate-500">Wersja Silnika:</span> <span class="text-slate-800">PaperSpigot 1.20.4</span></div>
-                                <div class="flex justify-between py-1.5 border-b border-slate-200/60"><span class="text-slate-500">Rekord Dzisiaj:</span> <span class="text-slate-800" id="peakPlayers">128 graczy</span></div>
-                                <div class="flex justify-between py-1.5 border-b border-slate-200/60"><span class="text-slate-500">Aktywne Bany:</span> <span class="text-red-500" id="activeBansCount">14</span></div>
-                                <div class="flex justify-between py-1.5"><span class="text-slate-500">Otwarte Błędy:</span> <span class="text-amber-500" id="openBugsCount">3</span></div>
+                                <div class="text-sm font-bold text-slate-500">Twój Poziom Dostępu</div>
+                                <div id="dashboardRole" class="text-xl font-black text-slate-800">Administrator</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- TAB: GRACZE -->
-                <div id="tab-gracze" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Baza Graczy & Wyszukiwarka</h2>
+                <!-- OGŁOSZENIA -->
+                <div id="tab-ogloszenia" class="tab-content hidden-section">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-black uppercase text-slate-800">Ogłoszenia Administracyjne</h2>
+                    </div>
                     
-                    <div class="glass-card p-6 rounded-2xl border border-white">
-                        <div class="flex gap-3 mb-6">
-                            <input type="text" id="playerSearchInput" placeholder="Wpisz nick gracza..." class="flex-1 px-4 py-3 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs focus:ring-2 focus:ring-sky-500">
-                            <button onclick="searchPlayer()" class="bg-sky-500 hover:bg-sky-600 text-white font-black px-6 py-3 rounded-xl uppercase text-xs shadow-md">Szukaj</button>
-                        </div>
-
-                        <div id="playerResultBox" class="hidden-section flex flex-col md:flex-row items-center gap-6 p-6 bg-white/60 rounded-2xl border border-slate-200">
-                            <img id="playerHeadPreview" src="https://mc-heads.net/head/Steve" class="w-24 h-24 drop-shadow-md">
-                            <div class="space-y-1 text-center md:text-left flex-1">
-                                <h3 id="playerResultNick" class="text-2xl font-black text-slate-800">Steve</h3>
-                                <p class="text-xs text-slate-500 font-bold">Ranga: <span id="playerResultRank" class="text-sky-600">GRACZ</span> | Portfel: <span id="playerResultCoins" class="text-emerald-600">100 monety</span></p>
-                                <p class="text-[11px] text-slate-400 font-bold">Ostatnio widziany: <span id="playerResultLastSeen" class="text-slate-600">Dzisiaj, 14:20</span></p>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 w-full md:w-auto">
-                                <button onclick="playerAction('rank')" class="px-3 py-2 bg-purple-500 hover:bg-purple-600 text-white font-black rounded-xl text-[10px] uppercase">Daj Rangę</button>
-                                <button onclick="playerAction('coins')" class="px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-xl text-[10px] uppercase">Daj Monety</button>
-                                <button onclick="playerAction('kick')" class="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white font-black rounded-xl text-[10px] uppercase">Wyrzuć</button>
-                                <button onclick="playerAction('ban')" class="px-3 py-2 bg-red-500 hover:bg-red-600 text-white font-black rounded-xl text-[10px] uppercase">Zbanuj</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: BANY & KARY -->
-                <div id="tab-bany" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Menedżer Kar i Banów</h2>
-                    
-                    <div class="glass-card p-6 rounded-2xl border border-white">
-                        <h3 class="font-bold text-slate-700 uppercase text-xs mb-4">Nałóż nową karę</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-                            <input type="text" id="banTarget" placeholder="Nick gracza" class="px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                            <select id="banType" class="px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                                <option value="BAN">BAN (Blokada Wejścia)</option>
-                                <option value="MUTE">MUTE (Wyciszenie)</option>
-                                <option value="WARN">WARN (Ostrzeżenie)</option>
-                                <option value="KICK">KICK (Wyrzucenie)</option>
-                            </select>
-                            <input type="text" id="banReason" placeholder="Powód kary" class="px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                            <input type="text" id="banTime" placeholder="Czas (np. 7d, perm)" class="px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                        </div>
-                        <button onclick="addPenalty()" class="bg-red-500 hover:bg-red-600 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs shadow-md">Nałóż karę</button>
-                    </div>
-
-                    <div class="glass-card p-6 rounded-2xl border border-white">
-                        <h3 class="font-bold text-slate-700 uppercase text-xs mb-4">Aktywne Kary w Systemie</h3>
-                        <div id="bansTable" class="space-y-2"></div>
-                    </div>
-                </div>
-
-                <!-- TAB: CZAT & BROADCAST -->
-                <div id="tab-czat" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Czat & Broadcast Na Żywo</h2>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="glass-card p-6 rounded-2xl border border-white space-y-4">
-                            <h3 class="font-bold text-slate-700 uppercase text-xs">Kontrola Czatu</h3>
-                            <button onclick="toggleChat('mute')" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black py-3 rounded-xl uppercase text-xs"><i class="fa-solid fa-volume-xmark mr-2"></i> Wycisz Czat</button>
-                            <button onclick="toggleChat('unmute')" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-black py-3 rounded-xl uppercase text-xs"><i class="fa-solid fa-volume-high mr-2"></i> Włącz Czat</button>
-                            <button onclick="toggleChat('clear')" class="w-full bg-red-500 hover:bg-red-600 text-white font-black py-3 rounded-xl uppercase text-xs"><i class="fa-solid fa-trash mr-2"></i> Wyczyść Czat</button>
-                        </div>
-
-                        <div class="glass-card p-6 rounded-2xl border border-white lg:col-span-2 flex flex-col h-[400px]">
-                            <h3 class="font-bold text-slate-700 uppercase text-xs mb-3"><i class="fa-solid fa-terminal mr-2"></i> Podgląd Czatu na Żywo</h3>
-                            <div id="liveChatBox" class="flex-grow bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-xs overflow-y-auto space-y-1 custom-scrollbar mb-3">
-                                <div class="text-slate-500">[15:00] [SYSTEM] Połączono z czatem serwera.</div>
-                            </div>
-                            <div class="flex gap-2">
-                                <input type="text" id="liveChatMessage" placeholder="Napisz jako Admin/Serwer..." class="flex-1 px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                                <button onclick="sendLiveChatMessage()" class="bg-sky-500 hover:bg-sky-600 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Wyślij</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: EKONOMIA -->
-                <div id="tab-ekonomia" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Zarządzanie Ekonomią & Vouchery</h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="glass-card p-6 rounded-2xl border border-white space-y-3">
-                            <h3 class="font-bold text-slate-700 uppercase text-xs">Generator Kodów Promocyjnych (Voucherów)</h3>
-                            <input type="text" id="voucherCode" placeholder="Kod (np. SKYCAST2026)" class="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                            <input type="number" id="voucherReward" placeholder="Liczba Monet / Nagroda" class="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                            <button onclick="createVoucher()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl uppercase text-xs">Stwórz Voucher</button>
-                        </div>
-
-                        <div class="glass-card p-6 rounded-2xl border border-white">
-                            <h3 class="font-bold text-slate-700 uppercase text-xs mb-3">Aktywne Vouchery</h3>
-                            <div id="voucherList" class="space-y-2 text-xs font-bold"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: WHITELIST -->
-                <div id="tab-whitelist" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Zarządzanie Whitelistą</h2>
-
-                    <div class="glass-card p-6 rounded-2xl border border-white space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="font-bold text-slate-700 uppercase text-xs">Stan Whitelisty:</span>
-                            <button onclick="toggleWhitelistState()" id="whitelistToggleBtn" class="px-4 py-2 bg-red-500 text-white font-black rounded-xl text-xs uppercase">WYŁĄCZONA</button>
-                        </div>
-                        <div class="flex gap-2">
-                            <input type="text" id="wlNick" placeholder="Nick gracza" class="flex-1 px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                            <button onclick="addToWhitelist()" class="bg-sky-500 hover:bg-sky-600 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Dodaj gracza</button>
-                        </div>
-                        <div id="whitelistBox" class="space-y-2 pt-2"></div>
-                    </div>
-                </div>
-
-                <!-- TAB: KOPIE & ŚWIATY -->
-                <div id="tab-swiaty" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Światy & Kopie Zapasowe</h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="glass-card p-5 rounded-2xl border border-white">
-                            <h4 class="font-black text-slate-800 text-sm">world (Overworld)</h4>
-                            <p class="text-xs text-slate-500 font-bold mt-1">Chunki: 1,024 | Bytów: 412</p>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl border border-white">
-                            <h4 class="font-black text-slate-800 text-sm">world_nether</h4>
-                            <p class="text-xs text-slate-500 font-bold mt-1">Chunki: 512 | Bytów: 180</p>
-                        </div>
-                        <div class="glass-card p-5 rounded-2xl border border-white">
-                            <h4 class="font-black text-slate-800 text-sm">world_the_end</h4>
-                            <p class="text-xs text-slate-500 font-bold mt-1">Chunki: 256 | Bytów: 45</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card p-6 rounded-2xl border border-white space-y-4">
-                        <button onclick="createBackup()" class="bg-purple-600 hover:bg-purple-700 text-white font-black px-6 py-3 rounded-xl uppercase text-xs shadow-md"><i class="fa-solid fa-box-archive mr-2"></i> Utwórz nową kopię zapasową</button>
-                        <div id="backupProgress" class="hidden-section w-full bg-slate-200 h-3 rounded-full overflow-hidden">
-                            <div class="bg-purple-600 h-full w-2/3 animate-pulse"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: EVENTY & PRZERWA -->
-                <div id="tab-eventy" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Eventy & Przerwa Techniczna</h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="glass-card p-6 rounded-2xl border border-white space-y-3">
-                            <h3 class="font-bold text-slate-700 uppercase text-xs">Uruchom Event Serwerowy</h3>
-                            <select id="eventType" class="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                                <option value="Drop x2">Drop z Stone x2</option>
-                                <option value="EXP x3">Punkty EXP x3</option>
-                                <option value="Event Parkour">Event Parkour Na Spawnie</option>
-                            </select>
-                            <button onclick="startEvent()" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-black py-2.5 rounded-xl uppercase text-xs">Uruchom Event</button>
-                        </div>
-
-                        <div class="glass-card p-6 rounded-2xl border border-white space-y-3">
-                            <h3 class="font-bold text-slate-700 uppercase text-xs">Ustawienia Powiadomienia Przerwy</h3>
-                            <input type="text" id="maintMsg" value="Przerwa techniczna! Wejdź na Discorda discord.gg/skycast" class="w-full px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                            <button onclick="saveMaintMsg()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-black py-2.5 rounded-xl uppercase text-xs">Zapisz Wiadomość</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: BŁĘDY -->
-                <div id="tab-bledy" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Zarządzanie Błędami</h2>
-                    <div class="glass-card p-6 rounded-2xl border border-white space-y-3">
-                        <input type="text" id="bugTitle" placeholder="Tytuł błędu" class="w-full px-4 py-2 bg-white/80 border border-slate-200 rounded-xl outline-none text-xs font-bold">
-                        <textarea id="bugDesc" placeholder="Dokładny opis..." class="w-full px-4 py-2 bg-white/80 border border-slate-200 rounded-xl outline-none text-xs font-bold h-20 resize-none"></textarea>
-                        <button id="reportBugBtn" class="bg-slate-800 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Dodaj Błąd</button>
-                    </div>
-                    <div id="bugsList" class="space-y-4"></div>
-                </div>
-
-                <!-- TAB: OGŁOSZENIA -->
-                <div id="tab-ogloszenia" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Ogłoszenia Administracyjne</h2>
-                    <div id="addAnnouncementSection" class="hidden-section glass-card p-6 rounded-2xl border border-white space-y-3">
-                        <input type="text" id="annTitle" placeholder="Tytuł ogłoszenia" class="w-full px-4 py-2 bg-white/80 border border-slate-200 rounded-xl outline-none text-xs font-bold">
-                        <textarea id="annDesc" placeholder="Treść..." class="w-full px-4 py-2 bg-white/80 border border-slate-200 rounded-xl outline-none text-xs font-bold h-20 resize-none"></textarea>
-                        <button id="postAnnBtn" class="bg-sky-500 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Opublikuj</button>
+                    <div id="addAnnouncementSection" class="hidden-section bg-white/70 backdrop-blur p-6 rounded-2xl shadow-sm border border-white mb-8">
+                        <h3 class="font-bold text-slate-700 mb-4 uppercase text-sm">Dodaj nowe ogłoszenie (Tylko Właściciel)</h3>
+                        <input type="text" id="annTitle" placeholder="Tytuł ogłoszenia" class="w-full px-4 py-2 mb-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-sky-400 outline-none">
+                        <textarea id="annDesc" placeholder="Treść..." class="w-full px-4 py-2 mb-3 bg-white border border-slate-200 rounded-lg h-24 resize-none focus:ring-2 focus:ring-sky-400 outline-none"></textarea>
+                        <button id="postAnnBtn" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-lg shadow-sky-500/30">Opublikuj</button>
                     </div>
                     <div id="announcementsList" class="space-y-4"></div>
                 </div>
 
-                <!-- TAB: REKRUTACJA -->
-                <div id="tab-rekrutacja" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Podania o Rangę</h2>
-                    <div id="adminApplicationsList" class="space-y-4"></div>
-                    <div id="adminAppModal" class="hidden-section glass-card p-6 rounded-2xl border border-white space-y-4">
-                        <div class="flex justify-between items-center">
-                            <h3 id="modalAppTitle" class="font-black text-slate-800 uppercase">Podanie</h3>
-                            <button onclick="closeAppModal()" class="px-3 py-1 bg-slate-200 font-bold text-xs rounded-xl">Zamknij</button>
+                <!-- BŁĘDY -->
+                <div id="tab-bledy" class="tab-content hidden-section">
+                    <h2 class="text-2xl font-black uppercase text-slate-800 mb-6">Zarządzanie Błędami</h2>
+                    
+                    <div class="bg-white/70 backdrop-blur p-6 rounded-2xl shadow-sm border border-white mb-8">
+                        <h3 class="font-bold text-slate-700 mb-4 uppercase text-sm">Dodaj Błąd do Bazy</h3>
+                        <input type="text" id="bugTitle" placeholder="Krótki opis błędu" class="w-full px-4 py-2 mb-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-sky-400 outline-none">
+                        <textarea id="bugDesc" placeholder="Jak wywołać błąd? Opisz dokładnie..." class="w-full px-4 py-2 mb-3 bg-white border border-slate-200 rounded-lg h-24 resize-none focus:ring-2 focus:ring-sky-400 outline-none"></textarea>
+                        <button id="reportBugBtn" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-lg shadow-slate-800/30">Dodaj wpis</button>
+                    </div>
+                    <div id="bugsList" class="space-y-4"></div>
+                </div>
+
+                <!-- REKRUTACJA -->
+                <div id="tab-rekrutacja" class="tab-content hidden-section">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-black uppercase text-slate-800">Podania o rangę</h2>
+                    </div>
+                    
+                    <div id="adminApplicationsList" class="space-y-4">
+                        <div class="text-center text-slate-600 py-12">Ładowanie podań...</div>
+                    </div>
+
+                    <div id="adminAppModal" class="hidden-section mt-8 bg-white/90 backdrop-blur p-8 rounded-2xl shadow-xl border border-white">
+                        <div class="flex justify-between items-start mb-6 border-b border-slate-200 pb-4">
+                            <div>
+                                <h3 id="modalAppTitle" class="text-xl font-black text-slate-800 uppercase">Podanie gracza</h3>
+                                <p class="text-xs text-slate-500 mt-1">Stanowisko: <span id="modalAppRole" class="font-bold text-sky-500"></span></p>
+                            </div>
+                            <div class="flex flex-wrap gap-2 justify-end" id="modalActionsBox">
+                                <button onclick="changeAppStatus('Zaakceptowane')" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-sm">
+                                    <i class="fa-solid fa-check mr-1"></i> Zaakceptuj
+                                </button>
+                                <button onclick="changeAppStatus('Odrzucone')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-sm">
+                                    <i class="fa-solid fa-xmark mr-1"></i> Odrzuć
+                                </button>
+                                <button onclick="closeAppModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-xl font-bold text-xs transition-colors">
+                                    <i class="fa-solid fa-arrow-left"></i> Wróć
+                                </button>
+                            </div>
                         </div>
-                        <div id="modalAnswersList" class="space-y-2 text-xs"></div>
-                        <div id="modalCommentsBox" class="p-3 bg-white/60 rounded-xl h-32 overflow-y-auto text-xs"></div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-black text-slate-800 uppercase text-xs tracking-widest mb-4">Odpowiedzi z formularza</h4>
+                                <div id="modalAnswersList" class="space-y-3 max-h-[350px] overflow-y-auto custom-scrollbar pr-2"></div>
+                            </div>
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col h-[350px]">
+                                <h4 class="font-black text-slate-800 uppercase text-xs tracking-widest mb-3"><i class="fa-solid fa-comments text-sky-500"></i> Notatki Administracyjne</h4>
+                                <div id="modalCommentsBox" class="flex-grow overflow-y-auto custom-scrollbar space-y-3 mb-3 pr-2"></div>
+                                <div class="relative mt-auto">
+                                    <input type="text" id="adminCommentInput" placeholder="Napisz notatkę..." class="w-full bg-white border border-slate-300 rounded-xl py-2.5 pl-4 pr-12 focus:outline-none focus:border-sky-500 text-sm">
+                                    <button onclick="postAdminComment()" class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-sky-500 hover:bg-sky-600 text-white rounded-lg flex items-center justify-center transition-colors">
+                                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- TAB: TO-DO -->
-                <div id="tab-todo" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Zadania Administracji (To-Do)</h2>
-                    <div class="glass-card p-6 rounded-2xl border border-white flex gap-2">
-                        <input type="text" id="todoInput" placeholder="Nowe zadanie..." class="flex-1 px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                        <button onclick="addTodo()" class="bg-sky-500 hover:bg-sky-600 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Dodaj</button>
-                    </div>
-                    <div id="todoList" class="space-y-2"></div>
-                </div>
-
-                <!-- TAB: EKIPA (Właściciel) -->
-                <div id="tab-ekipa" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-orange-600">Zarządzanie Ekipą</h2>
+                <!-- EKIPA (Właściciel) -->
+                <div id="tab-ekipa" class="tab-content hidden-section">
+                    <h2 class="text-2xl font-black uppercase text-orange-600 mb-6">Zarządzanie Ekipą</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="glass-card p-6 rounded-2xl border border-white space-y-3">
-                            <h3 class="font-bold text-slate-700 uppercase text-xs">Dopuść Administratora</h3>
-                            <input type="text" id="newAdminNick" placeholder="Nick gracza" class="w-full px-4 py-2 bg-white/80 border border-slate-200 rounded-xl outline-none text-xs font-bold">
-                            <button id="addAdminBtn" class="w-full bg-sky-500 text-white font-black py-2.5 rounded-xl uppercase text-xs">Nadaj Uprawnienia</button>
+                        <div class="bg-white/70 backdrop-blur p-6 rounded-2xl shadow-sm border border-white">
+                            <h3 class="font-bold text-slate-700 mb-4 uppercase text-sm flex items-center gap-2"><i class="fa-solid fa-shield-halved text-sky-500"></i> Dopuść Administratora</h3>
+                            <input type="text" id="newAdminNick" placeholder="Nick gracza" class="w-full px-4 py-2 mb-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-sky-400">
+                            <button id="addAdminBtn" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 rounded-lg transition-colors">Nadaj Uprawnienia</button>
                         </div>
-                        <div class="glass-card p-6 rounded-2xl border border-white space-y-3">
-                            <h3 class="font-bold text-slate-700 uppercase text-xs">Nadaj Właściciela</h3>
-                            <input type="text" id="newOwnerNick" placeholder="Nick gracza" class="w-full px-4 py-2 bg-white/80 border border-slate-200 rounded-xl outline-none text-xs font-bold">
-                            <button id="addOwnerBtn" class="w-full bg-orange-500 text-white font-black py-2.5 rounded-xl uppercase text-xs">Nadaj Właściciela</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: TECHNICZNE (Generatory) -->
-                <div id="tab-techniczne" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-purple-600">Techniczne & Generatory</h2>
-
-                    <div class="glass-card p-6 rounded-2xl border border-white space-y-4">
-                        <textarea id="genInput" class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs resize-none" rows="2" placeholder="Wpisz tekst..."></textarea>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <select id="genType" class="px-4 py-3 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                                <option value="smallcaps">Smallcaps (ᴊᴀᴋ ᴛᴇɴ)</option>
-                                <option value="bubble">Bąbelkowy (ⓑⓤⓑⓑⓛⓔ)</option>
-                                <option value="upside">Odwrócony (uʍop ǝpısdn)</option>
-                                <option value="wide">Szeroki (Vaporwave)</option>
-                                <option value="leet">Leetspeak (1337)</option>
-                                <option value="bold">MC Pogrubienie (&l)</option>
-                                <option value="italic">MC Kursywa (&o)</option>
-                                <option value="underline">MC Podkreślenie (&n)</option>
-                                <option value="strike">MC Przekreślenie (&m)</option>
-                                <option value="magic">MC Magiczny/Ukryty (&k)</option>
-                            </select>
-                            <div id="genOutput" onclick="copyGenResult()" class="p-3 bg-purple-100 text-purple-900 rounded-xl font-mono text-xs cursor-pointer break-all flex items-center">Brak tekstu...</div>
+                        <div class="bg-white/70 backdrop-blur p-6 rounded-2xl shadow-sm border border-white">
+                            <h3 class="font-bold text-slate-700 mb-4 uppercase text-sm flex items-center gap-2"><i class="fa-solid fa-crown text-orange-500"></i> Nadaj Właściciela</h3>
+                            <input type="text" id="newOwnerNick" placeholder="Nick gracza" class="w-full px-4 py-2 mb-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-orange-400">
+                            <button id="addOwnerBtn" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded-lg transition-colors">Nadaj Właściciela</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- TAB: KONSOLA RCON -->
-                <div id="tab-konsola" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-slate-800">Konsola RCON Na Żywo</h2>
-                    <div class="glass-card p-6 rounded-2xl border border-white flex flex-col h-[500px]">
-                        <div id="consoleLogBox" class="flex-grow bg-slate-950 text-emerald-400 p-4 rounded-xl font-mono text-xs overflow-y-auto space-y-1 custom-scrollbar mb-3">
-                            <div>[INFO] Server thread started. Ready for connections.</div>
-                        </div>
-                        <div class="flex gap-2">
-                            <input type="text" id="consoleCmdInput" placeholder="Wpisz komendę bez / (np. kick Steve)..." class="flex-1 px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl outline-none font-mono text-xs font-bold">
-                            <button onclick="sendConsoleCommand()" class="bg-slate-900 hover:bg-slate-800 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Wykonaj</button>
-                        </div>
-                    </div>
-                </div>
+                <!-- TECHNICZNE (Właściciel) -->
+                <div id="tab-techniczne" class="tab-content hidden-section">
+                    <h2 class="text-2xl font-black uppercase text-purple-600 mb-2"><i class="fa-solid fa-wand-magic-sparkles"></i> Narzędzia Techniczne</h2>
+                    <p class="text-slate-600 mb-8">Generatory formatowania przydatne do serwera (MOTD, czat, tablica).</p>
 
-                <!-- TAB: DISCORD WEBHOOKI -->
-                <div id="tab-discord" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-indigo-600">Integracja z Discordem</h2>
-                    <div class="glass-card p-6 rounded-2xl border border-white space-y-3">
-                        <label class="block text-xs font-bold text-slate-600">Webhook Ogłoszeń:</label>
-                        <input type="text" id="webhookAnn" placeholder="https://discord.com/api/webhooks/..." class="w-full px-4 py-2 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                        <button onclick="testWebhook()" class="bg-indigo-600 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Testuj Webhook</button>
-                    </div>
-                </div>
-
-                <!-- TAB: CONFIG YAML -->
-                <div id="tab-config" class="tab-content hidden-section space-y-6">
-                    <h2 class="text-2xl font-black uppercase text-emerald-600">Edytor Konfiguracji Serwera</h2>
-                    <div class="glass-card p-6 rounded-2xl border border-white space-y-3">
-                        <select class="w-full px-4 py-2 bg-white/80 border border-slate-200 rounded-xl outline-none font-bold text-xs">
-                            <option>server.properties</option>
-                            <option>spigot.yml</option>
-                            <option>plugins/Essentials/config.yml</option>
-                        </select>
-                        <textarea class="w-full p-4 bg-slate-900 text-slate-100 font-mono text-xs rounded-xl h-64 resize-none" spellcheck="false">motd=Skycast.pl - Najlepszy Serwer
-max-players=200
-pvp=true
-allow-flight=false</textarea>
-                        <button onclick="alert('Zapisano plik konfiguracyjny!')" class="bg-emerald-600 text-white font-black px-6 py-2.5 rounded-xl uppercase text-xs">Zapisz Zmiany</button>
+                    <div class="bg-white/70 backdrop-blur p-6 rounded-2xl shadow-sm border border-white">
+                        <label class="block text-sm font-bold text-slate-700 uppercase mb-2">Wpisz tekst do przekształcenia:</label>
+                        <textarea id="genInput" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-purple-400 resize-none" rows="2" placeholder="Wpisz tu swój tekst..."></textarea>
+                        
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Wybierz Generator</label>
+                                <select id="genType" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-purple-400">
+                                    <option value="smallcaps">Smallcaps (ᴊᴀᴋ ᴛᴇɴ)</option>
+                                    <option value="bubble">Bąbelkowy (ⓑⓤⓑⓑⓛⓔ)</option>
+                                    <option value="upside">Odwrócony (uʍop ǝpısdn)</option>
+                                    <option value="wide">Szeroki (Vaporwave)</option>
+                                    <option value="leet">Leetspeak (1337)</option>
+                                    <option value="bold">MC Pogrubienie (&l)</option>
+                                    <option value="italic">MC Kursywa (&o)</option>
+                                    <option value="underline">MC Podkreślenie (&n)</option>
+                                    <option value="strike">MC Przekreślenie (&m)</option>
+                                    <option value="magic">MC Magiczny/Ukryty (&k)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Wynik (kliknij by skopiować):</label>
+                                <div id="genOutput" class="w-full px-4 py-3 bg-purple-50 border border-purple-200 text-purple-800 rounded-xl min-h-[50px] cursor-pointer break-all font-mono text-sm flex items-center" onclick="copyGenResult()">
+                                    Brak tekstu...
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -565,6 +303,7 @@ allow-flight=false</textarea>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy, updateDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -578,256 +317,182 @@ allow-flight=false</textarea>
             measurementId: "G-PT47DYBF9C"
         };
         
-        let app, auth, db;
+        let app, auth, db, analytics;
         let currentUserRole = '';
         let currentNick = '';
         let isLoginMode = true;
         let selectedAppId = null;
+        let unsubscribeApp = null;
 
         try {
             app = initializeApp(firebaseConfig);
+            analytics = getAnalytics(app);
             auth = getAuth(app);
             db = getFirestore(app);
         } catch (e) {
-            console.error("Błąd Firebase!", e);
+            console.error("Firebase nie zostało skonfigurowane poprawnie!", e);
         }
 
-        // TAB SWITCHER
+        // --- Status serwera ---
+        async function fetchServerStatus() {
+            try {
+                const response = await fetch('https://api.mcsrvstat.us/3/skycast.pl');
+                const data = await response.json();
+                const playersEl = document.getElementById('playersOnline');
+                const statusEl = document.getElementById('serverStatus');
+                const statusIconBg = document.getElementById('statusIconBg');
+
+                if (data.online) {
+                    playersEl.innerText = data.players.online;
+                    statusEl.innerText = "Online";
+                    statusEl.className = "text-2xl font-black text-green-600";
+                    statusIconBg.className = "w-12 h-12 bg-green-100 text-green-500 rounded-xl flex items-center justify-center text-2xl";
+                } else {
+                    playersEl.innerText = "0";
+                    statusEl.innerText = "Offline";
+                    statusEl.className = "text-2xl font-black text-red-500";
+                    statusIconBg.className = "w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center text-2xl";
+                }
+            } catch (error) {
+                document.getElementById('playersOnline').innerText = "?";
+                document.getElementById('serverStatus').innerText = "Błąd API";
+            }
+        }
+
+        // --- Utils UI ---
         window.switchTab = (tabId) => {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden-section'));
             document.getElementById(tabId).classList.remove('hidden-section');
             
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('bg-sky-100/50', 'text-sky-700', 'bg-orange-100/50', 'bg-purple-100/50');
+                if(!el.classList.contains('text-orange-600') && !el.classList.contains('text-purple-600')) {
+                    el.classList.add('text-slate-600');
+                }
+                
+                if(el.getAttribute('onclick').includes(tabId)) {
+                    if(el.classList.contains('text-orange-600')) el.classList.add('bg-orange-100/50');
+                    else if(el.classList.contains('text-purple-600')) el.classList.add('bg-purple-100/50');
+                    else {
+                        el.classList.add('bg-sky-100/50', 'text-sky-700');
+                        el.classList.remove('text-slate-600');
+                    }
+                }
+            });
+
             if(tabId === 'tab-ogloszenia') loadAnnouncements();
             if(tabId === 'tab-bledy') loadBugs();
             if(tabId === 'tab-rekrutacja') loadAdminApplications();
         };
 
-        // QUICK ACTIONS
-        window.quickAction = (type) => {
-            alert(`Wykonano akcję: ${type.toUpperCase()}`);
+        const showError = (msg) => {
+            const errEl = document.getElementById('errorMessage');
+            errEl.innerText = msg;
+            errEl.classList.remove('hidden');
         };
 
-        window.sendQuickBroadcast = (type) => {
-            const txt = document.getElementById('quickBroadcastText').value;
-            if(!txt) return alert("Wpisz treść!");
-            alert(`Wysłano ogłoszenie (${type}): ${txt}`);
-            document.getElementById('quickBroadcastText').value = '';
-        };
+        // --- Logowanie / Rejestracja ---
+        document.getElementById('toggleAuthBtn').addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            const title = document.getElementById('authTitle');
+            const subtitle = document.getElementById('authSubtitle');
+            const btn = document.getElementById('authSubmitBtn');
+            const toggleBtn = document.getElementById('toggleAuthBtn');
 
-        // PLAYER SEARCH
-        window.searchPlayer = () => {
-            const nick = document.getElementById('playerSearchInput').value.trim();
-            if(!nick) return;
-            document.getElementById('playerResultNick').innerText = nick;
-            document.getElementById('playerHeadPreview').src = `https://mc-heads.net/head/${nick}`;
-            document.getElementById('playerResultBox').classList.remove('hidden-section');
-        };
-
-        window.playerAction = (action) => {
-            alert(`Wykonano akcję ${action.toUpperCase()} dla wybranego gracza.`);
-        };
-
-        // BANY
-        let penalties = [
-            { target: 'BadBoy99', type: 'BAN', reason: 'Cheaty / Aura', time: 'Permanentny' },
-            { target: 'XProGamer', type: 'MUTE', reason: 'Obraza administracji', time: '24 godziny' }
-        ];
-
-        window.renderBans = () => {
-            const box = document.getElementById('bansTable');
-            box.innerHTML = '';
-            penalties.forEach((p, idx) => {
-                box.innerHTML += `
-                    <div class="flex items-center justify-between p-3 bg-white/70 rounded-xl text-xs font-bold border border-slate-200">
-                        <div>
-                            <span class="text-red-600 font-black mr-2">[${p.type}]</span> ${p.target} - <span class="text-slate-500">${p.reason} (${p.time})</span>
-                        </div>
-                        <button onclick="removePenalty(${idx})" class="text-xs text-slate-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                `;
-            });
-        };
-        renderBans();
-
-        window.addPenalty = () => {
-            const target = document.getElementById('banTarget').value;
-            const type = document.getElementById('banType').value;
-            const reason = document.getElementById('banReason').value;
-            const time = document.getElementById('banTime').value;
-            if(!target || !reason) return alert("Uzupełnij pola!");
-            penalties.push({ target, type, reason, time });
-            renderBans();
-            alert("Dodano karę!");
-        };
-
-        window.removePenalty = (idx) => {
-            penalties.splice(idx, 1);
-            renderBans();
-        };
-
-        // LIVE CHAT
-        window.sendLiveChatMessage = () => {
-            const input = document.getElementById('liveChatMessage');
-            if(!input.value) return;
-            const box = document.getElementById('liveChatBox');
-            box.innerHTML += `<div><span class="text-sky-400">[ADMIN ${currentNick}]:</span> ${input.value}</div>`;
-            input.value = '';
-            box.scrollTop = box.scrollHeight;
-        };
-
-        window.toggleChat = (state) => {
-            alert(`Czat został zmodyfikowany: ${state.toUpperCase()}`);
-        };
-
-        // VOUCHERY
-        let vouchers = [{ code: 'START2026', reward: 500 }];
-        window.renderVouchers = () => {
-            const box = document.getElementById('voucherList');
-            box.innerHTML = '';
-            vouchers.forEach(v => {
-                box.innerHTML += `<div class="p-2 bg-white/60 rounded-lg flex justify-between"><span>Kod: <b>${v.code}</b></span><span class="text-emerald-600">+${v.reward} monet</span></div>`;
-            });
-        };
-        renderVouchers();
-
-        window.createVoucher = () => {
-            const code = document.getElementById('voucherCode').value;
-            const reward = document.getElementById('voucherReward').value;
-            if(!code || !reward) return;
-            vouchers.push({ code, reward });
-            renderVouchers();
-        };
-
-        // WHITELIST
-        let wlPlayers = ['kubagood', 'wiktrex'];
-        window.renderWL = () => {
-            const box = document.getElementById('whitelistBox');
-            box.innerHTML = '';
-            wlPlayers.forEach(p => {
-                box.innerHTML += `<span class="inline-block px-3 py-1 bg-white/80 border border-slate-200 rounded-xl text-xs font-bold mr-2 mb-2">${p}</span>`;
-            });
-        };
-        renderWL();
-
-        window.addToWhitelist = () => {
-            const nick = document.getElementById('wlNick').value.trim();
-            if(nick) { wlPlayers.push(nick); renderWL(); }
-        };
-
-        window.toggleWhitelistState = () => {
-            const btn = document.getElementById('whitelistToggleBtn');
-            if(btn.innerText === 'WYŁĄCZONA') {
-                btn.innerText = 'WŁĄCZONA';
-                btn.className = 'px-4 py-2 bg-emerald-500 text-white font-black rounded-xl text-xs uppercase';
+            document.getElementById('errorMessage').classList.add('hidden');
+            if(isLoginMode) {
+                title.innerText = "Panel Admina";
+                subtitle.innerText = "Dostęp zastrzeżony";
+                subtitle.classList.remove("text-sky-600");
+                subtitle.classList.add("text-red-600");
+                btn.innerText = "Zaloguj się";
+                toggleBtn.innerText = "Pierwsze logowanie? Zarejestruj się";
             } else {
-                btn.innerText = 'WYŁĄCZONA';
-                btn.className = 'px-4 py-2 bg-red-500 text-white font-black rounded-xl text-xs uppercase';
+                title.innerText = "Rejestracja";
+                subtitle.innerText = "Tylko dla upoważnionych";
+                subtitle.classList.remove("text-red-600");
+                subtitle.classList.add("text-sky-600");
+                btn.innerText = "Stwórz konto";
+                toggleBtn.innerText = "Masz już konto? Zaloguj się";
             }
-        };
-
-        // BACKUP
-        window.createBackup = () => {
-            const bar = document.getElementById('backupProgress');
-            bar.classList.remove('hidden-section');
-            setTimeout(() => {
-                bar.classList.add('hidden-section');
-                alert("Tworzenie kopii zapasowej zakończone sukcesem!");
-            }, 2500);
-        };
-
-        // TO-DO
-        let todos = [{ text: 'Naprawić sklep na spawnie', done: false }];
-        window.renderTodos = () => {
-            const box = document.getElementById('todoList');
-            box.innerHTML = '';
-            todos.forEach((t, i) => {
-                box.innerHTML += `<div class="p-3 bg-white/70 rounded-xl text-xs font-bold flex justify-between"><span>${t.text}</span><button onclick="todos.splice(${i},1);renderTodos()" class="text-red-500"><i class="fa-solid fa-check"></i></button></div>`;
-            });
-        };
-        renderTodos();
-        window.addTodo = () => {
-            const input = document.getElementById('todoInput');
-            if(input.value) { todos.push({ text: input.value, done: false }); input.value = ''; renderTodos(); }
-        };
-
-        // KONSOLA RCON
-        window.sendConsoleCommand = () => {
-            const input = document.getElementById('consoleCmdInput');
-            if(!input.value) return;
-            const box = document.getElementById('consoleLogBox');
-            box.innerHTML += `<div><span class="text-amber-400">> ${input.value}</span></div>`;
-            box.innerHTML += `<div class="text-slate-400">[CONSOLE] Executed command: ${input.value}</div>`;
-            input.value = '';
-            box.scrollTop = box.scrollHeight;
-        };
-
-        // DISCORD
-        window.testWebhook = () => { alert("Testowy powiadomienie Webhook wysłane!"); };
-
-        // GENERATORY
-        const genEngines = {
-            smallcaps: (t) => t.toLowerCase().split('').map(c => 'ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ'[c.charCodeAt(0)-97] || c).join(''),
-            bubble: (t) => t.toLowerCase().split('').map(c => 'ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ'[c.charCodeAt(0)-97] || c).join(''),
-            upside: (t) => t.split('').map(c => 'ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz'[c.toLowerCase().charCodeAt(0)-97] || c).reverse().join(''),
-            wide: (t) => t.split('').map(c => c.trim() ? String.fromCharCode(c.charCodeAt(0) + 65248) : '   ').join(''),
-            leet: (t) => t.replace(/a/gi,'4').replace(/e/gi,'3').replace(/i/gi,'1').replace(/o/gi,'0').replace(/s/gi,'5').replace(/t/gi,'7'),
-            bold: (t) => `&l${t}&r`,
-            italic: (t) => `&o${t}&r`,
-            underline: (t) => `&n${t}&r`,
-            strike: (t) => `&m${t}&r`,
-            magic: (t) => `&k${t}&r`
-        };
-
-        document.getElementById('genInput').addEventListener('input', () => {
-            const txt = document.getElementById('genInput').value;
-            const type = document.getElementById('genType').value;
-            document.getElementById('genOutput').innerText = txt ? genEngines[type](txt) : "Brak tekstu...";
         });
 
-        window.copyGenResult = () => {
-            const txt = document.getElementById('genOutput').innerText;
-            if(txt && txt !== "Brak tekstu...") {
-                navigator.clipboard.writeText(txt);
-                alert("Skopiowano!");
-            }
-        };
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nick = document.getElementById('authNick').value.trim();
+            const pass = document.getElementById('authPassword').value;
 
-        // FIREBASE STATUS & AUTH LOGIC
-        async function fetchServerStatus() {
-            try {
-                const res = await fetch('https://api.mcsrvstat.us/3/skycast.pl');
-                const data = await res.json();
-                if (data.online) {
-                    document.getElementById('playersOnline').innerText = data.players.online;
-                    document.getElementById('serverStatus').innerText = "Online";
-                    document.getElementById('serverStatus').className = "text-2xl font-black text-green-600";
-                } else {
-                    document.getElementById('playersOnline').innerText = "0";
-                    document.getElementById('serverStatus').innerText = "Offline";
-                    document.getElementById('serverStatus').className = "text-2xl font-black text-red-500";
+            const isKuba = (nick.toLowerCase() === 'kubagood' && pass === 'Toffi22!');
+            const isWiktor = (nick.toLowerCase() === 'wiktrex' && pass === 'wiktrEx');
+
+            if (isKuba || isWiktor) {
+                try {
+                    await signInWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
+                } catch (error) {
+                    try {
+                        await createUserWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
+                        await setDoc(doc(db, "users", nick.toLowerCase()), { role: 'wlasciciel', created: new Date() });
+                    } catch (regError) {
+                        showError("Błąd logowania właściciela: " + regError.message);
+                    }
                 }
-            } catch (e) {
-                document.getElementById('playersOnline').innerText = "?";
+                return;
             }
-        }
+
+            if (isLoginMode) {
+                try {
+                    await signInWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
+                } catch (error) {
+                    showError("Odmowa dostępu! Błędny nick lub hasło.");
+                }
+            } else {
+                try {
+                    const docRef = doc(db, "users", nick.toLowerCase());
+                    const docSnap = await getDoc(docRef);
+
+                    if (docSnap.exists() && (docSnap.data().role === 'admin' || docSnap.data().role === 'wlasciciel')) {
+                        await createUserWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
+                    } else {
+                        showError("Brak uprawnień do rejestracji! Twój nick nie został dodany przez Właściciela.");
+                    }
+                } catch (error) {
+                    showError("Błąd rejestracji: " + error.message);
+                }
+            }
+        });
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const nick = user.email.split('@')[0];
                 currentNick = nick;
-                const docSnap = await getDoc(doc(db, "users", nick));
-                currentUserRole = docSnap.exists() ? docSnap.data().role : ((nick==='kubagood'||nick==='wiktrex')?'wlasciciel':'user');
+
+                const docRef = doc(db, "users", nick);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    currentUserRole = docSnap.data().role;
+                } else if(nick === 'kubagood' || nick === 'wiktrex') {
+                    currentUserRole = 'wlasciciel';
+                    await setDoc(docRef, { role: 'wlasciciel' });
+                } else {
+                    currentUserRole = 'user'; 
+                }
 
                 if (currentUserRole !== 'admin' && currentUserRole !== 'wlasciciel') {
                     await signOut(auth);
+                    showError("Brak uprawnień! Panel tylko dla administracji.");
                     return;
                 }
 
                 document.getElementById('authContainer').classList.add('hidden-section');
                 document.getElementById('dashboardContainer').classList.remove('hidden-section');
+                
                 document.getElementById('topNick').innerText = nick;
                 document.getElementById('topAvatar').src = `https://mc-heads.net/avatar/${nick}/64`;
-                document.getElementById('topRole').innerText = currentUserRole === 'wlasciciel' ? 'Właściciel' : 'Administrator';
+
+                const roleDisplay = currentUserRole === 'wlasciciel' ? 'Właściciel' : 'Administrator';
+                document.getElementById('topRole').innerText = roleDisplay;
+                document.getElementById('dashboardRole').innerText = roleDisplay;
 
                 if (currentUserRole === 'wlasciciel') {
                     document.getElementById('ownerMenu').classList.remove('hidden-section');
@@ -841,67 +506,325 @@ allow-flight=false</textarea>
             }
         });
 
-        document.getElementById('authForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const nick = document.getElementById('authNick').value.trim();
-            const pass = document.getElementById('authPassword').value;
-
-            if ((nick.toLowerCase() === 'kubagood' && pass === 'Toffi22!') || (nick.toLowerCase() === 'wiktrex' && pass === 'wiktrEx')) {
-                try {
-                    await signInWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
-                } catch {
-                    await createUserWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
-                    await setDoc(doc(db, "users", nick.toLowerCase()), { role: 'wlasciciel' });
-                }
-                return;
-            }
-
-            try {
-                await signInWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
-            } catch (err) {
-                document.getElementById('errorMessage').innerText = "Błąd logowania!";
-                document.getElementById('errorMessage').classList.remove('hidden');
-            }
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth);
+            switchTab('tab-home'); 
         });
 
-        document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+        // --- GLOBALNE USUWANIE (Właściciel) ---
+        window.deleteDocument = async (collectionName, id) => {
+            if(confirm("Czy na pewno chcesz usunąć ten element bezpowrotnie?")) {
+                await deleteDoc(doc(db, collectionName, id));
+                if(collectionName === 'announcements') loadAnnouncements();
+                if(collectionName === 'bugs') loadBugs();
+                if(collectionName === 'applications') {
+                    closeAppModal();
+                    loadAdminApplications();
+                }
+            }
+        };
 
-        // DANE Z FIREBASE (Ogłoszenia, Błędy, Podania)
+        // --- Ogłoszenia ---
+        document.getElementById('postAnnBtn').addEventListener('click', async () => {
+            const title = document.getElementById('annTitle').value;
+            const desc = document.getElementById('annDesc').value;
+            if(!title || !desc) return alert("Wypełnij oba pola!");
+            
+            await addDoc(collection(db, "announcements"), {
+                title, desc, author: currentNick, date: new Date(), likes: 0, likedBy: []
+            });
+            document.getElementById('annTitle').value = '';
+            document.getElementById('annDesc').value = '';
+            loadAnnouncements();
+        });
+
+        window.toggleLike = async (id, currentLikes, likedByArr) => {
+            const likedBy = likedByArr ? likedByArr.split(',') : [];
+            let newLikes = currentLikes || 0;
+            let newLikedBy = [...likedBy];
+
+            if(likedBy.includes(currentNick)) {
+                newLikes--;
+                newLikedBy = newLikedBy.filter(n => n !== currentNick);
+            } else {
+                newLikes++;
+                newLikedBy.push(currentNick);
+            }
+
+            await updateDoc(doc(db, "announcements", id), { likes: newLikes, likedBy: newLikedBy });
+            loadAnnouncements();
+        };
+
         async function loadAnnouncements() {
             if(!db) return;
             const q = query(collection(db, "announcements"), orderBy("date", "desc"));
-            const snap = await getDocs(q);
+            const querySnapshot = await getDocs(q);
             const list = document.getElementById('announcementsList');
             list.innerHTML = '';
-            snap.forEach(d => {
-                const data = d.data();
-                list.innerHTML += `<div class="p-4 bg-white/70 rounded-2xl border-l-4 border-sky-500 mb-2"><h4 class="font-black">${data.title}</h4><p class="text-xs text-slate-600 mt-1">${data.desc}</p></div>`;
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const id = doc.id;
+                const d = data.date ? data.date.toDate() : new Date();
+                const likedBy = data.likedBy || [];
+                const isLiked = likedBy.includes(currentNick);
+                const likesCount = data.likes || 0;
+                
+                let deleteBtn = '';
+                if(currentUserRole === 'wlasciciel') {
+                    deleteBtn = `<button onclick="deleteDocument('announcements', '${id}')" class="text-red-400 hover:text-red-600 ml-3"><i class="fa-solid fa-trash"></i></button>`;
+                }
+
+                list.innerHTML += `
+                    <div class="p-6 bg-white/70 backdrop-blur rounded-2xl shadow-sm border-l-4 border-l-sky-500 mb-4 flex justify-between items-start">
+                        <div class="flex-grow">
+                            <div class="text-xs font-bold text-slate-400 mb-1">${data.author} • ${d.toLocaleDateString()}</div>
+                            <h4 class="text-lg font-black text-slate-800">${data.title}</h4>
+                            <p class="text-slate-600 text-sm mt-2">${data.desc}</p>
+                            
+                            <div class="mt-4 flex items-center gap-4">
+                                <button onclick="toggleLike('${id}', ${likesCount}, '${likedBy.join(',')}')" class="text-xs font-bold flex items-center gap-1.5 transition-colors ${isLiked ? 'text-sky-500' : 'text-slate-400 hover:text-sky-500'}">
+                                    <i class="${isLiked ? 'fa-solid' : 'fa-regular'} fa-heart"></i> ${likesCount}
+                                </button>
+                            </div>
+                        </div>
+                        ${deleteBtn}
+                    </div>
+                `;
             });
+        }
+
+        // --- Błędy ---
+        document.getElementById('reportBugBtn').addEventListener('click', async () => {
+            const title = document.getElementById('bugTitle').value;
+            const desc = document.getElementById('bugDesc').value;
+            if(!title || !desc) return alert("Wypełnij oba pola!");
+            
+            await addDoc(collection(db, "bugs"), {
+                title, desc, author: currentNick, status: 'open', date: new Date()
+            });
+            document.getElementById('bugTitle').value = '';
+            document.getElementById('bugDesc').value = '';
+            loadBugs();
+        });
+
+        window.resolveBug = async (id) => {
+            await updateDoc(doc(db, "bugs", id), { status: 'fixed' });
+            loadBugs();
         }
 
         async function loadBugs() {
             if(!db) return;
             const q = query(collection(db, "bugs"), orderBy("date", "desc"));
-            const snap = await getDocs(q);
+            const querySnapshot = await getDocs(q);
             const list = document.getElementById('bugsList');
             list.innerHTML = '';
-            snap.forEach(d => {
-                const data = d.data();
-                list.innerHTML += `<div class="p-4 bg-white/70 rounded-2xl border border-red-200 mb-2"><h4 class="font-black text-slate-800">${data.title}</h4><p class="text-xs text-slate-600 mt-1">${data.desc}</p></div>`;
+            querySnapshot.forEach((documentObj) => {
+                const data = documentObj.data();
+                const id = documentObj.id;
+                const d = data.date ? data.date.toDate() : new Date();
+                const isFixed = data.status === 'fixed';
+                const statusBadge = isFixed 
+                    ? `<span class="bg-green-100 text-green-600 px-2 py-1 rounded text-[10px] font-black uppercase">Naprawione</span>` 
+                    : `<span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-black uppercase">Wymaga poprawy</span>`;
+
+                let actionBtns = '';
+                if(currentUserRole === 'wlasciciel') {
+                    actionBtns += `<button onclick="deleteDocument('bugs', '${id}')" class="ml-2 text-xs bg-red-100 text-red-500 px-3 py-1.5 rounded font-bold hover:bg-red-200"><i class="fa-solid fa-trash"></i></button>`;
+                    if(!isFixed) {
+                        actionBtns = `<button onclick="resolveBug('${id}')" class="text-xs bg-green-500 text-white px-3 py-1.5 rounded font-bold hover:bg-green-600">Oznacz jako naprawione <i class="fa-solid fa-check"></i></button>` + actionBtns;
+                    }
+                }
+
+                list.innerHTML += `
+                    <div class="p-6 bg-white/70 backdrop-blur rounded-2xl shadow-sm border ${isFixed ? 'border-green-200 opacity-80' : 'border-red-200'} mb-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="text-xs font-bold text-slate-400">${data.author} • ${d.toLocaleDateString()}</div>
+                            ${statusBadge}
+                        </div>
+                        <h4 class="text-lg font-black text-slate-800">${data.title}</h4>
+                        <p class="text-slate-600 text-sm mt-2 mb-4">${data.desc}</p>
+                        <div class="flex gap-2">${actionBtns}</div>
+                    </div>
+                `;
             });
         }
 
+        // --- Podania ---
         async function loadAdminApplications() {
             if(!db) return;
             const q = query(collection(db, "applications"), orderBy("createdAt", "desc"));
-            const snap = await getDocs(q);
+            const querySnapshot = await getDocs(q);
             const list = document.getElementById('adminApplicationsList');
             list.innerHTML = '';
-            snap.forEach(d => {
-                const data = d.data();
-                list.innerHTML += `<div class="p-4 bg-white/70 rounded-2xl border border-slate-200 mb-2 flex justify-between"><div><h4 class="font-black">${data.nick}</h4><span class="text-xs text-sky-600">${data.role}</span></div></div>`;
+
+            if (querySnapshot.empty) {
+                list.innerHTML = `<div class="text-center text-slate-400 py-12 bg-white/70 rounded-2xl shadow-sm border border-white">Brak nadesłanych podań.</div>`;
+                return;
+            }
+
+            querySnapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const id = docSnap.id;
+                let statusColor = "bg-slate-100 text-slate-600";
+                if(data.status === 'Zaakceptowane') statusColor = "bg-green-100 text-green-600";
+                if(data.status === 'Odrzucone') statusColor = "bg-red-100 text-red-600";
+
+                list.innerHTML += `
+                    <div class="bg-white/70 backdrop-blur p-5 rounded-2xl shadow-sm border border-white flex items-center justify-between hover:scale-[1.01] transition-transform cursor-pointer" onclick="openAdminAppModal('${id}')">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-sky-50 text-sky-500 rounded-xl flex items-center justify-center font-black text-lg">
+                                <i class="fa-solid fa-user-pen"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800">${data.nick} <span class="text-sky-500 font-normal">(${data.role})</span></h4>
+                                <div class="text-xs text-slate-500 mt-0.5">Status: <span class="font-bold">${data.status || 'Oczekujące'}</span></div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-1.5 rounded-xl text-xs font-black uppercase ${statusColor}">
+                            ${data.status || 'Oczekujące'}
+                        </div>
+                    </div>
+                `;
             });
         }
+
+        window.openAdminAppModal = (id) => {
+            selectedAppId = id;
+            document.getElementById('adminApplicationsList').classList.add('hidden-section');
+            document.getElementById('adminAppModal').classList.remove('hidden-section');
+
+            const modalActions = document.getElementById('modalActionsBox');
+            // Usunięcie starego przycisku delete jeśli był
+            const oldDelete = document.getElementById('modalDeleteBtn');
+            if(oldDelete) oldDelete.remove();
+            
+            if(currentUserRole === 'wlasciciel') {
+                modalActions.insertAdjacentHTML('beforeend', `<button id="modalDeleteBtn" onclick="deleteDocument('applications', '${id}')" class="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-2 rounded-xl font-bold text-xs transition-colors"><i class="fa-solid fa-trash"></i> Usuń</button>`);
+            }
+
+            if(unsubscribeApp) unsubscribeApp();
+            unsubscribeApp = onSnapshot(doc(db, "applications", id), (docSnap) => {
+                if(docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('modalAppTitle').innerText = `Podanie gracza: ${data.nick}`;
+                    document.getElementById('modalAppRole').innerText = data.role;
+
+                    const ansList = document.getElementById('modalAnswersList');
+                    ansList.innerHTML = '';
+                    if(data.answers) {
+                        for(let [key, val] of Object.entries(data.answers)) {
+                            ansList.innerHTML += `
+                                <div class="bg-white/70 p-3 rounded-xl border border-slate-100 text-xs">
+                                    <span class="font-bold text-sky-600 uppercase">${key}:</span>
+                                    <p class="text-slate-700 mt-1">${val}</p>
+                                </div>
+                            `;
+                        }
+                    }
+
+                    const commentsBox = document.getElementById('modalCommentsBox');
+                    commentsBox.innerHTML = '';
+                    if(data.comments && data.comments.length > 0) {
+                        data.comments.forEach(c => {
+                            const isMe = c.author !== 'Ty';
+                            commentsBox.innerHTML += `
+                                <div class="flex flex-col ${isMe ? 'items-start' : 'items-end'}">
+                                    <span class="text-[9px] font-bold text-slate-400 mb-0.5 px-1">${c.author}</span>
+                                    <div class="px-3 py-2 rounded-xl max-w-[85%] text-xs ${isMe ? 'bg-white border border-slate-200 text-slate-700' : 'bg-sky-500 text-white'}">
+                                        ${c.text}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        commentsBox.innerHTML = `<div class="text-center text-slate-400 text-xs mt-8">Brak notatek.</div>`;
+                    }
+                    commentsBox.scrollTop = commentsBox.scrollHeight;
+                }
+            });
+        };
+
+        window.closeAppModal = () => {
+            if(unsubscribeApp) unsubscribeApp();
+            selectedAppId = null;
+            document.getElementById('adminAppModal').classList.add('hidden-section');
+            document.getElementById('adminApplicationsList').classList.remove('hidden-section');
+            loadAdminApplications();
+        };
+
+        window.changeAppStatus = async (newStatus) => {
+            if(!selectedAppId) return;
+            await updateDoc(doc(db, "applications", selectedAppId), { status: newStatus });
+        };
+
+        window.postAdminComment = async () => {
+            const input = document.getElementById('adminCommentInput');
+            const text = input.value.trim();
+            if(!text || !selectedAppId) return;
+            input.value = '';
+            
+            const docRef = doc(db, "applications", selectedAppId);
+            const docSnap = await getDoc(docRef);
+            if(docSnap.exists()) {
+                const comments = docSnap.data().comments || [];
+                comments.push({ author: currentNick, text: text, timestamp: new Date().toISOString() });
+                await updateDoc(docRef, { comments: comments });
+            }
+        };
+
+        // --- ZARZĄDZANIE EKIPĄ ---
+        document.getElementById('addAdminBtn').addEventListener('click', async () => {
+            const nick = document.getElementById('newAdminNick').value.trim().toLowerCase();
+            if(!nick) return alert("Wpisz nick!");
+            await setDoc(doc(db, "users", nick), { role: 'admin' }, { merge: true });
+            alert(`Dopuszczono administratora: ${nick}.`);
+            document.getElementById('newAdminNick').value = '';
+        });
+
+        document.getElementById('addOwnerBtn').addEventListener('click', async () => {
+            const nick = document.getElementById('newOwnerNick').value.trim().toLowerCase();
+            if(!nick) return;
+            await setDoc(doc(db, "users", nick), { role: 'wlasciciel' }, { merge: true });
+            alert(`Nadano uprawnienia właściciela dla: ${nick}.`);
+            document.getElementById('newOwnerNick').value = '';
+        });
+
+        // --- GENERATORY (TECHNICZNE) ---
+        const genEngines = {
+            smallcaps: (t) => t.toLowerCase().split('').map(c => 'ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ'[c.charCodeAt(0)-97] || c).join(''),
+            bubble: (t) => t.toLowerCase().split('').map(c => 'ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ'[c.charCodeAt(0)-97] || c).join(''),
+            upside: (t) => t.split('').map(c => 'ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz'[c.toLowerCase().charCodeAt(0)-97] || c).reverse().join(''),
+            wide: (t) => t.split('').map(c => c.trim() ? String.fromCharCode(c.charCodeAt(0) + 65248) : '   ').join(''),
+            leet: (t) => t.replace(/a/gi,'4').replace(/e/gi,'3').replace(/i/gi,'1').replace(/o/gi,'0').replace(/s/gi,'5').replace(/t/gi,'7'),
+            bold: (t) => `&l${t}&r`,
+            italic: (t) => `&o${t}&r`,
+            underline: (t) => `&n${t}&r`,
+            strike: (t) => `&m${t}&r`,
+            magic: (t) => `&k${t}&r`
+        };
+
+        const updateGenerator = () => {
+            const text = document.getElementById('genInput').value;
+            const type = document.getElementById('genType').value;
+            const output = document.getElementById('genOutput');
+            if(!text) {
+                output.innerText = "Brak tekstu...";
+                return;
+            }
+            output.innerText = genEngines[type](text);
+        };
+
+        document.getElementById('genInput').addEventListener('input', updateGenerator);
+        document.getElementById('genType').addEventListener('change', updateGenerator);
+
+        window.copyGenResult = () => {
+            const txt = document.getElementById('genOutput').innerText;
+            if(txt && txt !== "Brak tekstu...") {
+                navigator.clipboard.writeText(txt);
+                alert("Skopiowano do schowka!");
+            }
+        };
+
     </script>
 </body>
 </html>
