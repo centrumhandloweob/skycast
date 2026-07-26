@@ -37,30 +37,37 @@
     <div id="authContainer" class="glass-panel w-full max-w-md rounded-[2rem] p-8 relative overflow-hidden transition-all duration-500">
         <div class="text-center mb-8">
             <img src="https://imgur.com/xqWUBJB.png" alt="Logo" class="w-20 h-20 mx-auto mb-4 drop-shadow-md">
-            <h2 class="text-3xl font-black uppercase text-slate-800">Panel Admina</h2>
-            <p class="text-slate-500 text-sm mt-2 font-bold text-red-500 uppercase tracking-widest text-[10px]">Dostęp zastrzeżony</p>
+            <h2 id="authTitle" class="text-3xl font-black uppercase text-slate-800">Panel Admina</h2>
+            <p id="authSubtitle" class="text-slate-500 text-sm mt-2 font-bold text-red-500 uppercase tracking-widest text-[10px]">Dostęp zastrzeżony</p>
         </div>
 
         <div id="errorMessage" class="hidden mb-4 p-3 bg-red-100 text-red-600 rounded-xl text-sm font-bold text-center border border-red-200"></div>
 
-        <form id="loginForm" class="space-y-4">
+        <form id="authForm" class="space-y-4">
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nick z serwera</label>
                 <div class="relative">
                     <i class="fa-solid fa-user-shield absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="loginNick" required class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-sky-400 outline-none transition-all" placeholder="Twój nick administratora">
+                    <input type="text" id="authNick" required class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-sky-400 outline-none transition-all" placeholder="Wpisz swój nick">
                 </div>
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Hasło</label>
                 <div class="relative">
                     <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="password" id="loginPassword" required class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-sky-400 outline-none transition-all" placeholder="••••••••">
+                    <input type="password" id="authPassword" required minlength="6" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-sky-400 outline-none transition-all" placeholder="••••••••">
                 </div>
             </div>
-            <button type="submit" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-black uppercase tracking-widest py-3.5 rounded-xl transition-all shadow-lg hover:shadow-slate-900/30 mt-6">
-                Autoryzuj Dostęp
+            
+            <button type="submit" id="authSubmitBtn" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-black uppercase tracking-widest py-3.5 rounded-xl transition-all shadow-lg hover:shadow-slate-900/30 mt-6">
+                Zaloguj się
             </button>
+            
+            <div class="text-center mt-4">
+                <button type="button" id="toggleAuthBtn" class="text-xs font-bold text-sky-500 hover:text-sky-600 uppercase tracking-wider transition-colors">
+                    Pierwsze logowanie? Zarejestruj się
+                </button>
+            </div>
         </form>
     </div>
 
@@ -186,16 +193,15 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-sky-200">
-                            <h3 class="font-bold text-slate-700 mb-4 uppercase text-sm flex items-center gap-2"><i class="fa-solid fa-shield-halved text-sky-500"></i> Nadaj Administratora</h3>
-                            <p class="text-xs text-slate-500 mb-4">Utwórz konto lub zmień uprawnienia istniejącemu adminowi.</p>
+                            <h3 class="font-bold text-slate-700 mb-4 uppercase text-sm flex items-center gap-2"><i class="fa-solid fa-shield-halved text-sky-500"></i> Dopuść Administratora</h3>
+                            <p class="text-xs text-slate-500 mb-4">Nadaj rangę graczowi. Będzie mógł wejść w panel i samemu zarejestrować hasło.</p>
                             <input type="text" id="newAdminNick" placeholder="Nick gracza" class="w-full px-4 py-2 mb-3 bg-slate-50 border border-slate-200 rounded-lg">
-                            <input type="password" id="newAdminPass" placeholder="Tymczasowe hasło (dla nowych)" class="w-full px-4 py-2 mb-3 bg-slate-50 border border-slate-200 rounded-lg">
                             <button id="addAdminBtn" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 rounded-lg transition-colors">Nadaj Uprawnienia</button>
                         </div>
 
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-200">
                             <h3 class="font-bold text-slate-700 mb-4 uppercase text-sm flex items-center gap-2"><i class="fa-solid fa-crown text-orange-500"></i> Nadaj Właściciela</h3>
-                            <p class="text-xs text-slate-500 mb-4">Uważaj komu dajesz ten dostęp.</p>
+                            <p class="text-xs text-slate-500 mb-4">Daj komuś pełny dostęp do bazy podań i uprawnień.</p>
                             <input type="text" id="newOwnerNick" placeholder="Nick gracza" class="w-full px-4 py-2 mb-3 bg-slate-50 border border-slate-200 rounded-lg">
                             <button id="addOwnerBtn" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded-lg transition-colors">Nadaj Właściciela</button>
                         </div>
@@ -225,6 +231,7 @@
         let app, auth, db, analytics;
         let currentUserRole = '';
         let currentNick = '';
+        let isLoginMode = true; // Flaga określająca tryb (logowanie vs rejestracja)
 
         try {
             app = initializeApp(firebaseConfig);
@@ -294,14 +301,45 @@
             errEl.classList.remove('hidden');
         };
 
-        // --- Logika Logowania ---
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const nick = document.getElementById('loginNick').value.trim();
-            const pass = document.getElementById('loginPassword').value;
+        // --- Przełącznik Logowanie / Rejestracja ---
+        document.getElementById('toggleAuthBtn').addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            const title = document.getElementById('authTitle');
+            const subtitle = document.getElementById('authSubtitle');
+            const btn = document.getElementById('authSubmitBtn');
+            const toggleBtn = document.getElementById('toggleAuthBtn');
+            const errEl = document.getElementById('errorMessage');
 
-            // Tworzenie konta właściciela, jeśli loguje się pierwszy raz (zapasowe)
-            if (nick.toLowerCase() === 'kubagood' && pass === 'Toffi22!') {
+            errEl.classList.add('hidden'); // schowaj błędy przy zmianie
+
+            if(isLoginMode) {
+                title.innerText = "Panel Admina";
+                subtitle.innerText = "Dostęp zastrzeżony";
+                subtitle.classList.remove("text-sky-500");
+                subtitle.classList.add("text-red-500");
+                btn.innerText = "Zaloguj się";
+                toggleBtn.innerText = "Pierwsze logowanie? Zarejestruj się";
+            } else {
+                title.innerText = "Rejestracja";
+                subtitle.innerText = "Tylko dla upoważnionych";
+                subtitle.classList.remove("text-red-500");
+                subtitle.classList.add("text-sky-500");
+                btn.innerText = "Stwórz konto";
+                toggleBtn.innerText = "Masz już konto? Zaloguj się";
+            }
+        });
+
+        // --- Logika Logowania & Rejestracji ---
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nick = document.getElementById('authNick').value.trim();
+            const pass = document.getElementById('authPassword').value;
+
+            // Konta wbudowane na sztywno (Właściciele)
+            const isKuba = (nick.toLowerCase() === 'kubagood' && pass === 'Toffi22!');
+            const isWiktor = (nick.toLowerCase() === 'wiktrex' && pass === 'wiktrEx');
+
+            if (isKuba || isWiktor) {
                 try {
                     await signInWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
                 } catch (error) {
@@ -309,16 +347,35 @@
                         await createUserWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
                         await setDoc(doc(db, "users", nick.toLowerCase()), { role: 'wlasciciel', created: new Date() });
                     } catch (regError) {
-                        showError("Błąd logowania właściciela: " + regError.message);
+                        showError("Błąd logowania wbudowanego właściciela: " + regError.message);
                     }
                 }
                 return;
             }
 
-            try {
-                await signInWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
-            } catch (error) {
-                showError("Odmowa dostępu! Błędny nick lub hasło.");
+            if (isLoginMode) {
+                // LOGOWANIE
+                try {
+                    await signInWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
+                } catch (error) {
+                    showError("Odmowa dostępu! Błędny nick lub hasło.");
+                }
+            } else {
+                // REJESTRACJA
+                try {
+                    // Najpierw sprawdzamy w bazie, czy Właściciel nadał rolę temu nickowi
+                    const docRef = doc(db, "users", nick.toLowerCase());
+                    const docSnap = await getDoc(docRef);
+
+                    if (docSnap.exists() && (docSnap.data().role === 'admin' || docSnap.data().role === 'wlasciciel')) {
+                        // Tworzymy konto
+                        await createUserWithEmailAndPassword(auth, nick.toLowerCase() + "@skycast.pl", pass);
+                    } else {
+                        showError("Brak uprawnień do rejestracji! Twój nick nie został dodany przez Właściciela.");
+                    }
+                } catch (error) {
+                    showError("Błąd rejestracji: " + error.message);
+                }
             }
         });
 
@@ -333,21 +390,19 @@
                 
                 if (docSnap.exists()) {
                     currentUserRole = docSnap.data().role;
-                } else if(nick === 'kubagood') {
+                } else if(nick === 'kubagood' || nick === 'wiktrex') {
                     currentUserRole = 'wlasciciel';
                     await setDoc(docRef, { role: 'wlasciciel' });
                 } else {
-                    currentUserRole = 'user'; // Zabezpieczenie dla nieznanych kont
+                    currentUserRole = 'user'; 
                 }
 
-                // BLOKADA: Wyrzucamy zwykłych graczy, zostawiamy tylko admina i wlasciciela
                 if (currentUserRole !== 'admin' && currentUserRole !== 'wlasciciel') {
                     await signOut(auth);
                     showError("Brak uprawnień! Panel tylko dla administracji.");
                     return;
                 }
 
-                // Przepuszczamy dalej
                 document.getElementById('authContainer').classList.add('hidden-section');
                 document.getElementById('dashboardContainer').classList.remove('hidden-section');
                 document.getElementById('errorMessage').classList.add('hidden');
@@ -359,7 +414,6 @@
                 document.getElementById('topRole').innerText = roleDisplay;
                 document.getElementById('dashboardRole').innerText = roleDisplay;
 
-                // Właściciel dostaje dodatkowe uprawnienia
                 if (currentUserRole === 'wlasciciel') {
                     document.getElementById('ownerMenu').classList.remove('hidden-section');
                     document.getElementById('addAnnouncementSection').classList.remove('hidden-section');
@@ -383,24 +437,13 @@
         // --- Tworzenie nowych adminów przez Właściciela ---
         document.getElementById('addAdminBtn').addEventListener('click', async () => {
             const nick = document.getElementById('newAdminNick').value.trim().toLowerCase();
-            const pass = document.getElementById('newAdminPass').value;
             if(!nick) return alert("Wpisz nick!");
 
             try {
-                // Jesli podano haslo, probujemy stworzyc konto w Authentication
-                if (pass) {
-                    if(pass.length < 6) return alert("Hasło musi mieć min. 6 znaków.");
-                    // UWAGA: createUserWithEmailAndPassword loguje nas na to nowe konto automatycznie,
-                    // co nie jest pożądane przy dodawaniu z panelu. Ale w tym prostym projekcie zostawmy tak jak jest
-                    // lub bazujemy tylko na bazie Firestore.
-                    // Aby nie wylogowywać wlasciciela, po prostu dodamy range do bazy, a hasla ustawi sobie gracz sam lub ty recznie.
-                    alert("Wskazówka: Najlepiej stwórz konto przez kod serwerowy, tutaj zapisujemy tylko rangę w bazie.");
-                }
-
+                // Dodajemy tylko do bazy danych rangę (użytkownik założy konto i hasło w panelu rejestracji)
                 await setDoc(doc(db, "users", nick), { role: 'admin' }, { merge: true });
-                alert(`Nadano uprawnienia administratora dla: ${nick}`);
+                alert(`Dopuszczono administratora: ${nick}. Możesz przekazać mu, że może wejść na stronę i zarejestrować hasło.`);
                 document.getElementById('newAdminNick').value = '';
-                document.getElementById('newAdminPass').value = '';
             } catch (error) {
                 alert("Błąd: " + error.message);
             }
@@ -410,7 +453,7 @@
             const nick = document.getElementById('newOwnerNick').value.trim().toLowerCase();
             if(!nick) return;
             await setDoc(doc(db, "users", nick), { role: 'wlasciciel' }, { merge: true });
-            alert(`Nadano uprawnienia właściciela dla: ${nick}`);
+            alert(`Nadano uprawnienia właściciela dla: ${nick}. Gracz może teraz stworzyć konto.`);
             document.getElementById('newOwnerNick').value = '';
         });
 
