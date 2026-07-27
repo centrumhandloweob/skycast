@@ -13,6 +13,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
+        /* Zmniejszenie bazowej wielkości czcionki - skaluje wszystkie wartości 'rem' w Tailwind */
+        html {
+            font-size: 14px;
+        }
+
         @keyframes msgPop {
             0% { opacity: 0; transform: translateY(15px) scale(0.95); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -95,8 +100,8 @@
         </form>
     </div>
 
-    <!-- GŁÓWNY PANEL -->
-    <div id="dashboardContainer" class="hidden-section w-full max-w-[85rem] h-[90vh] glass-panel rounded-[2rem] flex flex-col overflow-hidden shadow-2xl border-white/40">
+    <!-- GŁÓWNY PANEL (Zwiększono max-w oraz h) -->
+    <div id="dashboardContainer" class="hidden-section w-full max-w-[95vw] h-[95vh] glass-panel rounded-[2rem] flex flex-col overflow-hidden shadow-2xl border-white/40">
         
         <header class="w-full bg-white/40 border-b border-white/50 px-6 py-4 flex items-center justify-between z-10 backdrop-blur-xl flex-shrink-0">
             <div class="flex items-center gap-3 hover:scale-105 transition-transform cursor-pointer">
