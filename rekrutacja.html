@@ -64,14 +64,20 @@
     <main class="flex-grow pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full relative z-10 flex flex-col items-center justify-center min-h-[85vh]">
         
         <div id="landingScreen" class="w-full transition-all duration-500">
-            <div class="text-center mb-10">
+            <div class="text-center mb-6">
                 <i class="fa-solid fa-clipboard-user text-6xl text-sky-500 mb-6 drop-shadow-lg"></i>
                 <h1 class="text-4xl md:text-5xl font-black uppercase text-slate-800 tracking-tight mb-4">Dołącz do <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">Administracji</span></h1>
-                <p class="text-slate-500 max-w-xl mx-auto font-medium">Wypełnij formularz rekrutacyjny, pokaż nam, na co Cię stać i stań się częścią ekipy Skycast!</p>
+                <p class="text-slate-500 max-w-xl mx-auto font-medium mb-8">Wypełnij formularz rekrutacyjny, pokaż nam, na co Cię stać i stań się częścią ekipy Skycast!</p>
+                
+                <!-- BOKS ZE STATUSEM REKRUTACJI (Kontrolowany przez JS) -->
+                <div id="recruitmentStatusBox" class="inline-block px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-widest shadow-md mb-8 transition-all">
+                    <!-- Treść statusu ładowana dynamicznie -->
+                </div>
             </div>
 
             <div class="flex justify-center mb-12">
-                <button onclick="startApplication()" class="relative group overflow-hidden bg-gradient-to-r from-sky-500 to-blue-500 text-white px-10 py-5 rounded-2xl font-black text-lg uppercase tracking-widest shadow-[0_10px_25px_rgba(14,165,233,0.4)] transition-all hover:scale-105 active:scale-95">
+                <!-- Przycisk zyska ID do blokowania, jeśli rekrutacja jest wyłączona -->
+                <button id="startAppBtn" onclick="startApplication()" class="relative group overflow-hidden text-white px-10 py-5 rounded-2xl font-black text-lg uppercase tracking-widest shadow-[0_10px_25px_rgba(14,165,233,0.4)] transition-all">
                     <span class="relative flex items-center gap-3">
                         <i class="fa-solid fa-rocket"></i> Rozpocznij Podanie
                     </span>
@@ -80,8 +86,7 @@
 
             <div id="myApplications" class="hidden-section glass-panel p-8 rounded-[2rem] w-full">
                 <h3 class="text-xl font-black uppercase text-slate-800 mb-6 border-b border-slate-200 pb-4">Twoje wysłane podania</h3>
-                <div id="applicationsList" class="space-y-4">
-                    </div>
+                <div id="applicationsList" class="space-y-4"></div>
             </div>
         </div>
 
@@ -90,15 +95,17 @@
                 <div id="progressBar" class="bg-gradient-to-r from-sky-400 to-blue-500 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
             </div>
             
-            <div class="flex justify-between items-center mb-8 text-sm font-bold text-slate-400">
-                <span id="stepCounter">Pytanie 1 / 20</span>
-                <button onclick="cancelApplication()" class="hover:text-red-500 transition-colors"><i class="fa-solid fa-xmark"></i> Anuluj</button>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 text-sm font-bold text-slate-400">
+                <div>
+                    <span id="stepCounter" class="mr-4">Pytanie 1 / x</span>
+                    <span id="applyingForRole" class="text-sky-500 hidden sm:inline-block bg-sky-50 px-3 py-1 rounded-lg border border-sky-100"></span>
+                </div>
+                <button onclick="cancelApplication()" class="hover:text-red-500 transition-colors bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200"><i class="fa-solid fa-xmark"></i> Anuluj</button>
             </div>
 
             <div id="questionContainer" class="min-h-[250px] flex flex-col justify-center slide-in">
                 <h2 id="questionTitle" class="text-2xl md:text-3xl font-black text-slate-800 mb-6 leading-tight">...</h2>
-                <div id="inputContainer" class="w-full">
-                    </div>
+                <div id="inputContainer" class="w-full"></div>
             </div>
 
             <div class="flex justify-between items-center mt-10 border-t border-slate-100 pt-6">
@@ -138,15 +145,13 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div>
                         <h3 class="font-black text-slate-800 uppercase mb-4 text-sm tracking-widest">Twoje Odpowiedzi</h3>
-                        <div id="answersList" class="space-y-4 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
-                            </div>
+                        <div id="answersList" class="space-y-4 max-h-[400px] overflow-y-auto custom-scrollbar pr-2"></div>
                     </div>
 
                     <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col h-[400px]">
                         <h3 class="font-black text-slate-800 uppercase mb-4 text-sm tracking-widest"><i class="fa-solid fa-comments text-sky-500"></i> Dyskusja z Administracją</h3>
                         
-                        <div id="commentsBox" class="flex-grow overflow-y-auto custom-scrollbar space-y-4 mb-4 pr-2">
-                            </div>
+                        <div id="commentsBox" class="flex-grow overflow-y-auto custom-scrollbar space-y-4 mb-4 pr-2"></div>
 
                         <div class="relative mt-auto">
                             <input type="text" id="newCommentInput" placeholder="Napisz wiadomość..." class="w-full bg-white border border-slate-300 rounded-xl py-3 pl-4 pr-12 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all">
@@ -164,6 +169,12 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Dynamiczna konfiguracja rekrutacji (pobierana na żywo z Firestore)
+        let RECRUITMENT_CONFIG = {
+            isOpen: false,
+            role: "Ładowanie..."
+        };
 
         // SKONFIGURUJ FIREBASE
         const firebaseConfig = {
@@ -183,10 +194,43 @@
             console.error("Błąd bazy danych", e);
         }
 
-        // --- PYTANIA REKRUTACYJNE (20 SLAJDÓW) ---
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // --- NASŁUCHIWANIE STATUSU REKRUTACJI Z FIREBASE ---
+        function listenToRecruitmentSettings() {
+            if (!db) return;
+            
+            // Ścieżka w Firestore: kolekcja 'settings', dokument 'recruitment'
+            const configRef = doc(db, "settings", "recruitment");
+            
+            onSnapshot(configRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    RECRUITMENT_CONFIG.isOpen = Boolean(data.isOpen);
+                    RECRUITMENT_CONFIG.role = data.role || "Brak określonego stanowiska";
+                } else {
+                    RECRUITMENT_CONFIG.isOpen = false;
+                    RECRUITMENT_CONFIG.role = "Brak";
+                }
+                updateRecruitmentStatus();
+            }, (error) => {
+                console.error("Błąd pobierania ustawień rekrutacji z Firebase:", error);
+                RECRUITMENT_CONFIG.isOpen = false;
+                updateRecruitmentStatus();
+            });
+        }
+
+        // --- PYTANIA REKRUTACYJNE ---
         const questions = [
             { id: "q1", title: "Podaj swój Nick z Minecrafta", type: "text", placeholder: "Np. Steve123" },
-            { id: "q2", title: "Na jakie stanowisko aplikujesz?", type: "select", options: ["ChatMod", "Support"] },
             { id: "q3", title: "Ile masz lat?", type: "number", placeholder: "Wpisz swój wiek" },
             { id: "q4", title: "Czy posiadasz sprawny mikrofon i komunikator Discord?", type: "select", options: ["Tak", "Nie"] },
             { id: "q5", title: "Ile czasu dziennie jesteś w stanie poświęcić na nasz serwer?", type: "text", placeholder: "Np. 3-4 godziny" },
@@ -204,16 +248,47 @@
             { id: "q17", title: "Znalazłeś poważnego buga, który pozwala kopiować itemy. Komu i w jaki sposób to zgłaszasz?", type: "textarea", placeholder: "Odpowiedz" },
             { id: "q18", title: "Wymień 3 najważniejsze cechy, które powinien posiadać dobry członek administracji.", type: "textarea", placeholder: "Cechy administratora..." },
             { id: "q19", title: "Czy zapoznałeś się i akceptujesz regulamin serwera Skycast.pl?", type: "select", options: ["Tak", "Nie"] },
-            { id: "q20", title: "Czy masz jakieś pytania do nas lub chciałbyś dodać coś od siebie?", type: "textarea", placeholder: "Opcjonalne" }
+            { id: "q20", title: "Czy masz jakieś pytania do nas lub chciałbyś dodać coś od siebie?", type: "textarea", placeholder: "Opcjonalne", required: false }
         ];
 
         let currentStep = 0;
         let answers = {};
         let currentViewedAppId = null;
-        let unsubscribe = null; // Do nasłuchiwania zmian w Firebase
+        let unsubscribe = null;
+
+        // --- AKTUALIZACJA UI NA PODSTAWIE KONFIGURACJI Z BAZY ---
+        function updateRecruitmentStatus() {
+            const statusBox = document.getElementById('recruitmentStatusBox');
+            const startBtn = document.getElementById('startAppBtn');
+            const roleBadge = document.getElementById('applyingForRole');
+
+            if (RECRUITMENT_CONFIG.isOpen) {
+                // Rekrutacja otwarta (Zielony Status)
+                statusBox.className = "inline-block px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-widest shadow-sm mb-8 bg-green-100 text-green-700 border border-green-300";
+                statusBox.innerHTML = `<i class="fa-solid fa-door-open mr-2"></i> Rekrutacja otwarta na stanowisko: <span class="text-green-900">${escapeHtml(RECRUITMENT_CONFIG.role)}</span>`;
+                
+                startBtn.disabled = false;
+                startBtn.classList.add('bg-gradient-to-r', 'from-sky-500', 'to-blue-500', 'hover:scale-105', 'active:scale-95', 'cursor-pointer');
+                startBtn.classList.remove('bg-slate-400', 'cursor-not-allowed', 'opacity-60');
+                
+                roleBadge.innerHTML = `<i class="fa-solid fa-user-shield mr-1"></i> Aplikujesz na: <strong>${escapeHtml(RECRUITMENT_CONFIG.role)}</strong>`;
+            } else {
+                // Rekrutacja zamknięta (Czerwony Status)
+                statusBox.className = "inline-block px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-widest shadow-sm mb-8 bg-red-100 text-red-700 border border-red-300";
+                statusBox.innerHTML = `<i class="fa-solid fa-lock mr-2"></i> Rekrutacja jest obecnie zamknięta`;
+                
+                startBtn.disabled = true;
+                startBtn.classList.remove('bg-gradient-to-r', 'from-sky-500', 'to-blue-500', 'hover:scale-105', 'active:scale-95');
+                startBtn.classList.add('bg-slate-400', 'cursor-not-allowed', 'opacity-60');
+            }
+        }
 
         // --- INTERFEJS STARTOWY ---
         window.startApplication = () => {
+            if (!RECRUITMENT_CONFIG.isOpen) {
+                return alert("Przepraszamy, rekrutacja jest obecnie zamknięta!");
+            }
+
             document.getElementById('landingScreen').classList.add('hidden-section');
             document.getElementById('formScreen').classList.remove('hidden-section');
             currentStep = 0;
@@ -229,7 +304,10 @@
         };
 
         window.backToLanding = () => {
-            if(unsubscribe) unsubscribe();
+            if(unsubscribe) {
+                unsubscribe();
+                unsubscribe = null;
+            }
             document.getElementById('statusScreen').classList.add('hidden-section');
             document.getElementById('landingScreen').classList.remove('hidden-section');
             loadMyApplications();
@@ -243,7 +321,7 @@
             
             const container = document.getElementById('questionContainer');
             container.classList.remove('slide-in');
-            void container.offsetWidth; // Trigger reflow
+            void container.offsetWidth; // Reflow
             container.classList.add('slide-in');
 
             document.getElementById('questionTitle').innerText = q.title;
@@ -252,9 +330,9 @@
             let currentValue = answers[q.id] || '';
 
             if (q.type === 'text' || q.type === 'number') {
-                inputContainer.innerHTML = `<input type="${q.type}" id="currentInput" value="${currentValue}" placeholder="${q.placeholder}" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-6 py-4 text-lg focus:border-sky-500 focus:ring-4 focus:ring-sky-500/20 outline-none transition-all text-slate-700 font-medium">`;
+                inputContainer.innerHTML = `<input type="${q.type}" id="currentInput" value="${escapeHtml(currentValue)}" placeholder="${q.placeholder}" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-6 py-4 text-lg focus:border-sky-500 focus:ring-4 focus:ring-sky-500/20 outline-none transition-all text-slate-700 font-medium">`;
             } else if (q.type === 'textarea') {
-                inputContainer.innerHTML = `<textarea id="currentInput" rows="4" placeholder="${q.placeholder}" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-6 py-4 text-lg focus:border-sky-500 focus:ring-4 focus:ring-sky-500/20 outline-none transition-all text-slate-700 font-medium resize-none">${currentValue}</textarea>`;
+                inputContainer.innerHTML = `<textarea id="currentInput" rows="4" placeholder="${q.placeholder}" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-6 py-4 text-lg focus:border-sky-500 focus:ring-4 focus:ring-sky-500/20 outline-none transition-all text-slate-700 font-medium resize-none">${escapeHtml(currentValue)}</textarea>`;
             } else if (q.type === 'select') {
                 let optionsHtml = q.options.map(opt => `<option value="${opt}" ${currentValue === opt ? 'selected' : ''}>${opt}</option>`).join('');
                 inputContainer.innerHTML = `<select id="currentInput" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-6 py-4 text-lg focus:border-sky-500 focus:ring-4 focus:ring-sky-500/20 outline-none transition-all text-slate-700 font-medium cursor-pointer">
@@ -263,7 +341,20 @@
                 </select>`;
             }
 
-            // Przyciski nawigacji
+            const currentInput = document.getElementById('currentInput');
+            if (currentInput && q.type !== 'textarea') {
+                currentInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (currentStep === questions.length - 1) {
+                            window.submitApplication();
+                        } else {
+                            window.nextStep();
+                        }
+                    }
+                });
+            }
+
             document.getElementById('prevBtn').classList.toggle('hidden-section', currentStep === 0);
             
             if (currentStep === questions.length - 1) {
@@ -282,8 +373,13 @@
 
         window.nextStep = () => {
             saveCurrentAnswer();
+            const q = questions[currentStep];
             const input = document.getElementById('currentInput');
-            if (!input.value.trim()) return alert("Proszę wypełnić to pole!");
+            const isRequired = q.required !== false;
+
+            if (isRequired && (!input || !input.value.trim())) {
+                return alert("Proszę wypełnić to pole!");
+            }
             
             if (currentStep < questions.length - 1) {
                 currentStep++;
@@ -301,26 +397,33 @@
 
         window.submitApplication = async () => {
             saveCurrentAnswer();
+            const q = questions[currentStep];
             const input = document.getElementById('currentInput');
-            if (!input.value.trim()) return alert("Proszę wypełnić to pole!");
+            const isRequired = q.required !== false;
 
-            document.getElementById('submitBtn').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Wysyłanie...';
-            document.getElementById('submitBtn').disabled = true;
+            if (isRequired && (!input || !input.value.trim())) {
+                return alert("Proszę wypełnić to pole!");
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Wysyłanie...';
+            submitBtn.disabled = true;
 
             try {
-                // Zapis do Firebase
+                if (!db) throw new Error("Baza danych Firebase nie została zainicjalizowana.");
+
+                // PRZYPISANIE DYNAMICZNEJ RANGI POBRANEJ Z PANELU
                 const docRef = await addDoc(collection(db, "applications"), {
-                    nick: answers['q1'],
-                    role: answers['q2'],
+                    nick: answers['q1'] || 'Niepodano',
+                    role: RECRUITMENT_CONFIG.role,
                     answers: answers,
                     status: 'Oczekujące',
                     comments: [],
                     createdAt: serverTimestamp()
                 });
 
-                // Zapisz ID podania w localStorage dla gracza
                 let myApps = JSON.parse(localStorage.getItem('skycast_applications')) || [];
-                myApps.push({ id: docRef.id, nick: answers['q1'], role: answers['q2'], date: new Date().toLocaleDateString() });
+                myApps.push({ id: docRef.id, nick: answers['q1'], role: RECRUITMENT_CONFIG.role, date: new Date().toLocaleDateString() });
                 localStorage.setItem('skycast_applications', JSON.stringify(myApps));
 
                 alert("Podanie zostało wysłane pomyślnie!");
@@ -329,10 +432,10 @@
                 loadMyApplications();
             } catch (error) {
                 console.error("Błąd wysyłania podania:", error);
-                alert("Wystąpił błąd podczas wysyłania. Spróbuj ponownie.");
+                alert("Wystąpił błąd podczas wysyłania: " + error.message);
             } finally {
-                document.getElementById('submitBtn').innerHTML = 'Prześlij podanie <i class="fa-solid fa-paper-plane ml-2"></i>';
-                document.getElementById('submitBtn').disabled = false;
+                submitBtn.innerHTML = 'Prześlij podanie <i class="fa-solid fa-paper-plane ml-2"></i>';
+                submitBtn.disabled = false;
             }
         };
 
@@ -354,8 +457,8 @@
                 listEl.innerHTML += `
                     <div class="flex items-center justify-between bg-slate-50 border border-slate-200 p-4 rounded-xl hover:border-sky-300 transition-colors cursor-pointer group" onclick="openApplication('${app.id}')">
                         <div>
-                            <div class="font-black text-slate-700">${app.nick} <span class="text-sky-500 ml-1">(${app.role})</span></div>
-                            <div class="text-xs text-slate-400 font-bold mt-1">Wysłano: ${app.date} | Kliknij aby zobaczyć status lub napisać do administratora.</div>
+                            <div class="font-black text-slate-700">${escapeHtml(app.nick)} <span class="text-sky-500 ml-1">(${escapeHtml(app.role)})</span></div>
+                            <div class="text-xs text-slate-400 font-bold mt-1">Wysłano: ${escapeHtml(app.date)} | Kliknij, aby zobaczyć status lub napisać do administratora.</div>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-sky-50 group-hover:text-sky-500 transition-all shadow-sm">
                             <i class="fa-solid fa-chevron-right"></i>
@@ -366,11 +469,14 @@
         }
 
         window.openApplication = async (id) => {
+            if (unsubscribe) unsubscribe();
+
             document.getElementById('landingScreen').classList.add('hidden-section');
             document.getElementById('statusScreen').classList.remove('hidden-section');
             currentViewedAppId = id;
 
-            // Nasłuchiwanie na żywo z Firebase
+            if (!db) return alert("Błąd połączenia z bazą danych.");
+
             unsubscribe = onSnapshot(doc(db, "applications", id), (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
@@ -379,14 +485,15 @@
                     alert("Podanie zostało usunięte przez administrację.");
                     backToLanding();
                 }
+            }, (error) => {
+                console.error("Błąd nasłuchiwania danych podania:", error);
             });
         };
 
         function renderApplicationData(data) {
-            document.getElementById('statusNick').innerText = data.nick;
-            document.getElementById('statusRole').innerText = data.role;
+            document.getElementById('statusNick').innerText = data.nick || '';
+            document.getElementById('statusRole').innerText = data.role || '';
 
-            // Status Badge
             const badge = document.getElementById('statusBadge');
             const acceptMsg = document.getElementById('acceptedMessage');
             
@@ -404,21 +511,19 @@
                 acceptMsg.classList.add('hidden-section');
             }
 
-            // Render Answers
             const answersList = document.getElementById('answersList');
             answersList.innerHTML = '';
             questions.forEach((q, index) => {
-                const answer = data.answers[q.id] || "Brak odpowiedzi";
+                const answer = (data.answers && data.answers[q.id]) ? data.answers[q.id] : "Brak odpowiedzi";
                 answersList.innerHTML += `
                     <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm mb-3">
                         <div class="text-xs font-bold text-sky-500 mb-1">Pytanie ${index + 1}</div>
-                        <div class="font-bold text-slate-700 text-sm mb-2">${q.title}</div>
-                        <div class="text-slate-600 text-sm bg-slate-50 p-3 rounded-lg border border-slate-100">${answer}</div>
+                        <div class="font-bold text-slate-700 text-sm mb-2">${escapeHtml(q.title)}</div>
+                        <div class="text-slate-600 text-sm bg-slate-50 p-3 rounded-lg border border-slate-100 whitespace-pre-wrap">${escapeHtml(answer)}</div>
                     </div>
                 `;
             });
 
-            // Render Comments
             const commentsBox = document.getElementById('commentsBox');
             commentsBox.innerHTML = '';
             if (data.comments && data.comments.length > 0) {
@@ -426,9 +531,9 @@
                     const isAdmin = c.author !== 'Ty';
                     commentsBox.innerHTML += `
                         <div class="flex flex-col ${isAdmin ? 'items-start' : 'items-end'}">
-                            <span class="text-[10px] font-bold text-slate-400 mb-1 px-1">${c.author}</span>
+                            <span class="text-[10px] font-bold text-slate-400 mb-1 px-1">${escapeHtml(c.author)}</span>
                             <div class="px-4 py-2 rounded-2xl max-w-[80%] text-sm ${isAdmin ? 'bg-white border border-slate-200 text-slate-700 rounded-tl-none' : 'bg-sky-500 text-white rounded-tr-none shadow-md'}">
-                                ${c.text}
+                                ${escapeHtml(c.text)}
                             </div>
                         </div>
                     `;
@@ -442,7 +547,7 @@
         window.postComment = async () => {
             const input = document.getElementById('newCommentInput');
             const text = input.value.trim();
-            if (!text || !currentViewedAppId) return;
+            if (!text || !currentViewedAppId || !db) return;
 
             input.value = '';
             const docRef = doc(db, "applications", currentViewedAppId);
@@ -462,9 +567,9 @@
             }
         };
 
-        // Inicjalizacja przy ładowaniu
-        window.onload = loadMyApplications;
-
+        // INICJALIZACJA
+        listenToRecruitmentSettings();
+        loadMyApplications();
     </script>
 </body>
 </html>
