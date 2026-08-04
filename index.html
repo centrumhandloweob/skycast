@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="pl" class="scroll-smooth">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Skycast.pl</title>
+    <title>Skycast.pl </title>
     <meta name="description" content="Oficjalna strona serwera Skycast.pl. Wbijaj IP: skycast.pl - minecraft java 1.21.4+"/>
     
     <link rel="icon" href="https://imgur.com/xqWUBJB.png"/>
@@ -193,7 +192,6 @@
             </nav>
 
             <div class="flex items-center gap-3">
-                <!-- Przycisk Logowania bezpośrednio przekierowujący na podstronę w tej samej karcie -->
                 <a href="https://skycast.pl/konto" class="px-5 py-2.5 rounded-xl font-black text-sm uppercase tracking-wider flex items-center gap-2 border-2 border-sky-400 text-sky-500 hover:bg-sky-500 hover:text-white transition-all duration-300 bg-white/50 backdrop-blur-sm shadow-sm hover:scale-105">
                     <i class="fa-solid fa-user"></i>
                     <span class="hidden sm:inline">Zaloguj</span>
@@ -219,8 +217,9 @@
             <i class="fa-solid fa-sun text-[#fde047] text-8xl summer-icon" style="top: 5%; right: 15%; animation-delay: 3s;"></i>
             <i class="fa-solid fa-fish-fins text-[#fdba74] text-5xl summer-icon" style="bottom: 15%; right: 25%; animation-delay: 4s;"></i>
 
-            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-20 w-full">
-                <div class="text-center lg:text-left bg-white/40 p-8 rounded-[3rem] backdrop-blur-md shadow-2xl border border-white/60">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-20 w-full">
+                <!-- PANEL TEKSTOWY GUI Z LEWEJ -->
+                <div class="text-center lg:text-left bg-white/40 p-8 rounded-[3rem] backdrop-blur-md shadow-2xl border border-white/60 relative z-30">
                     <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/80 border border-sky-200 mb-6 shadow-sm">
                         <i class="fa-solid fa-water text-sky-500 animate-bounce-slow"></i>
                         <span class="text-xs sm:text-sm font-bold text-sky-600 tracking-wider">WAKACYJNA PRZYGODA CZEKA!</span>
@@ -232,7 +231,7 @@
                     </h1>
                     
                     <p class="text-slate-600 text-base md:text-lg max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed font-medium">
-                        Wskakuj w kąpielówki i odkryj gorący, wakacyjny klimat na naszym serwerze. Pełno eventowek i wiele nowośći!
+                        Wskakuj w kąpielówki i odkryj gorący, wakacyjny klimat na naszym serwerze. Pełno eventów i wiele nowości!
                     </p>
                     
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
@@ -257,9 +256,21 @@
                     </div>
                 </div>
                 
-                <div class="flex justify-center lg:justify-end relative">
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-yellow-200/50 blur-[100px] rounded-full z-0"></div>
-                    <img alt="Skycast Render" src="https://imgur.com/xqWUBJB.png" class="w-72 sm:w-96 lg:w-[500px] object-contain floating-element relative z-10 drop-shadow-[0_30px_60px_rgba(14,165,233,0.3)]"/>
+                <!-- BEZPIECZNE, NIEKLIKALNE WIDEO PO PRAWEJ STRONIE (BEZ NACHODZENIA) -->
+                <div class="flex justify-center lg:justify-end relative z-20 w-full">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-sky-300/30 blur-[100px] rounded-full z-0 pointer-events-none"></div>
+                    
+                    <div class="w-full max-w-xl lg:max-w-none aspect-video rounded-[2.5rem] border-[6px] border-white/90 shadow-[0_25px_65px_rgba(14,165,233,0.35)] relative z-10 overflow-hidden bg-black select-none">
+                        
+                        <!-- NAKŁADKA BLOKUJĄCA WSZYSTKIE KLIKNIĘCIA ORAZ PRZYCISK PLAY -->
+                        <div class="absolute inset-0 z-20 bg-transparent cursor-default pointer-events-auto select-none"></div>
+
+                        <!-- ZWIĘKSZONA SKALA (135%) ELIMINUJE PASKI Z NAPISEM I PRZYCISK PLAY NA JEGO START -->
+                        <iframe src="https://www.youtube-nocookie.com/embed/EH082zJAPy8?autoplay=1&mute=1&loop=1&playlist=EH082zJAPy8&controls=0&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&enablejsapi=0" 
+                            class="w-full h-full object-cover scale-[1.35] pointer-events-none border-0" 
+                            allow="autoplay; encrypted-media">
+                        </iframe>
+                    </div>
                 </div>
             </div>
         </section>
@@ -273,9 +284,12 @@
                             <i class="fa-solid fa-fire text-3xl text-white animate-pulse"></i>
                         </div>
                         <div>
-                            <span class="text-orange-600 font-black text-[11px] uppercase tracking-[0.2em] bg-orange-100 px-3 py-1.5 rounded-md mb-3 inline-block"> EVENT</span>
+                            <span class="text-orange-600 font-black text-[11px] uppercase tracking-[0.2em] bg-orange-100 px-3 py-1.5 rounded-md mb-2 inline-block"> EVENT</span>
                             <h3 class="text-2xl md:text-3xl font-black text-slate-800 uppercase tracking-wide mb-2">EVENT <span class="text-orange-500">WAKACYJNY</span></h3>
-                            <p class="text-slate-600 text-sm md:text-base font-medium">Zbieraj muszelki na serwerze i wymieniaj je na klucze i wakacyjne przedmioty u NPC!</p><br><br> <h5>Aby odebrać nagrodę musisz dołączyć na naszego discorda.</h5>
+                            <p class="text-slate-600 text-sm md:text-base font-medium">Zbieraj muszelki na serwerze i wymieniaj je na klucze oraz wakacyjne przedmioty u NPC!</p>
+                            <p class="text-xs text-orange-600 font-bold mt-2 flex items-center justify-center sm:justify-start gap-1">
+                                <i class="fa-brands fa-discord"></i> Aby odebrać nagrodę, dołącz na naszego Discorda!
+                            </p>
                         </div>
                     </div>
                     <a href="#discord" class="w-full md:w-auto text-center shrink-0 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-black uppercase tracking-wider text-sm rounded-xl transition-all hover:scale-105 shadow-[0_10px_20px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
@@ -297,35 +311,44 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Karta 1 -->
                     <div class="glass-panel p-8 rounded-3xl card-hover text-center border-t-4 border-t-yellow-400">
                         <div class="w-20 h-20 mx-auto bg-yellow-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
                             <i class="fa-solid fa-volleyball text-4xl text-yellow-500"></i>
                         </div>
                         <h3 class="text-xl font-black text-slate-800 uppercase mb-3">Strefa PVP</h3>
-                        <p class="text-slate-600 text-sm">Dodaliśmy strefę PvP która znajduje się za skrzynkami!</p>
+                        <p class="text-slate-600 text-sm">Dodaliśmy nową strefę PvP, która znajduje się tuż za skrzynkami!</p>
                     </div>
                     
-                    <!-- Karta 2 -->
                     <div class="glass-panel p-8 rounded-3xl card-hover text-center border-t-4 border-t-sky-400">
                         <div class="w-20 h-20 mx-auto bg-sky-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
-                            <i class="fa-solid fa-map-location-dot text-4xl text-sky-500"></i>
+                            <i class="fa-solid fa-bolt text-4xl text-sky-500"></i>
                         </div>
                         <h3 class="text-xl font-black text-slate-800 uppercase mb-3">REDBULLE</h3>
-                        <p class="text-slate-600 text-sm">Na tryb dodaliśmy też Redbulle, które pozwalają Wam latać! <br>Dostępne są redbulle na:<br>5 minut,<br>10 minut,<br>30 minut,<br>1 godzinę.</p>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Na tryb dodaliśmy też Redbulle, które pozwalają Wam latać!<br/><br/>
+                            <strong>Dostępne warianty:</strong><br/>
+                            ⚡ 5 minut | ⚡ 10 minut<br/>
+                            ⚡ 30 minut | ⚡ 1 godzina
+                        </p>
                     </div>
 
-                    <!-- Karta 3 -->
                     <div class="glass-panel p-8 rounded-3xl card-hover text-center border-t-4 border-t-pink-400">
                         <div class="w-20 h-20 mx-auto bg-pink-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
-                            <i class="fa-solid fa-mask text-4xl text-pink-500"></i>
+                            <i class="fa-solid fa-store text-4xl text-pink-500"></i>
                         </div>
                         <h3 class="text-xl font-black text-slate-800 uppercase mb-3">NOWY SKLEP I RYNEK</h3>
-                        <p class="text-slate-600 text-sm"><b>RYNEK</b><br>Rynek otrzymał wielką aktualizacje! Dodaliśmy:<br>sortowanie itemków,<br>możliwość anulowania sprzedaży,<br>powiadomienia o sprzedanym przedmiocie.
-                        <br><br><b>SKLEP</b><br>
-                        Od teraz, w sklepie panuje system dynamicznych cen. To wy decydujecie w jakiej cenie będzie sprzedawany dany produkt!<br><br>
-                        ⬆️ cena sprzedaży rośnie gdy nie jest sprzedawany w dużych ilościach.<br>
-                        ⬇️ cena sprzedaży maleje gdy jest sprzedawany w dużych ilościach.</p>
+                        <div class="text-slate-600 text-sm text-left space-y-3">
+                            <div>
+                                <strong class="text-slate-800 block border-b border-pink-200 pb-1 mb-1">RYNEK:</strong>
+                                Rynek otrzymał wielką aktualizację! Dodaliśmy sortowanie przedmiotów, możliwość anulowania sprzedaży oraz powiadomienia o sprzedanych rzeczach.
+                            </div>
+                            <div>
+                                <strong class="text-slate-800 block border-b border-pink-200 pb-1 mb-1">SKLEP:</strong>
+                                Nowy system dynamicznych cen. To Wy decydujecie o cenach rynkowych!<br/>
+                                ⬆️ Cena rośnie, gdy przedmiot rzadko jest sprzedawany.<br/>
+                                ⬇️ Cena spada przy masowej sprzedaży.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -379,7 +402,7 @@
                 <div class="text-center mb-16">
                     <span class="text-sky-500 font-bold uppercase tracking-widest text-sm mb-2 block">RANGI</span>
                     <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight text-slate-800">Zestawienie <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">Rang</span></h2>
-                    <p class="text-slate-500 mt-4 max-w-2xl mx-auto text-lg font-medium">Wybierz odpowiednią rangę dla siebie i ciesz się ułatwieniami!.</p>
+                    <p class="text-slate-500 mt-4 max-w-2xl mx-auto text-lg font-medium">Wybierz odpowiednią rangę dla siebie i ciesz się ułatwieniami!</p>
                 </div>
 
                 <div class="overflow-x-auto pb-4 custom-scrollbar rounded-3xl shadow-xl">
@@ -523,7 +546,7 @@
                         <a href="https://discord.gg/PBg6QYZ46T" target="_blank" class="w-10 h-10 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 hover:text-white hover:border-sky-500 hover:bg-sky-500 transition-all shadow-sm">
                             <i class="fa-brands fa-discord"></i>
                         </a>
-                        <a href="https://youtube.com/@skycastofficial" class="w-10 h-10 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 hover:text-white hover:border-sky-500 hover:bg-sky-500 transition-all shadow-sm">
+                        <a href="https://youtube.com/@skycastofficial" target="_blank" class="w-10 h-10 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 hover:text-white hover:border-sky-500 hover:bg-sky-500 transition-all shadow-sm">
                             <i class="fa-brands fa-youtube"></i>
                         </a>
                     </div>
