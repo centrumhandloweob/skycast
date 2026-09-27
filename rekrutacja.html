@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Skycast.pl - rekrutacja</title>
+    <title>Skycast.pl - Rekrutacja</title>
+    <meta name="description" content="Oficjalna strona serwera Skycast.pl. Dołącz do naszej administracji!"/>
     
     <link rel="icon" href="https://imgur.com/xqWUBJB.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -12,31 +13,118 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+                        'float': 'float 5s infinite ease-in-out',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f0f9ff;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 30%),
-                radial-gradient(circle at 85% 30%, rgba(2, 132, 199, 0.1), transparent 30%),
-                linear-gradient(to bottom, #e0f2fe 0%, #ffffff 50%, #f0f9ff 100%);
-            background-attachment: fixed;
+            background-color: #f8fafc;
             color: #0f172a;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
         }
 
-        .glass-panel {
+        /* Glassmorphism Premium */
+        .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px -15px rgba(14, 165, 233, 0.07);
         }
 
+        /* Hero Background Styling */
+        .hero-bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .hero-bg-image {
+            background-image: url('https://i.imgur.com/W8xQ1gO.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.9) contrast(1.05);
+            transform: scale(1.03);
+            transition: transform 10s ease;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg, 
+                rgba(240, 249, 255, 0.75) 0%, 
+                rgba(255, 255, 255, 0.92) 60%, 
+                #f8fafc 100%
+            );
+        }
+
+        /* Button Shop Gradient */
+        .btn-sky-gradient {
+            background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%);
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-sky-gradient:hover {
+            box-shadow: 0 15px 35px -5px rgba(14, 165, 233, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Ambient Light Glows */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Sekcje pomocnicze z oryginalnego pliku glostrojki */
         .hidden-section { display: none !important; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #bae6fd; border-radius: 10px; }
 
         .slide-in { animation: slideIn 0.4s ease-out forwards; }
         @keyframes slideIn {
@@ -45,38 +133,81 @@
         }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col relative selection:bg-sky-400 selection:text-white">
+<body class="antialiased selection:bg-sky-400 selection:text-white flex flex-col min-h-screen">
 
-    <header class="w-full fixed top-0 z-50 glass-panel border-b-0 rounded-b-3xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <!-- TŁO ZE STRONY GŁÓWNEJ -->
+    <div class="hero-bg-container">
+        <div class="hero-bg-image"></div>
+        <div class="hero-overlay"></div>
+    </div>
+    <div class="glow-orb w-96 h-96 bg-sky-300/40 top-1/4 left-1/2 -translate-x-1/2"></div>
+
+    <!-- NAVIGATION HEADER -->
+    <header class="w-full fixed top-0 z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto glass-card rounded-2xl sm:rounded-3xl px-4 sm:px-6 h-20 sm:h-24 flex items-center justify-between border border-white/80">
+            
             <a href="index.html" class="flex items-center gap-3 group">
-                <img alt="Skycast Logo" src="https://imgur.com/xqWUBJB.png" class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-md"/>
-                <span class="text-2xl font-black tracking-widest uppercase text-slate-800">
+                <img alt="Skycast Logo" src="https://i.imgur.com/aNCylbG.png" class="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105"/>
+                <span class="text-2xl sm:text-3xl font-black tracking-wider uppercase text-slate-800">
                     Skycast<span class="text-sky-500">.pl</span>
                 </span>
             </a>
-            <div class="hidden sm:block text-sm font-bold text-slate-500 uppercase tracking-widest">
-                Centrum Rekrutacji
+            
+            <nav class="hidden lg:flex items-center gap-7">
+                <a href="index.html#hero" class="text-sm font-bold text-slate-600 hover:text-sky-500 transition-colors uppercase tracking-wider">Główna</a>
+                <a href="index.html#earthsmp" class="text-sm font-bold text-slate-600 hover:text-sky-500 transition-colors uppercase tracking-wider">Zmiany</a>
+                <a href="index.html#sklep" class="text-sm font-bold text-slate-600 hover:text-sky-500 transition-colors uppercase tracking-wider">Sklep</a>
+                <a href="https://skycast.pl/rekrutacja" target="_blank" class="text-sm font-bold text-sky-500 hover:text-sky-600 transition-colors uppercase tracking-wider">Rekrutacja</a>
+                <a href="index.html#discord" class="text-sm font-bold text-slate-600 hover:text-sky-500 transition-colors uppercase tracking-wider">Discord</a>
+            </nav>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                <a href="https://skycast.pl/konto" class="px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 border-2 border-sky-400 text-sky-600 hover:bg-sky-500 hover:text-white transition-all duration-300 bg-white/80 shadow-sm">
+                    <i class="fa-solid fa-user text-xs sm:text-sm"></i>
+                    <span class="hidden sm:inline">Konto</span>
+                </a>
+                
+                <a href="https://vishop.pl/shop/27469/server/26076" target="_blank" class="btn-sky-gradient text-white px-3 sm:px-6 py-2 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Sklep</span>
+                </a>
+
+                <button id="mobileMenuBtn" aria-label="Otwórz menu" class="lg:hidden w-11 h-11 rounded-xl bg-white/90 border border-sky-200 text-slate-700 hover:text-sky-500 hover:border-sky-400 flex items-center justify-center text-xl shadow-sm transition-all focus:outline-none ml-1">
+                    <i class="fa-solid fa-bars" id="menuIcon"></i>
+                </button>
             </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden lg:hidden max-w-7xl mx-auto mt-2 glass-card rounded-2xl p-6 border border-white/90 shadow-2xl transition-all duration-300">
+            <nav class="flex flex-col gap-3 text-center">
+                <a href="index.html#hero" class="mobile-link text-base font-bold text-slate-700 hover:text-sky-500 py-2.5 border-b border-sky-100 uppercase tracking-wider">Główna</a>
+                <a href="index.html#earthsmp" class="mobile-link text-base font-bold text-slate-700 hover:text-sky-500 py-2.5 border-b border-sky-100 uppercase tracking-wider">Zmiany</a>
+                <a href="index.html#sklep" class="mobile-link text-base font-bold text-slate-700 hover:text-sky-500 py-2.5 border-b border-sky-100 uppercase tracking-wider">Sklep</a>
+                <a href="https://skycast.pl/rekrutacja" target="_blank" class="mobile-link text-base font-bold text-sky-500 hover:text-sky-600 py-2.5 border-b border-sky-100 uppercase tracking-wider">Rekrutacja</a>
+                <a href="index.html#discord" class="mobile-link text-base font-bold text-slate-700 hover:text-sky-500 py-2.5 border-b border-sky-100 uppercase tracking-wider">Discord</a>
+            </nav>
         </div>
     </header>
 
     <main class="flex-grow pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full relative z-10 flex flex-col items-center justify-center min-h-[85vh]">
         
+        <!-- EKRAN GŁÓWNY -->
         <div id="landingScreen" class="w-full transition-all duration-500">
             <div class="text-center mb-6">
                 <i class="fa-solid fa-clipboard-user text-6xl text-sky-500 mb-6 drop-shadow-lg"></i>
-                <h1 class="text-4xl md:text-5xl font-black uppercase text-slate-800 tracking-tight mb-4">Dołącz do <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">Administracji</span></h1>
-                <p class="text-slate-500 max-w-xl mx-auto font-medium mb-8">Wypełnij formularz rekrutacyjny, pokaż nam, na co Cię stać i stań się częścią ekipy Skycast!</p>
+                <h1 class="text-4xl md:text-5xl font-black uppercase text-slate-800 tracking-tight mb-4">
+                    Dołącz do <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">Administracji</span>
+                </h1>
+                <p class="text-slate-500 max-w-xl mx-auto font-medium mb-8">
+                    Wypełnij formularz rekrutacyjny, pokaż nam, na co Cię stać i stań się częścią ekipy Skycast!
+                </p>
                 
-                <!-- BOKS ZE STATUSEM REKRUTACJI (Kontrolowany przez JS) -->
+                <!-- BOKS ZE STATUSEM REKRUTACJI -->
                 <div id="recruitmentStatusBox" class="inline-block px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-widest shadow-md mb-8 transition-all">
-                    <!-- Treść statusu ładowana dynamicznie -->
                 </div>
             </div>
 
             <div class="flex justify-center mb-12">
-                <!-- Przycisk zyska ID do blokowania, jeśli rekrutacja jest wyłączona -->
                 <button id="startAppBtn" onclick="startApplication()" class="relative group overflow-hidden text-white px-10 py-5 rounded-2xl font-black text-lg uppercase tracking-widest shadow-[0_10px_25px_rgba(14,165,233,0.4)] transition-all">
                     <span class="relative flex items-center gap-3">
                         <i class="fa-solid fa-rocket"></i> Rozpocznij Podanie
@@ -84,14 +215,16 @@
                 </button>
             </div>
 
-            <div id="myApplications" class="hidden-section glass-panel p-8 rounded-[2rem] w-full">
-                <h3 class="text-xl font-black uppercase text-slate-800 mb-6 border-b border-slate-200 pb-4">Twoje wysłane podania</h3>
+            <!-- HISTORIA WYSŁANYCH PODAŃ -->
+            <div id="myApplications" class="hidden-section glass-card p-8 rounded-[2rem] w-full border border-white/80 shadow-xl">
+                <h3 class="text-xl font-black uppercase text-slate-800 mb-6 border-b border-sky-100 pb-4">Twoje wysłane podania</h3>
                 <div id="applicationsList" class="space-y-4"></div>
             </div>
         </div>
 
-        <div id="formScreen" class="hidden-section w-full glass-panel rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
-            <div class="w-full bg-slate-100 rounded-full h-2.5 mb-8">
+        <!-- EKRAN FORMULARZA -->
+        <div id="formScreen" class="hidden-section w-full glass-card rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden border border-white/80">
+            <div class="w-full bg-slate-100/60 rounded-full h-2.5 mb-8">
                 <div id="progressBar" class="bg-gradient-to-r from-sky-400 to-blue-500 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
             </div>
             
@@ -108,7 +241,7 @@
                 <div id="inputContainer" class="w-full"></div>
             </div>
 
-            <div class="flex justify-between items-center mt-10 border-t border-slate-100 pt-6">
+            <div class="flex justify-between items-center mt-10 border-t border-sky-100 pt-6">
                 <button id="prevBtn" onclick="prevStep()" class="px-6 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-100 transition-colors hidden-section">
                     <i class="fa-solid fa-arrow-left mr-2"></i> Wstecz
                 </button>
@@ -121,13 +254,14 @@
             </div>
         </div>
 
+        <!-- EKRAN PODGLĄDU PODANIA I CZATU -->
         <div id="statusScreen" class="hidden-section w-full">
-            <button onclick="backToLanding()" class="mb-6 font-bold text-slate-500 hover:text-sky-500 transition-colors">
+            <button onclick="backToLanding()" class="mb-6 font-bold text-slate-500 hover:text-sky-500 transition-colors bg-white/80 px-4 py-2 rounded-xl border border-sky-100 shadow-sm">
                 <i class="fa-solid fa-arrow-left mr-2"></i> Wróć do listy
             </button>
 
-            <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] shadow-2xl">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-slate-200 pb-6 gap-4">
+            <div class="glass-card p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/80">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-sky-100 pb-6 gap-4">
                     <div>
                         <h2 class="text-3xl font-black text-slate-800 uppercase">Twoje Podanie</h2>
                         <p class="text-slate-500 font-medium mt-1">Nick: <span id="statusNick" class="font-bold text-slate-700"></span> | Rola: <span id="statusRole" class="font-bold text-sky-500"></span></p>
@@ -148,7 +282,7 @@
                         <div id="answersList" class="space-y-4 max-h-[400px] overflow-y-auto custom-scrollbar pr-2"></div>
                     </div>
 
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col h-[400px]">
+                    <div class="bg-white/60 p-6 rounded-2xl border border-sky-100 flex flex-col h-[400px]">
                         <h3 class="font-black text-slate-800 uppercase mb-4 text-sm tracking-widest"><i class="fa-solid fa-comments text-sky-500"></i> Dyskusja z Administracją</h3>
                         
                         <div id="commentsBox" class="flex-grow overflow-y-auto custom-scrollbar space-y-4 mb-4 pr-2"></div>
@@ -166,17 +300,69 @@
 
     </main>
 
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-sky-100 pt-16 pb-12 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12 text-center md:text-left">
+                
+                <div>
+                    <a href="#" class="inline-flex items-center gap-3 mb-4">
+                        <img alt="Skycast Logo" src="https://i.imgur.com/aNCylbG.png" class="w-10 h-10 object-contain"/>
+                        <span class="text-xl font-black uppercase text-slate-800">Skycast<span class="text-sky-500">.pl</span></span>
+                    </a>
+                    <p class="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
+                        Serwer tworzony z pasją. Zapewniamy płynną i bezpieczną rozgrywkę dla każdego gracza Minecraft.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-slate-900 font-bold uppercase text-xs tracking-wider mb-4 border-b border-sky-100 pb-2 inline-block">Nawigacja</h4>
+                    <ul class="space-y-2.5 text-xs sm:text-sm font-semibold">
+                        <li><a href="index.html#hero" class="text-slate-500 hover:text-sky-500 transition-colors">Główna</a></li>
+                        <li><a href="index.html#earthsmp" class="text-slate-500 hover:text-sky-500 transition-colors">Zmiany</a></li>
+                        <li><a href="index.html#sklep" class="text-slate-500 hover:text-sky-500 transition-colors">Sklep</a></li>
+                        <li><a href="https://skycast.pl/rekrutacja" target="_blank" class="text-slate-500 hover:text-sky-500 transition-colors">Rekrutacja</a></li>
+                        <li><a href="index.html#discord" class="text-slate-500 hover:text-sky-500 transition-colors">Discord</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-slate-900 font-bold uppercase text-xs tracking-wider mb-4 border-b border-sky-100 pb-2 inline-block">Kontakt</h4>
+                    <ul class="space-y-2.5 text-xs sm:text-sm font-medium text-slate-500">
+                        <li class="flex items-center justify-center md:justify-start gap-2">
+                            <i class="fa-solid fa-envelope text-sky-500"></i> skycast.kontakt@gmail.com
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start gap-2">
+                            <i class="fa-solid fa-server text-sky-500"></i> IP: skycast.pl (1.21+)
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-sky-100 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+                <p class="text-xs text-slate-400 font-medium">
+                    &copy; 2026 <span class="text-slate-700 font-bold">Skycast.pl</span>. Wszelkie prawa zastrzeżone.
+                </p>
+                
+                <p class="text-[11px] text-slate-400 max-w-md font-medium">
+                    Serwer Skycast.pl nie jest w żaden sposób powiązany z firmą Mojang AB ani Microsoft Corporation.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SKRYPT FIREBASE ORAZ DANE Z GLOSTROJKI -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // Dynamiczna konfiguracja rekrutacji (pobierana na żywo z Firestore)
+        // Dynamiczna konfiguracja rekrutacji
         let RECRUITMENT_CONFIG = {
             isOpen: false,
             role: "Ładowanie..."
         };
 
-        // SKONFIGURUJ FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyB9xvEtmcAc1MAoUPYcLKRQNa6IpSH1ZIE",
             authDomain: "skycast-bb3da.firebaseapp.com",
@@ -204,11 +390,8 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // --- NASŁUCHIWANIE STATUSU REKRUTACJI Z FIREBASE ---
         function listenToRecruitmentSettings() {
             if (!db) return;
-            
-            // Ścieżka w Firestore: kolekcja 'settings', dokument 'recruitment'
             const configRef = doc(db, "settings", "recruitment");
             
             onSnapshot(configRef, (docSnap) => {
@@ -228,7 +411,6 @@
             });
         }
 
-        // --- PYTANIA REKRUTACYJNE ---
         const questions = [
             { id: "q1", title: "Podaj swój Nick z Minecrafta", type: "text", placeholder: "Np. Steve123" },
             { id: "q3", title: "Ile masz lat?", type: "number", placeholder: "Wpisz swój wiek" },
@@ -256,39 +438,32 @@
         let currentViewedAppId = null;
         let unsubscribe = null;
 
-        // --- AKTUALIZACJA UI NA PODSTAWIE KONFIGURACJI Z BAZY ---
         function updateRecruitmentStatus() {
             const statusBox = document.getElementById('recruitmentStatusBox');
             const startBtn = document.getElementById('startAppBtn');
             const roleBadge = document.getElementById('applyingForRole');
 
             if (RECRUITMENT_CONFIG.isOpen) {
-                // Rekrutacja otwarta (Zielony Status)
                 statusBox.className = "inline-block px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-widest shadow-sm mb-8 bg-green-100 text-green-700 border border-green-300";
                 statusBox.innerHTML = `<i class="fa-solid fa-door-open mr-2"></i> Rekrutacja otwarta na stanowisko: <span class="text-green-900">${escapeHtml(RECRUITMENT_CONFIG.role)}</span>`;
                 
                 startBtn.disabled = false;
-                startBtn.classList.add('bg-gradient-to-r', 'from-sky-500', 'to-blue-500', 'hover:scale-105', 'active:scale-95', 'cursor-pointer');
-                startBtn.classList.remove('bg-slate-400', 'cursor-not-allowed', 'opacity-60');
+                startBtn.className = "btn-sky-gradient text-white px-10 py-5 rounded-2xl font-black text-lg uppercase tracking-widest hover:scale-105 active:scale-95 cursor-pointer transition-all shadow-lg";
                 
                 roleBadge.innerHTML = `<i class="fa-solid fa-user-shield mr-1"></i> Aplikujesz na: <strong>${escapeHtml(RECRUITMENT_CONFIG.role)}</strong>`;
             } else {
-                // Rekrutacja zamknięta (Czerwony Status)
                 statusBox.className = "inline-block px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-widest shadow-sm mb-8 bg-red-100 text-red-700 border border-red-300";
                 statusBox.innerHTML = `<i class="fa-solid fa-lock mr-2"></i> Rekrutacja jest obecnie zamknięta`;
                 
                 startBtn.disabled = true;
-                startBtn.classList.remove('bg-gradient-to-r', 'from-sky-500', 'to-blue-500', 'hover:scale-105', 'active:scale-95');
-                startBtn.classList.add('bg-slate-400', 'cursor-not-allowed', 'opacity-60');
+                startBtn.className = "bg-slate-400 text-white px-10 py-5 rounded-2xl font-black text-lg uppercase tracking-widest cursor-not-allowed opacity-60 shadow-none";
             }
         }
 
-        // --- INTERFEJS STARTOWY ---
         window.startApplication = () => {
             if (!RECRUITMENT_CONFIG.isOpen) {
                 return alert("Przepraszamy, rekrutacja jest obecnie zamknięta!");
             }
-
             document.getElementById('landingScreen').classList.add('hidden-section');
             document.getElementById('formScreen').classList.remove('hidden-section');
             currentStep = 0;
@@ -313,7 +488,6 @@
             loadMyApplications();
         };
 
-        // --- LOGIKA FORMULARZA ---
         function renderStep() {
             const q = questions[currentStep];
             document.getElementById('stepCounter').innerText = `Pytanie ${currentStep + 1} z ${questions.length}`;
@@ -321,7 +495,7 @@
             
             const container = document.getElementById('questionContainer');
             container.classList.remove('slide-in');
-            void container.offsetWidth; // Reflow
+            void container.offsetWidth;
             container.classList.add('slide-in');
 
             document.getElementById('questionTitle').innerText = q.title;
@@ -412,7 +586,6 @@
             try {
                 if (!db) throw new Error("Baza danych Firebase nie została zainicjalizowana.");
 
-                // PRZYPISANIE DYNAMICZNEJ RANGI POBRANEJ Z PANELU
                 const docRef = await addDoc(collection(db, "applications"), {
                     nick: answers['q1'] || 'Niepodano',
                     role: RECRUITMENT_CONFIG.role,
@@ -422,6 +595,7 @@
                     createdAt: serverTimestamp()
                 });
 
+                // ZAPIS DO LOCALSTORAGE DOKŁADNIE TAK JAK W ARCHIWALNYM KODZIE GLOSTROJKI
                 let myApps = JSON.parse(localStorage.getItem('skycast_applications')) || [];
                 myApps.push({ id: docRef.id, nick: answers['q1'], role: RECRUITMENT_CONFIG.role, date: new Date().toLocaleDateString() });
                 localStorage.setItem('skycast_applications', JSON.stringify(myApps));
@@ -439,7 +613,7 @@
             }
         };
 
-        // --- LOCALSTORAGE I WIDOK PODANIA ---
+        // ODDAJE STARY, PEŁNY KOD POBIERANIA DANYCH Z LOCALSTORAGE Z GLOSTROJKI
         function loadMyApplications() {
             let myApps = JSON.parse(localStorage.getItem('skycast_applications')) || [];
             const listEl = document.getElementById('applicationsList');
@@ -454,11 +628,16 @@
             listEl.innerHTML = '';
 
             myApps.forEach(app => {
+                const id = typeof app === 'string' ? app : app.id;
+                const nick = app.nick || 'Niepodano';
+                const role = app.role || 'Rekrutacja';
+                const date = app.date || '';
+
                 listEl.innerHTML += `
-                    <div class="flex items-center justify-between bg-slate-50 border border-slate-200 p-4 rounded-xl hover:border-sky-300 transition-colors cursor-pointer group" onclick="openApplication('${app.id}')">
+                    <div class="flex items-center justify-between bg-slate-50 border border-slate-200 p-4 rounded-xl hover:border-sky-300 transition-colors cursor-pointer group" onclick="openApplication('${id}')">
                         <div>
-                            <div class="font-black text-slate-700">${escapeHtml(app.nick)} <span class="text-sky-500 ml-1">(${escapeHtml(app.role)})</span></div>
-                            <div class="text-xs text-slate-400 font-bold mt-1">Wysłano: ${escapeHtml(app.date)} | Kliknij, aby zobaczyć status lub napisać do administratora.</div>
+                            <div class="font-black text-slate-700">${escapeHtml(nick)} <span class="text-sky-500 ml-1">(${escapeHtml(role)})</span></div>
+                            <div class="text-xs text-slate-400 font-bold mt-1">Wysłano: ${escapeHtml(date)} | Kliknij, aby zobaczyć status lub napisać do administratora.</div>
                         </div>
                         <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-sky-50 group-hover:text-sky-500 transition-all shadow-sm">
                             <i class="fa-solid fa-chevron-right"></i>
@@ -567,9 +746,40 @@
             }
         };
 
-        // INICJALIZACJA
+        // Start aplikacji
         listenToRecruitmentSettings();
         loadMyApplications();
+    </script>
+    
+    <!-- SKRYPT DLA MENU MOBILNEGO -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        menuIcon.classList.remove('fa-xmark');
+                        menuIcon.classList.add('fa-bars');
+                    } else {
+                        menuIcon.classList.remove('fa-bars');
+                        menuIcon.classList.add('fa-xmark');
+                    }
+                });
+
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.classList.remove('fa-xmark');
+                        menuIcon.classList.add('fa-bars');
+                    });
+                });
+            }
+        });
     </script>
 </body>
 </html>
